@@ -46,6 +46,11 @@ public:
 		}
 	}
 
+	~FixedArray()
+	{
+		delete[] m_pList;
+	}
+
 	void Set(int index, int newValue)
 	{
 		m_pList[index] = newValue; 
