@@ -7,12 +7,19 @@ class Entity
 	float m_speedMult;
 	int m_moveDistance;
 	
-	SDL_Point m_playerLocation;
+	SDL_Point m_playerLocation{ 0,0 };
 	SDL_Color m_playerColor{ 0,0,0,255 };
-	SDL_Vertex* m_charModel;
+	SDL_Vertex* m_charModel = nullptr;
+	SDL_Renderer* m_currentRenderer = nullptr;
+
+	void updateModelLocation();
 
 public:
-	//void MoveLocation();
+	Entity();
+
+	void TeleportLocationTo(SDL_Point& newLocation);
+
+	
 
 	//Move(direction)
 		//*helper functions

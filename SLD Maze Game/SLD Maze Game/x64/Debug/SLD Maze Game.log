@@ -1,4 +1,7 @@
-﻿  GameWindow.cpp
+﻿  DisplayModel.cpp
+  GameWindow.cpp
   main.cpp
+  Entity.cpp
+  Vector2.cpp
   Generating Code...
-  SLD Maze Game.vcxproj -> D:\REPOS\GavinB-2024-Spring\SLD Maze Game\x64\Debug\SLD Maze Game.exe
+  SLD Maze Game.vcxproj -> C:\Users\gavin\Documents\GitHub\GavinB-2024-Spring\SLD Maze Game\x64\Debug\SLD Maze Game.exe
