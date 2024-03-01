@@ -1,3 +1,2 @@
 ﻿  main.cpp
-D:\REPOS\GavinB-2024-Spring\IntroProject\main.cpp(8,18): warning C4244: 'initializing': conversion from 'double' to '__int64', possible loss of data
-  IntroProject.vcxproj -> D:\REPOS\GavinB-2024-Spring\IntroProject\x64\Debug\IntroProject.exe
+  IntroProject.vcxproj -> C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\x64\Debug\IntroProject.exe

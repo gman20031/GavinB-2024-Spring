@@ -31,6 +31,22 @@ void GameWindow::SetRenderColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 	SDL_SetRenderDrawColor(m_graphicRenderer, r, g, b, a);
 }
 
+#if MOVECONCEPT
+void GameWindow::MoveChar(Entity* moveThis)
+{
+	static bool goRight = true;
+	if (goRight)
+	{
+		moveThis->TeleportLocationTo({ 100,100 });
+		goRight = false;
+	}
+	else
+	{ 
+		moveThis->TeleportLocationTo({ 50,50 });
+		goRight = true;
+	}
+}
+#endif
 
 ////////////////////////////////
 /// Start the widow
@@ -42,17 +58,13 @@ void GameWindow::StartWindow()
 	
 	Entity PlayerCharacter;
 	
-	/*
-		   *
-		  ***
-		 *****
-	*/
-
+	
 	
 	Entity EnemyOne;
 
-
-
+	EnemyOne.SetRenderer(m_graphicRenderer);
+	EnemyOne.Draw();
+	SDL_RenderPresent(m_graphicRenderer);
 
 	bool keepWindowOpen = true;
 	while (keepWindowOpen)
@@ -65,7 +77,15 @@ void GameWindow::StartWindow()
 			case SDL_QUIT:
 				keepWindowOpen = false;
 				break;
+			case SDL_KEYDOWN:
+				if (SdlEvent.key.keysym.sym == SDLK_e)
+					MoveChar(&EnemyOne);
 			}
+
+			// MAIN DRAW LOOP FOR EVERYTTHING
+			SDL_RenderClear(m_graphicRenderer);
+			EnemyOne.Draw();
+			SDL_RenderPresent(m_graphicRenderer);
 
 			SDL_UpdateWindowSurface(m_pDisplayWindow);
 		}

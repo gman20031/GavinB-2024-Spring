@@ -1,26 +1,40 @@
 #pragma once
 #include "SDL.h"
-#include "DisplayModel.h"
+
+#define TEST_MODEL_ONE 1
 
 class Entity
 {
-	float m_speedMult;
-	int m_moveDistance;
-	
-	SDL_Point m_playerLocation{ 0,0 };
-	SDL_Color m_playerColor{ 0,0,0,255 };
-	SDL_Vertex* m_charModel = nullptr;
-	SDL_Renderer* m_currentRenderer = nullptr;
+	SDL_Vertex* m_verteciesStart = nullptr;
+	SDL_Vertex* m_entityVertecies = nullptr;
+	size_t m_vertexCount = 0;
+	int* m_pDrawOrder = nullptr;
+	int m_drawOrderCount = 0;
 
-	void updateModelLocation();
+	SDL_Point m_location{ 0,0 };
+	SDL_Color m_Color{ 0,0,0,255 };
+	SDL_Texture* m_pTexture = 0;
+	SDL_Renderer* m_renderer = nullptr; // redundant?
+				// the current game window should know tf renderer we are using
+				// this also brings up if gamewindow should handle everything.
+
+	void updateModelLocation(); // perhaps reduntant
 
 public:
 	Entity();
+	Entity(SDL_Vertex* model, size_t vertexCount, int* drawOrder, int orderCount, SDL_Point startLocation);
+	~Entity() = default;
 
-	void TeleportLocationTo(SDL_Point& newLocation);
+	// Add model
 
+	void TeleportLocationTo(SDL_Point newLocation);
+	
+	void SetRenderer(SDL_Renderer* SDLRenderer);
+	void DrawToRenderer(SDL_Renderer* SDLRenderer);
+	void Draw();
 	
 
+	//void moveTowards
 	//Move(direction)
 		//*helper functions
 		// Move(towards Point)

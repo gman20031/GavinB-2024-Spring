@@ -1,7 +1,3 @@
-﻿  DisplayModel.cpp
-  GameWindow.cpp
-  main.cpp
-  Entity.cpp
-  Vector2.cpp
-  Generating Code...
-  SLD Maze Game.vcxproj -> C:\Users\gavin\Documents\GitHub\GavinB-2024-Spring\SLD Maze Game\x64\Debug\SLD Maze Game.exe
+﻿  Entity.cpp
+C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\SLD Maze Game\SLD Maze Game\Entity.cpp(87,64): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  SLD Maze Game.vcxproj -> C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\SLD Maze Game\x64\Debug\SDL Game.exe

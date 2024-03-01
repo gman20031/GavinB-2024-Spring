@@ -3,6 +3,8 @@
 
 #include "Entity.h"
 
+#define MOVECONCEPT 1
+
 class GameWindow
 {
 	const char* m_title;
@@ -23,6 +25,9 @@ class GameWindow
 	void SetRenderColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 	void ClearWindowToBackgroundColor();
 	void InitWindow();
+#if MOVECONCEPT
+	void MoveChar(Entity* moveThis);
+#endif
 
 public:
 	GameWindow();
