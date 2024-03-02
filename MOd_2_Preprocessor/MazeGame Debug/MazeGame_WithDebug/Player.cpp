@@ -1,7 +1,7 @@
 
 #include "Player.h"
 
-bool Player::SetCurrentMapPointer(Map* newMap)
+bool Player::SetCurrentMapPointer(Map* newMap) 
 {
 	m_pCurrentMap = newMap;
 	m_position = newMap->GetPlayerStart();
@@ -59,7 +59,7 @@ bool Player::MoveCharacter(CooridinatePair newPosition)
 	switch (m_pCurrentMap->at(newPosition))
 	{
 	case Map::k_emptyCharacter:
-		m_standingOnCharacter = Map::k_emptyCharacter;
+		//m_standingOnCharacter = Map::k_emptyCharacter;
 		m_pCurrentMap->at(newPosition) = Map::k_playerCharacter;
 		m_pCurrentMap->at(m_position) = Map::k_emptyCharacter;
 		m_position = newPosition;

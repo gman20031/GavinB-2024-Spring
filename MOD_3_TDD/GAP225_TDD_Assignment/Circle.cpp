@@ -73,7 +73,7 @@ float Circle::DistanceBetweenVectors(Vector2 vector1, Vector2 vector2)
 	//distance = sqrt( xcomponent^2 + ycomponent^2)
 	float xComponent = Square((vector1.GetX() - vector2.GetX()));
 	float yComponent = Square((vector1.GetY() - vector2.GetY()));
-	return sqrt(xComponent + yComponent);
+	return static_cast<float>(sqrt(xComponent + yComponent));
 
 }
 

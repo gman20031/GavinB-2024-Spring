@@ -3,13 +3,10 @@
 #include "Debugging.h"
 #include "cooridnatePair.h"
 #include "Map.h"
+#include "GameObject.h"
 
-
-class Player
+class Player : public GameObject
 {
-
-	CooridinatePair m_position = { 0,0 };
-	Map* m_pCurrentMap = nullptr;
 	bool MoveCharacter(CooridinatePair newPosition);
 
 #ifdef DEBUG
@@ -23,9 +20,7 @@ private:
 #endif
 
 public:
-
-	bool SetCurrentMapPointer(Map* newMap);
-	Map* GetMapPointer() { return m_pCurrentMap; }
+	virtual bool SetCurrentMapPointer(Map* newMap) override;
 
 	CooridinatePair& GetPosition();
 	void setPosition(CooridinatePair newPosition);
