@@ -3,7 +3,7 @@
 
 class Circle
 {
-	static constexpr float k_pi = 3.1415;
+	static constexpr float k_pi = 3.1415f;
 	Vector2 m_centerPoint;
 	float m_radius;
 	float m_diameter;

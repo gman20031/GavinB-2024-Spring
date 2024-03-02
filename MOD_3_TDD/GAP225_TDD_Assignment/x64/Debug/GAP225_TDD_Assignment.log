@@ -1,14 +1,2 @@
 ﻿  Circle.cpp
-  Main.cpp
-C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\MOD_3_TDD\GAP225_TDD_Assignment\Circle.h(6,32): warning C4305: 'initializing': truncation from 'double' to 'const float'
-  (compiling source file 'Circle.cpp')
-  
-C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\MOD_3_TDD\GAP225_TDD_Assignment\Circle.cpp(76,13): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\MOD_3_TDD\GAP225_TDD_Assignment\Circle.h(6,32): warning C4305: 'initializing': truncation from 'double' to 'const float'
-  (compiling source file 'Main.cpp')
-  
-  Triangle.cpp
-C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\MOD_3_TDD\GAP225_TDD_Assignment\Triangle.cpp(40,15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\MOD_3_TDD\GAP225_TDD_Assignment\Triangle.cpp(48,13): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-  Generating Code...
-  GAP225_TDD_Assignment.vcxproj -> C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\MOD_3_TDD\x64\Debug\GAP225_TDD_Assignment.exe
+  GAP225_TDD_Assignment.vcxproj -> C:\Users\gavin\Documents\GitHub\GavinB-2024-Spring\MOD_3_TDD\x64\Debug\GAP225_TDD_Assignment.exe
