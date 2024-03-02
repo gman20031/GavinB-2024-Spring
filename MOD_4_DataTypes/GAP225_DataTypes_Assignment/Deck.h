@@ -4,12 +4,10 @@
 #include <string>
 
 #include "Card.h"
-//using uShort = unsigned short;
+
 using cardpile = Card**;
 #define kCardNumSuits Card::kNumSuits
 #define kNumFaceValues Card::kNumFaceValues
-
-
 
 /////////////////////////////////////////////////////////////////
 // A standard playing card deck implementation.
@@ -23,18 +21,21 @@ private:
 	Card* m_pAllCards[maxDeckSize];
 
 	// Draw pile
-	int m_drawPileSize;
-	Card* m_pDrawPile[maxDeckSize];
+	size_t m_drawPileSize;
+	Card*  m_pDrawPile[maxDeckSize];
 
 	// Discard pile
-	int m_discardPileSize;
+	size_t m_discardPileSize;
 	Card* m_pDiscardPile[maxDeckSize];
 
 	void CreateCards();
-	void AddCardToPile(Card* pCard, Card** ppPile, int& pileSize);
-	void Shuffle(Card** ppPile, int pileSize);
-	Card* DrawCard(Card** ppPile, int& pileSize);
 
+	// im unsure on the Constness of these functions, they technically can be const because
+	// THEY dont change any member variables, but then 
+	void AddCardToPile(Card* const pCard, cardpile ppPile, size_t& pileSize) const ;
+	void Shuffle(cardpile const ppPile, const size_t pileSize) const ;
+	Card* DrawCard(cardpile const ppPile, size_t& pileSize) const ;
+	 
 public:
 	Deck();
 	~Deck();

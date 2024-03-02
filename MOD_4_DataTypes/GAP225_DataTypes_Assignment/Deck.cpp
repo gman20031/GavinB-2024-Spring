@@ -10,7 +10,7 @@ Deck::Deck()
 	, m_pDiscardPile{nullptr}
 {
 	CreateCards();
-	for (int i = 0; i < kNumFaceValues * kNumSuits; ++i)
+	for (int i = 0; i < kNumFaceValues * kCardNumSuits; ++i)
 	{
 		AddToDrawPile(m_pAllCards[i]);
 	}
@@ -18,7 +18,7 @@ Deck::Deck()
 
 Deck::~Deck()
 {
-	for (int i = 0; i < kNumFaceValues * kNumSuits; ++i)
+	for (size_t i = 0; i < kNumFaceValues * kCardNumSuits; ++i)
 	{
 		delete m_pAllCards[i];
 	}
@@ -29,13 +29,13 @@ Deck::~Deck()
 /////////////////////////////////////////////////////////////////
 void Deck::CreateCards()
 {
-	int index = 0;
-	for (int face = 0; face < kNumFaceValues; ++face)
+	size_t index = 0;
+	for (size_t face = 0; face < kNumFaceValues; ++face)
 	{
-		for (int suit = 0; suit < kNumSuits; ++suit)
+		for (size_t suit = 0; suit < kCardNumSuits; ++suit)
 		{
-			// face values start at 1, so we increase by 1 before passing
-			m_pAllCards[index] = new Card{ face + 1, suit };
+			m_pAllCards[index] = new Card{ static_cast<Card::FaceNames>(face + 1),
+											static_cast<Card::SuitNames>(suit) };
 
 			++index;	// move to next card
 		}
@@ -47,7 +47,7 @@ void Deck::CreateCards()
 // pileSize is needed to know where the card
 // belongs; it will be incremented.
 /////////////////////////////////////////////////////////////////
-void Deck::AddCardToPile(Card* pCard, Card** ppPile, int& pileSize)
+void Deck::AddCardToPile(Card* const pCard, cardpile ppPile, size_t& pileSize) const
 {
 	ppPile[pileSize] = pCard;
 	++pileSize;
@@ -56,15 +56,15 @@ void Deck::AddCardToPile(Card* pCard, Card** ppPile, int& pileSize)
 /////////////////////////////////////////////////////////////////
 // Randomizes the order of elements in ppPile.
 /////////////////////////////////////////////////////////////////
-void Deck::Shuffle(Card** ppPile, int pileSize)
+void Deck::Shuffle(cardpile const ppPile, const size_t pileSize) const
 {
 	// Simple Fisher-Yates shuffle
 	// We swap each card with some other randomly picked card.
-	for (int i = 0; i < pileSize; ++i)
+	for (size_t i = 0; i < pileSize; ++i)
 	{
 		// Pick another random card
 		// As i increases, we will exclude cards we already swapped
-		int randomIndex = i + rand() % (pileSize - i);
+		size_t randomIndex = i + rand() % (pileSize - i);
 
 		// Do a simple swap of the two card pointers
 		Card* pTemp = ppPile[i];
@@ -78,7 +78,7 @@ void Deck::Shuffle(Card** ppPile, int pileSize)
 // to know where the card is; it will be
 // decremented.
 /////////////////////////////////////////////////////////////////
-Deck::Card* Deck::DrawCard(Card** ppPile, int& pileSize)
+Card* Deck::DrawCard(cardpile const ppPile, size_t& pileSize) const
 {
 	if (pileSize == 0)
 		return nullptr;

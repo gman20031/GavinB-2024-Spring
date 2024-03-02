@@ -6,14 +6,7 @@
 class Card
 {
 public:
-	static constexpr size_t kNumFaceValues = 13;	// There are 13 unique card values, including Ace, Jack, Queen, King
-	static constexpr size_t kNumSuits = 4;			// There are 4 suits
-
-private:
-	size_t m_faceValue;
-	size_t m_suit;
-
-	enum class faceNames
+	enum class FaceNames
 	{
 		kAce = 1,
 		kTwo,
@@ -29,21 +22,6 @@ private:
 		kQueen,
 		kKing = 13,
 	};
-	std::string m_faceNames[kNumFaceValues]{
-		"Ace",
-		"Two",
-		"Three",
-		"Four",
-		"Five",
-		"Six",
-		"Seven",
-		"Eight",
-		"Nine",
-		"Ten",
-		"Jack",
-		"Queen",
-		"King"
-	};
 
 	enum class SuitNames
 	{
@@ -52,47 +30,26 @@ private:
 		kHearts,
 		kSpades,
 	};
-	std::string m_suitNames[kNumSuits]{ 
-		"Clubs",
-		"Diamonds",
-		"Hearts",
-		"Spades" 
-	};
 
-public:
-	Card(int faceValue, int suit)
-		: m_faceValue{ faceValue }
-		, m_suit{ suit }
-	{
-		assert(faceValue >= kMinFaceValue && faceValue <= kMaxFaceValue);
-		assert(suit >= kMinSuitValue && suit <= kMaxFaceValue);
-	}
-
-	int GetFaceValue() const { return m_faceValue; }
-	int GetSuit() const { return m_suit; }
-
-	/////////////////////////////////////////////////////////////////
-	// Returns this card's name in the form "(FaceValue) of (Suit)s"
-	/////////////////////////////////////////////////////////////////
-	std::string GetName()
-	{
-		return GetFaceName() + " of " + GetSuitName();
-	}
-
+	static constexpr size_t kNumFaceValues = 13;	// There are 13 unique card values, including Ace, Jack, Queen, King
+	static constexpr size_t kNumSuits = 4;			// There are 4 suit
 private:
-	/////////////////////////////////////////////////////////////////
-	// Converts this card's face value to a word from m_faceNames.
-	/////////////////////////////////////////////////////////////////
-	std::string GetFaceName()
-	{
-		return m_faceNames[m_faceValue - 1];
-	}
+	FaceNames m_face;
+	SuitNames m_suit;
 
-	/////////////////////////////////////////////////////////////////
-	// Converts this card's suit value to a word from m_suitNames.
-	/////////////////////////////////////////////////////////////////
-	std::string GetSuitName()
-	{
-		return m_suitNames[m_suit];
-	}
+	static const std::string s_faceNames[kNumFaceValues];
+	static const std::string s_suitNames[kNumSuits];
+public:
+	Card(FaceNames face, SuitNames suit);
+
+
+	FaceNames GetFaceValue() const { return m_face; }
+	SuitNames GetSuit() const { return m_suit; }
+	std::string GetName() const;
+
+	static std::string GetName(FaceNames face, SuitNames suit);
+private:
+	static std::string GetFaceName(FaceNames face);
+	static std::string GetSuitName(SuitNames suit);
 };
+

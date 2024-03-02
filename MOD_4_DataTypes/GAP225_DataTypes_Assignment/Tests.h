@@ -19,11 +19,11 @@ void RunTest(const char* pName, bool passes)
 bool AllCardsUnique()
 {
 	Deck deck;
-	Deck::Card* pCheckPile[52]{ nullptr };
-	for (int i = 0; i < 52; ++i)
+	Card* pCheckPile[52]{ nullptr };
+	for (size_t i = 0; i < 52; ++i)
 	{
 		pCheckPile[i] = deck.DrawFromDrawPile();
-		for (int j = 0; j < i; ++j)
+		for (size_t j = 0; j < i; ++j)
 		{
 			if (pCheckPile[i]->GetName() == pCheckPile[j]->GetName())
 			{
@@ -41,7 +41,7 @@ bool CanDrawExactly52()
 {
 	Deck deck;
 	deck.ShuffleDrawPile();
-	Deck::Card* pLastDraw = nullptr;
+	Card* pLastDraw = nullptr;
 	for (int i = 0; i < 52; ++i)
 	{
 		pLastDraw = deck.DrawFromDrawPile();
@@ -73,7 +73,7 @@ bool ShuffleChangesCardOrder()
 	Deck deck;
 
 	// Create 2 piles with capacity of 52 so we can compare before and after shuffling.
-	Deck::Card* pPiles[2][52]{ nullptr };
+	Card* pPiles[2][52]{ nullptr };
 
 	// Fill only the first pile.
 	// We'll fill the second one in the loop.
@@ -94,8 +94,8 @@ bool ShuffleChangesCardOrder()
 	{
 		// Get pointers to each of the two piles.
 		// This makes the rest of the logic a bit easier to follow.
-		Deck::Card** ppPile1 = pPiles[currentPileIndex];
-		Deck::Card** ppPile2 = pPiles[1 - currentPileIndex];
+		Card** ppPile1 = pPiles[currentPileIndex];
+		Card** ppPile2 = pPiles[1 - currentPileIndex];
 
 		// Return check pile in original order
 		// (we do it in reverse since we are adding from the bottom upward)
@@ -129,6 +129,28 @@ bool ShuffleChangesCardOrder()
 		return true;
 }
 
+bool StaticCardStringReturn()
+{
+	using Face = Card::FaceNames;
+	using Suit = Card::SuitNames;
+
+	if (Card::GetName(Face::kAce,	Suit::kHearts)	 !=	"Ace of Hearts"		)	return false;
+	if (Card::GetName(Face::kTwo,   Suit::kHearts)	 != "Two of Hearts"		)	return false;
+	if (Card::GetName(Face::kThree, Suit::kHearts)	 != "Three of Hearts"	)	return false;
+	if (Card::GetName(Face::kFour,  Suit::kHearts)	 != "Four of Hearts"	)	return false;
+	if (Card::GetName(Face::kFive,	Suit::kHearts)	 != "Five of Hearts"	)	return false;
+	if (Card::GetName(Face::kSix,	Suit::kDiamonds) != "Six of Diamonds"	)	return false;
+	if (Card::GetName(Face::kSeven, Suit::kDiamonds) != "Seven of Diamonds"	)	return false;
+	if (Card::GetName(Face::kEight, Suit::kDiamonds) != "Eight of Diamonds"	)	return false;
+	if (Card::GetName(Face::kNine,	Suit::kClubs)	 != "Nine of Clubs"		)	return false;
+	if (Card::GetName(Face::kTen,	Suit::kClubs)	 != "Ten of Clubs"		)	return false;
+	if (Card::GetName(Face::kJack,	Suit::kSpades)	 != "Jack of Spades"	)	return false;
+	if (Card::GetName(Face::kQueen,	Suit::kSpades)	 != "Queen of Spades"	)	return false;
+	if (Card::GetName(Face::kKing,	Suit::kSpades)	 != "King of Spades"	)	return false;
+
+	return true;
+}
+
 /////////////////////////////////////////////////////////////////
 // Runs all unit tests.
 /////////////////////////////////////////////////////////////////
@@ -137,4 +159,9 @@ void RunAllTests()
 	RunTest("All cards unique", AllCardsUnique());
 	RunTest("Can draw exactly 52 card", CanDrawExactly52());
 	RunTest("Shuffling changes card order", ShuffleChangesCardOrder());
+	RunTest("Static get name function", StaticCardStringReturn());
+
+
+	// draw a hand full of all the cards
+	// 
 }

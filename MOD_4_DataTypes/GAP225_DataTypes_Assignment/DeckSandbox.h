@@ -12,9 +12,8 @@
 class DeckSandbox
 {
 private:
-	static constexpr size_t kChoiceCount = 6;
 	Deck m_deck;
-	Card* m_pHand[52];
+	Card* m_pHand[Deck::maxDeckSize];
 	size_t m_numCardsInHand;
 
 	enum class MenuChoices
@@ -39,17 +38,21 @@ private:
 	};
 
 public:
+	
+
 	DeckSandbox();
 	void Run();
 
 private:
-	void ShowMenu();
-	int GetChoice();
-	void ProcessChoice(int choice);
+	void ShowMenu() const;
+	MenuChoices GetChoice() const ;
+	void ProcessChoice(MenuChoices choice);
 
 	void Draw();
-	void PrintHand();
+	void PrintHand() const;
 	void Discard();
-	void ReturnDiscardToDraw();
+	void ReturnDiscardToDraw() ;
 };
+
+
 

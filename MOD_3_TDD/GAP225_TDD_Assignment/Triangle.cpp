@@ -37,7 +37,7 @@ void Triangle::CalculateArea()
 	///////////////////////
 
 	float semiP = m_perimiter / 2;
-	m_area = sqrt(semiP * (semiP - m_pSideLengths[0]) * (semiP - m_pSideLengths[1]) * (semiP - m_pSideLengths[2]));
+	m_area = static_cast<float>(sqrt(semiP * (semiP - m_pSideLengths[0]) * (semiP - m_pSideLengths[1]) * (semiP - m_pSideLengths[2])));
 }
 
 float Triangle::CalculateAndReturnSideLength(Vector2& vertex1, Vector2& vertex2)
@@ -45,7 +45,7 @@ float Triangle::CalculateAndReturnSideLength(Vector2& vertex1, Vector2& vertex2)
 	//distance = sqrt( xcomponent^2 + ycomponent^2)
 	float xComponent = Square((vertex1.GetX() - vertex2.GetX()));
 	float yComponent = Square((vertex1.GetY() - vertex2.GetY()));
-	return sqrt(xComponent + yComponent);
+	return static_cast<float>(sqrt(xComponent + yComponent));
 }
 
 Triangle::Triangle(Vector2 vertex0, Vector2 vertex1, Vector2 vertex2)

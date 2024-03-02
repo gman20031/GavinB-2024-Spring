@@ -18,8 +18,8 @@ void DeckSandbox::Run()
 	{
 		system("cls");
 		ShowMenu();
-		int choice = GetChoice();
-		if (choice == kChoiceQuit)
+		MenuChoices choice = GetChoice();
+		if (choice == MenuChoices::kCloseProgram)
 			break;
 
 		ProcessChoice(choice);
@@ -32,11 +32,11 @@ void DeckSandbox::Run()
 /////////////////////////////////////////////////////////////////
 // Prints the sandbox choices.
 /////////////////////////////////////////////////////////////////
-void DeckSandbox::ShowMenu()
+void DeckSandbox::ShowMenu() const
 {
 	std::cout << "Cards in hand: " << m_numCardsInHand << std::endl;
 	std::cout << "Pick any choice below." << std::endl;
-	for (int i = 0; i < kChoiceCount; ++i)
+	for (size_t i = 0; i < static_cast<size_t>(MenuChoices::kCount); ++i)
 	{
 		std::cout << i << ". " << m_menuChoices[i] << std::endl;
 	}
@@ -45,33 +45,42 @@ void DeckSandbox::ShowMenu()
 /////////////////////////////////////////////////////////////////
 // Gets the user's input.
 /////////////////////////////////////////////////////////////////
-int DeckSandbox::GetChoice()
+DeckSandbox::MenuChoices DeckSandbox::GetChoice() const
 {
-	int choice;
-	std::cin >> choice;
-	return choice;
+	size_t userIntInput;
+
+	std::cin >> userIntInput;
+
+	while (!std::cin.good() && userIntInput > static_cast<size_t>(MenuChoices::kCount)) // if input is not good for any reason loop
+	{
+		std::cin.clear();													// Resets all error flags from cin
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // effectivelly clears the cin stream buffer
+		std::cin >> userIntInput;
+	}
+
+	return static_cast<MenuChoices>(userIntInput);
 }
 
 /////////////////////////////////////////////////////////////////
 // Handles the user's choice.
 /////////////////////////////////////////////////////////////////
-void DeckSandbox::ProcessChoice(int choice)
+void DeckSandbox::ProcessChoice(MenuChoices choice) 
 {
 	switch (choice)
 	{
-	case kChoiceShuffle:
+	case MenuChoices::kShuffleDrawPile:
 		m_deck.ShuffleDrawPile();
 		break;
-	case kChoiceDraw:
+	case MenuChoices::kDrawACard:
 		Draw();
 		break;
-	case kChoicePrintHand:
+	case MenuChoices::kPrintHand:
 		PrintHand();
 		break;
-	case kChoiceDiscard:
+	case MenuChoices::kDiscardCard:
 		Discard();
 		break;
-	case kChoiceReturnDiscardToDraw:
+	case MenuChoices::kReshuffleDiscardIntoDraw:
 		ReturnDiscardToDraw();
 		break;
 	}
@@ -89,10 +98,10 @@ void DeckSandbox::Draw()
 /////////////////////////////////////////////////////////////////
 // Prints your current hand.
 /////////////////////////////////////////////////////////////////
-void DeckSandbox::PrintHand()
+void DeckSandbox::PrintHand() const
 {
 	std::cout << "Printing hand:" << std::endl;
-	for (int i = 0; i < m_numCardsInHand; ++i)
+	for (size_t i = 0; i < m_numCardsInHand; ++i)
 	{
 		std::cout << i << ". " << m_pHand[i]->GetName() << std::endl;
 	}
@@ -103,9 +112,15 @@ void DeckSandbox::PrintHand()
 /////////////////////////////////////////////////////////////////
 void DeckSandbox::Discard()
 {
+	if (m_numCardsInHand <= 0)
+	{
+		std::cout << "Hand is empty\n";
+		return;
+	}
+
 	PrintHand();
 	std::cout << "Enter the number of the card to discard." << std::endl;
-	int cardIndex;
+	size_t cardIndex;
 
 	while (true)
 	{
@@ -121,12 +136,12 @@ void DeckSandbox::Discard()
 		}
 	}
 	
-	Deck::Card* pDiscard = m_pHand[cardIndex];
+	Card* pDiscard = m_pHand[cardIndex];
 	m_deck.AddToDiscardPile(pDiscard);
 	--m_numCardsInHand;
 
 	// Shift the rest of the hand down so there are no gaps.
-	for (int i = cardIndex; i < m_numCardsInHand; ++i)
+	for (size_t i = cardIndex; i < m_numCardsInHand; ++i)
 	{
 		m_pHand[i] = m_pHand[i + 1];
 	}
@@ -137,13 +152,13 @@ void DeckSandbox::Discard()
 /////////////////////////////////////////////////////////////////
 void DeckSandbox::ReturnDiscardToDraw()
 {
-	Deck::Card* pDiscardedCards[52]{ nullptr };
+	Card* pDiscardedCards[52]{ nullptr };
 	int numDiscarded = 0;
 
 	// We have to pull from the discard one by one
 	while (true)
 	{
-		Deck::Card* pCard = m_deck.DrawFromDiscardPile();
+		Card* pCard = m_deck.DrawFromDiscardPile();
 		if (pCard != nullptr)
 		{
 			pDiscardedCards[numDiscarded] = pCard;

@@ -1,6 +1,6 @@
 // 0 = unit test mode
 // 1 = interactive sandbox mode
-#define MODE 1
+#define MODE 0
 
 #if(MODE == 0)
 #include "Tests.h"
@@ -22,5 +22,6 @@ int main()
 	sandbox.Run();
 #endif
 
+	system("pause");
 	return 0;
 }
