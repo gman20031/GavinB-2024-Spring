@@ -1,36 +1,24 @@
 #pragma once
 
-#include "Debugging.h"
-#include "cooridnatePair.h"
-#include "Map.h"
 #include "GameObject.h"
+#include "Directions.h"
+
+
 
 class Player : public GameObject
 {
 public:
 	static constexpr size_t kMoveSpeed = 1;
+	static constexpr char m_displayCharacter = '@';
 private:
-
-	bool MoveCharacter(CooridinatePair newPosition);
-
-#ifdef DEBUG
-	char m_standingOnCharacter = Map::k_emptyCharacter;
-	bool m_noClip = false;
-public:
-	void ToggleNoClip();
-	bool GetNoClipValue() const { return m_noClip; }
-	bool TeleportToLocation (CooridinatePair newLocation);
-private:
-#endif
+	bool MoveCharacter(Vector2 newPosition);
+	virtual void InteractWithPlayer() override { return; }
 
 public:
+	Player() : GameObject() {}
+	Player(Vector2 position, const char displayCharacter);
 	virtual bool SetCurrentMapPointer(Map* newMap) override;
 
-	CooridinatePair& GetPosition();
-	void setPosition(CooridinatePair newPosition);
-
-	bool Move(GameObject::Direction);
-	bool MoveX(int distance);
-	bool MoveY(int distance);
+	bool Move(Direction direction);
 
 };
