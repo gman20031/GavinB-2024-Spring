@@ -1,19 +1,16 @@
 #include "GameObject.h"
 
+#include "Map.h"
 
-GameObject::GameObject(Vector2 position, const char displayCharacter)
-	: m_displayCharacter{ displayCharacter }
-	, m_position{ position }
+GameObject::GameObject()
+	: m_position{ 0,0 }
 	, m_pCurrentMap{ nullptr }
 {}
+
 
 /////////////////////////////////////////////////////////////
 /// Couts this objects display char with no linebreak
 /////////////////////////////////////////////////////////////
-void GameObject::draw()
-{
-	std::cout << m_displayCharacter;
-}
 
 Vector2 GameObject::GetPosition() const
 {
@@ -34,9 +31,4 @@ bool GameObject::SetCurrentMapPointer(Map* newMap)
 {
 	m_pCurrentMap = newMap;
 	return true;
-}
-
-char GameObject::GetDisplayChar() const
-{
-	return m_displayCharacter;
 }

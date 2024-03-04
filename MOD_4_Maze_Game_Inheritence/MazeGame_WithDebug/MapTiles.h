@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameObject.h"
+#include "iostream"
 
 //Tiles needed
 // emtpy tiles
@@ -8,46 +9,48 @@
 // Trap tiles
 // Exit tile
 
+
+
 class EmptyTile: public GameObject
 {
+public:
+	static constexpr ObjectCharacter m_displayCharacter = ObjectCharacter::kEmpty;
+	virtual void draw() override { std::cout << static_cast<char>(m_displayCharacter); }
+private:
 	virtual void InteractWithPlayer() override{ return; };
 public:
 	EmptyTile() : GameObject() {}
-	EmptyTile(Vector2 position)
-		:GameObject(position, (char)ObjectCharacters::kEmpty)
-	{
-		m_displayCharacter;
-	}
 };
 
 class TrapTile: public GameObject
 {
+public:
+	static constexpr ObjectCharacter m_displayCharacter = ObjectCharacter::kTrap;
+	virtual void draw() override { std::cout << static_cast<char>(m_displayCharacter); }
+private:
 	virtual void InteractWithPlayer() override{ return; };
 public:
 	TrapTile() : GameObject() {}
-	TrapTile(Vector2 position)
-		:GameObject(position, (char)ObjectCharacters::kTrap)
-	{}
 };
 
 class ExitTile : public GameObject
 {
+public:
+	static constexpr ObjectCharacter m_displayCharacter = ObjectCharacter::kExit;
+	virtual void draw() override { std::cout << static_cast<char>(m_displayCharacter); }
+private:
 	virtual void InteractWithPlayer() override{ return; };
 public:
 	ExitTile() : GameObject() {}
-	ExitTile(Vector2 position)
-		:GameObject(position, (char)ObjectCharacters::kExit)
-	{}
-
 };
 
 class WallTile : public GameObject
 {
+public:
+	static constexpr ObjectCharacter m_displayCharacter = ObjectCharacter::kWall;
+	virtual void draw() override { std::cout << static_cast<char>(m_displayCharacter); }
+private:
 	virtual void InteractWithPlayer() override{ return; };
 public:
 	WallTile() : GameObject() {}
-	WallTile(Vector2 position)
-		:GameObject(position, (char)ObjectCharacters::kWall)
-	{}
-
 };

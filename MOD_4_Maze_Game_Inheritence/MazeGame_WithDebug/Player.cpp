@@ -1,12 +1,5 @@
 #include "Player.h"
 
-static Registrar<Player> registerPlayer(ObjectCharacters::kPlayer);
-
-Player::Player(Vector2 position, const char displayCharacter)
-	:GameObject(position,displayCharacter)
-{
-
-}
 
 bool Player::SetCurrentMapPointer(Map* newMap)
 {

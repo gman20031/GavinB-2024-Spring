@@ -54,6 +54,9 @@
     <ClInclude Include="Map.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="GameObjectFactory.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -76,6 +79,9 @@
     </ClCompile>
     <ClCompile Include="MazeGame.cpp">
       <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectsRegistrar.cpp">
+      <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
