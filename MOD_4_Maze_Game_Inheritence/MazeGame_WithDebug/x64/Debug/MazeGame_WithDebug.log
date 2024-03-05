@@ -1,2 +1,11 @@
-﻿  Map.cpp
-  MazeGame_WithDebug.vcxproj -> C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\MOD_4_Maze_Game_Inheritence\MazeGame_WithDebug\x64\Debug\MazeGame_WithDebug.exe
+﻿  Enemies.cpp
+  GameObject.cpp
+  Main.cpp
+D:\REPOS\GavinB-2024-Spring\MOD_4_Maze_Game_Inheritence\MazeGame_WithDebug\Main.cpp(10,26): warning C4100: 'argv': unreferenced formal parameter
+D:\REPOS\GavinB-2024-Spring\MOD_4_Maze_Game_Inheritence\MazeGame_WithDebug\Main.cpp(10,14): warning C4100: 'argc': unreferenced formal parameter
+  Map.cpp
+  MazeGame.cpp
+D:\REPOS\GavinB-2024-Spring\MOD_4_Maze_Game_Inheritence\MazeGame_WithDebug\MazeGame.cpp(20,13): warning C4244: 'initializing': conversion from 'int' to 'char', possible loss of data
+  Player.cpp
+  Generating Code...
+  MazeGame_WithDebug.vcxproj -> D:\REPOS\GavinB-2024-Spring\MOD_4_Maze_Game_Inheritence\MazeGame_WithDebug\x64\Debug\MazeGame_WithDebug.exe

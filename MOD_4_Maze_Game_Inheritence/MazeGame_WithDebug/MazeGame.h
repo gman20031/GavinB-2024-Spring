@@ -10,10 +10,18 @@
 class MazeGame
 {
 private:
+	std::vector<Map*> m_pAllMaps;
+
+	std::shared_ptr<Player> m_playerCharacter;
+
+	void StepAI();
+	void MovePlayer();
 
 public:
+	Map* m_pCurrentMap;
 	
 
-	void Run();
+	void PushBackMap(Map* newMap);
 
+	void Run();
 };

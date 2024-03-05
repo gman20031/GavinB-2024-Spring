@@ -1,5 +1,5 @@
 #include "Player.h"
-
+#include "Map.h"
 
 bool Player::SetCurrentMapPointer(Map* newMap)
 {
@@ -28,22 +28,12 @@ bool Player::Move(Direction direction)
 
 bool Player::MoveCharacter(Vector2 newPosition)
 {
-
-#if DONT
-	switch (m_pCurrentMap->at(newPosition))
+	auto& targetedObject = m_pCurrentMap->at(newPosition);
+	if (targetedObject->m_displayCharacter == ObjectCharacter::kEmpty)
 	{
-	case ObjectCharacters::kEmpty:
-		//m_standingOnCharacter = ObjectCharacters::k_empty;
-		m_pCurrentMap->at(newPosition) = ObjectCharacters::kPlayer;
-		m_pCurrentMap->at(m_position) = ObjectCharacters::kEmpty;
-		m_position = newPosition;
-		break;
-	case ObjectCharacters::kExit:
-		return true;
-	default:
-		break;
+		m_pCurrentMap->SwapObjects(m_position, newPosition);
 	}
-#endif
+
 	return false;
 }
 

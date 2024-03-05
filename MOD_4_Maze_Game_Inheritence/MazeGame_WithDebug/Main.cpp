@@ -1,16 +1,22 @@
 
+#include <conio.h>
+#include <fstream>
+
+#include "Player.h"
 #include "GameObject.h"
 #include "Map.h"
-#include "Player.h"
-#include <conio.h>
-
-#include <fstream>
+#include "MazeGame.h"
 
 int main(int argc, char* argv[])
 {
 
 	Map mappy("MapFiles/LEVEL_1.txt");
-	mappy.Draw();
+
+	MazeGame game;
+	game.m_pCurrentMap = &mappy;
+	
+	game.Run();
+	
 
 	// make player
 	// gameobject at player start = my player

@@ -13,6 +13,9 @@ private:
 	bool MoveCharacter(Vector2 newPosition);
 	virtual void InteractWithPlayer() override { return; }
 
+	//kill playeer()
+	//sawp player with()
+
 public:
 	Player() : GameObject() {}
 	virtual bool SetCurrentMapPointer(Map* newMap) override;
