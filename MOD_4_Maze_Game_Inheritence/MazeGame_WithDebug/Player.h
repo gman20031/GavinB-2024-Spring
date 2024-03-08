@@ -1,25 +1,23 @@
 #pragma once
 
-#include "GameObject.h"
+#include "Entity.h"
 #include "Directions.h"
 
-class Player : public GameObject
+class Player : public Entity
 {
-public:
-	static constexpr size_t kMoveSpeed = 1;
-	inline static constexpr ObjectCharacter m_displayCharacter = ObjectCharacter::kPlayer;
-	virtual void draw() override { std::cout << static_cast<char>(m_displayCharacter); }
+	CREATE_CHAR_DRAW(ObjectCharacter::kPlayer)
 private:
-	bool MoveCharacter(Vector2 newPosition);
-	virtual void InteractWithPlayer() override { return; }
+	static constexpr size_t kMoveSpeed = 1;
+	virtual void Collide( Entity* collidedEntity) override;
+
+	bool m_alive = true;
 
 	//kill playeer()
 	//sawp player with()
 
 public:
-	Player() : GameObject() {}
-	virtual bool SetCurrentMapPointer(Map* newMap) override;
+	Player() : Entity() {}
 
-	bool Move(Direction direction);
-
+	virtual bool IsPlayer() override{ return true; }
+	virtual void Move() override;
 };

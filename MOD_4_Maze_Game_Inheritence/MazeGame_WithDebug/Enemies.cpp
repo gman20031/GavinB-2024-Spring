@@ -1,48 +1,63 @@
 #include "Enemies.h"
 #include "Map.h"
 
-HorizontalEnemy::HorizontalEnemy()
-	: GameObject()
-	, currentDirection{ Direction::kRight }
-{}
-
-void HorizontalEnemy::Move() const
+void HorizontalEnemy::Collide(Entity* collidedEntity)
 {
-	Vector2 newPosition = m_position;
-	
-	switch (currentDirection)
+	if (collidedEntity->IsPlayer())
 	{
-	case Direction::kRight: ++newPosition.x; break;
-	case Direction::kLeft: --newPosition.x;	break;
+		m_pCurrentMap->Reset();
 	}
-
-	auto& targetedObject = m_pCurrentMap->at(newPosition);
-	if (targetedObject->m_displayCharacter == ObjectCharacter::kEmpty)
-	{
-		m_pCurrentMap->SwapObjects(m_position, newPosition);
-	}
-
 }
+
+void VerticalEnemy::Collide(Entity* collidedEntity)
+{
+	if (collidedEntity->IsPlayer())
+	{
+		m_pCurrentMap->Reset();
+	}
+}
+
+HorizontalEnemy::HorizontalEnemy()
+	: Entity()
+	, m_currentDirection{ Direction::kRight }
+{}
 
 VerticalEnemy::VerticalEnemy()
-	: GameObject()
-	, currentDirection{Direction::kDown}
+	: Entity()
+	, m_currentDirection{ Direction::kDown }
 {}
 
-void VerticalEnemy::Move() const
+void HorizontalEnemy::Move()
 {
-	Vector2 newPosition = m_position;
-
-	switch (currentDirection)
-	{
-	case Direction::kDown: ++newPosition.y; break;
-	case Direction::kUp: --newPosition.y;	break;
-	}
-
-	auto& targetedObject = m_pCurrentMap->at(newPosition);
-	if (targetedObject->m_displayCharacter == ObjectCharacter::kEmpty)
-	{
-		m_pCurrentMap->SwapObjects(m_position, newPosition);
-	}
+	MoveOnMap(m_pCurrentMap,m_currentDirection,this);
 }
 
+
+void VerticalEnemy::Move()
+{
+	MoveOnMap(m_pCurrentMap, m_currentDirection, this);
+}
+
+static Direction ReverseDirection(Direction direction)
+{
+	switch (direction)
+	{
+	case Direction::kUp:    return (Direction::kDown);
+	case Direction::kDown:  return (Direction::kUp);
+	case Direction::kRight: return (Direction::kLeft);
+	case Direction::kLeft:  return (Direction::kRight);
+	}
+	return direction;
+}
+
+void HorizontalEnemy::HitWall()
+{
+	m_currentDirection = ReverseDirection(m_currentDirection);
+
+}
+
+void VerticalEnemy::HitWall()
+{
+	m_currentDirection = ReverseDirection(m_currentDirection);
+
+}

@@ -2,8 +2,8 @@
 
 enum class Direction
 {
-	kUp,
-	kDown,
-	kRight,
-	kLeft,
+	kUp = 'w',
+	kDown = 's',
+	kRight = 'd',
+	kLeft = 'a',
 };

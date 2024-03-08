@@ -8,6 +8,7 @@
 #include "GameObjectFactory.h"
 
 Map::Map(const char* filePath)
+	:m_mapFinished(false)
 {
 	char* mapCString = ConvertMapFileToCString(filePath);
 	mapCString = CleanMapCString(mapCString);
@@ -15,27 +16,44 @@ Map::Map(const char* filePath)
 	FillMapVectorFromCString(mapCString);
 }
 
-
+/////////////////////////////////////////////////////////
+// Converting map files to the actual Map object
+/////////////////////////////////////////////////////////
 bool Map::FillMapVectorFromCString(char* mapCString)
 {
-#define CreateObject(index) GameObjectFactory::Create(static_cast<ObjectCharacter>(index))
 
-	for (size_t y = 0; y < m_mapHeight; ++y)
+	for (int y = 0; y < m_mapHeight; ++y)
 	{
 		m_mapVector.emplace_back();
-		for (size_t x = 0; x < m_mapWidth; ++x)	
+		for (int x = 0; x < m_mapWidth; ++x)
 		{
-			size_t index = x + (y * 8);
-			m_mapVector.at(y).emplace_back( CreateObject(mapCString[index]));
-			auto& character = m_mapVector.at(y).at(x)->m_displayCharacter; //???
-			if (character == ObjectCharacter::kPlayer)
-				m_playerStart = { (int)x,(int)y };
+			int index = x + (y * 8);
+			EmplaceBackAndFill(mapCString[index], { x,y });
 		}
 	}
 
 	free(mapCString);
-
+	m_playerStart = m_playerCharacter->GetPosition();
 	return true;
+}
+
+void Map::EmplaceBackAndFill(char arrayCharacter, Vector2 mapVectorPosition)
+{
+#define CreateObject(index) GameObjectFactory::Create(static_cast<ObjectCharacter>(index))
+	int x = mapVectorPosition.x;
+	int y = mapVectorPosition.y;
+
+	if (static_cast<ObjectCharacter>(arrayCharacter) == ObjectCharacter::kPlayer)
+	{
+		m_playerCharacter = std::make_shared<Player>();
+		m_mapVector.at(y).emplace_back(m_playerCharacter);
+	}
+	else
+	{
+		m_mapVector.at(y).emplace_back(CreateObject(arrayCharacter));
+	}
+	m_mapVector.at(y).at(x)->SetCurrentMapPointer(this);
+	m_mapVector.at(y).at(x)->SetPosition(mapVectorPosition);
 }
 
 char* Map::ConvertMapFileToCString(const char* filePath)
@@ -101,27 +119,62 @@ char* Map::CleanMapCString(char* mapCString)
 	return newMapCString;
 }
 
-bool Map::SwapObjects(Vector2 firstObject, Vector2 secondObject)
+/////////////////////////////////////////////////////////
+// Swaps two objects, also updating their positions
+/////////////////////////////////////////////////////////
+bool Map::SwapObjects(Vector2 firstPosition, Vector2 secondPosition)
 {
-	std::shared_ptr<GameObject> tempObject = at(firstObject);
+	std::shared_ptr<GameObject> tempObject = at(firstPosition);
 	
-	at(firstObject) = at(secondObject);
-	at(firstObject)->SetPosition(secondObject);
-	at(secondObject) = tempObject;
-	at(secondObject)->SetPosition(firstObject);
+	auto& firstObject = at(firstPosition);
+	auto& secondObject = at(secondPosition);
+
+	firstObject->SetPosition(secondPosition);
+	secondObject->SetPosition(firstPosition);
+
+	at(firstPosition) = secondObject;
+	at(secondPosition) = tempObject;
 
 	return true;
-} 
+}
 
-// Write map onto the console.
+/////////////////////////////////////////////////////////
+// Resets player to start, resets finished flag
+/////////////////////////////////////////////////////////
+void Map::Reset()
+{
+	m_mapFinished = false;
+	Vector2 currentPlayerPosition = m_playerCharacter->GetPosition();
+	SwapObjects(currentPlayerPosition, m_playerStart);
+}
+
+/////////////////////////////////////////////////////////
+// sets map finished to true
+/////////////////////////////////////////////////////////
+void Map::WinLevel()
+{	
+	m_mapFinished = true;
+}
+
+
+/////////////////////////////////////////////////////////
+// Goes through every object to draw it to console
+/////////////////////////////////////////////////////////
 void Map::Draw()
 {
+	// THIS FUNCTION TAKES LIKE A THIRD SECOND TO COMPLETE
+	// its probably a result of inheritance, all draw functions being virtual
+	// must suck the life out of this somehow.
+
+	// TODO: convert draw function to a renderer class,
+	// this will allow for things like, chaning color, and not needing to inherit.
+
 	system("cls");
 	for (size_t y = 0 ; y < m_mapHeight; ++y)
 	{
 		for (size_t x = 0; x < m_mapWidth; ++x)
 		{
-			m_mapVector.at(y).at(x)->draw();
+			m_mapVector.at(y).at(x)->Draw();
 			std::cout << ' ';
 		}
 		std::cout << '\n';
@@ -129,7 +182,10 @@ void Map::Draw()
 
 }
 
+
+/////////////////////////////////////////////////////////
 // Get reference to object at cordinates
+/////////////////////////////////////////////////////////
 std::shared_ptr<GameObject>& Map::at(Vector2 cordinates)
 {
 	cordinates.y = std::clamp(cordinates.y, 0, (int)(m_mapHeight));

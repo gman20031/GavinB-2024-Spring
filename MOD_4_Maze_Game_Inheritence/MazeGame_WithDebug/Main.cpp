@@ -10,13 +10,13 @@
 int main(int argc, char* argv[])
 {
 
+
 	Map mappy("MapFiles/LEVEL_1.txt");
 
 	MazeGame game;
-	game.m_pCurrentMap = &mappy;
+	game.PushBackMap(&mappy);
 	
 	game.Run();
-	
 
 	// make player
 	// gameobject at player start = my player

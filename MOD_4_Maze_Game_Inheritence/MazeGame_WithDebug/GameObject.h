@@ -19,27 +19,39 @@ enum class ObjectCharacter
 	kVerticalEnemy = '|',
 };
 
+#define CREATE_CHAR_DRAW(_ObjectCharacter)									\
+	public:																	\
+	static constexpr ObjectCharacter m_displayCharacter = _ObjectCharacter;	\
+	virtual void Draw() override											\
+	{ 																		\
+		std::cout << static_cast<char>(m_displayCharacter);					\
+	}																		\
+	private:
+
+
+class Entity;
+
 class GameObject
 {
 protected:
 	Vector2 m_position;
 	Map* m_pCurrentMap ;
 
-	virtual void InteractWithPlayer() = 0;
 
 public:
 	inline static constexpr ObjectCharacter m_displayCharacter = ObjectCharacter::kBase;
-	 
+	//virtual ObjectCharacter GetType() = 0;
+
 	GameObject();
 	virtual ~GameObject() = default;
 
 	Vector2 GetPosition() const;
-	virtual void SetPosition(Vector2 newPosition);
+	void SetPosition(Vector2 newPosition);
 
 	Map* GetMapPointer();
-	virtual bool SetCurrentMapPointer(Map* newMap);
+	bool SetCurrentMapPointer(Map* newMap);
 
-	virtual void draw() = 0;
+	virtual void Collide(Entity* collidedEntity) = 0;
+	virtual void Draw() = 0;
 };
-
 

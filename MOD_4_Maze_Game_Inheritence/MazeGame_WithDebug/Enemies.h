@@ -1,32 +1,37 @@
 #pragma once
 
-#include "GameObject.h"
+#include "Entity.h"
 #include "Directions.h"
 
-class HorizontalEnemy : public GameObject
+
+// NOPE IM NOT DOING THIS WITH INHERITANCE
+// NOPE IM NOT DOING THIS WITH INHERITANCE
+// NOPE IM NOT DOING THIS WITH INHERITANCE
+
+class HorizontalEnemy : public Entity
 {
 public:
-	static constexpr ObjectCharacter m_displayCharacter = ObjectCharacter::kHorizontalEnemy;
-	virtual void draw() override { std::cout << static_cast<char>(m_displayCharacter); }
+	CREATE_CHAR_DRAW(ObjectCharacter::kHorizontalEnemy)
 private:
-	Direction currentDirection;
-	virtual void InteractWithPlayer() override { return; };
+	Direction m_currentDirection;
+	virtual void Collide(Entity* collidedEntity);
 public:
 	HorizontalEnemy();
 
-	void Move() const;
+	virtual void HitWall() override;
+	virtual void Move() override;
 };
 
-class VerticalEnemy : public GameObject
+class VerticalEnemy : public Entity
 {
 public:
-	static constexpr ObjectCharacter m_displayCharacter = ObjectCharacter::kVerticalEnemy;
-	virtual void draw() override { std::cout << static_cast<char>(m_displayCharacter); }
+	CREATE_CHAR_DRAW(ObjectCharacter::kVerticalEnemy)
 private:
-	Direction currentDirection;
-	virtual void InteractWithPlayer() override { return; };
+	Direction m_currentDirection;
+	virtual void Collide(Entity* collidedEntity);
 public:
 	VerticalEnemy();
 
-	void Move() const;
+	virtual void HitWall() override;
+	virtual void Move() override;
 };

@@ -14,21 +14,19 @@
 class EmptyTile: public GameObject
 {
 public:
-	static constexpr ObjectCharacter m_displayCharacter = ObjectCharacter::kEmpty;
-	virtual void draw() override { std::cout << static_cast<char>(m_displayCharacter); }
+	CREATE_CHAR_DRAW(ObjectCharacter::kEmpty)
 private:
-	virtual void InteractWithPlayer() override{ return; };
+	virtual void Collide(Entity* collidedEntity) override;
 public:
 	EmptyTile() : GameObject() {}
 };
 
-class TrapTile: public GameObject
+class TrapTile : public GameObject
 {
 public:
-	static constexpr ObjectCharacter m_displayCharacter = ObjectCharacter::kTrap;
-	virtual void draw() override { std::cout << static_cast<char>(m_displayCharacter); }
+	CREATE_CHAR_DRAW(ObjectCharacter::kTrap)
 private:
-	virtual void InteractWithPlayer() override{ return; };
+	virtual void Collide(Entity* collidedEntity) override;
 public:
 	TrapTile() : GameObject() {}
 };
@@ -36,10 +34,9 @@ public:
 class ExitTile : public GameObject
 {
 public:
-	static constexpr ObjectCharacter m_displayCharacter = ObjectCharacter::kExit;
-	virtual void draw() override { std::cout << static_cast<char>(m_displayCharacter); }
+	CREATE_CHAR_DRAW(ObjectCharacter::kExit)
 private:
-	virtual void InteractWithPlayer() override{ return; };
+	virtual void Collide(Entity* collidedEntity) override;
 public:
 	ExitTile() : GameObject() {}
 };
@@ -47,10 +44,10 @@ public:
 class WallTile : public GameObject
 {
 public:
-	static constexpr ObjectCharacter m_displayCharacter = ObjectCharacter::kWall;
-	virtual void draw() override { std::cout << static_cast<char>(m_displayCharacter); }
+	CREATE_CHAR_DRAW(ObjectCharacter::kWall)
 private:
-	virtual void InteractWithPlayer() override{ return; };
+	virtual void Collide(Entity* collidedEntity) override;
 public:
 	WallTile() : GameObject() {}
 };
+
