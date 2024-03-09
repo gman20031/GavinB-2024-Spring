@@ -18,11 +18,5 @@ int main(int argc, char* argv[])
 	
 	game.Run();
 
-	// make player
-	// gameobject at player start = my player
-	// player.move(direction)
-	// map.atPosition(player+direction).interact with player
-	// 
-
 	return 0;
 }

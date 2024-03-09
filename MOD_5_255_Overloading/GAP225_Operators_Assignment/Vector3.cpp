@@ -1,9 +1,21 @@
 #include "Vector3.h"
 
+#include <math.h>
+
 Vector3& Vector3::GenerateUnitVector()
 {
 	static Vector3 unitVector(1, 1, 1);
 	return unitVector;
+}
+
+////////////////////////////////////////////////////////////
+// Stream operators
+////////////////////////////////////////////////////////////
+
+std::ostream& operator<<(std::ostream& os, const Vector3& vector)
+{
+	os << "Vector3:{" << vector.m_x << ", " << vector.m_y << ", " << vector.m_z << "}";
+	return os;
 }
 
 ////////////////////////////////////////////////////////////
@@ -21,15 +33,10 @@ bool operator==(const Vector3& lhs, const Vector3& rhs)
 // unary Operators
 ////////////////////////////////////////////////////////////
 
-Vector3 operator-(const Vector3& vector)
+Vector3 Vector3::operator-() const
 {
-	VectorType x = -vector.m_x;
-	VectorType y = -vector.m_y;
-	VectorType z = -vector.m_z;
-
-	return Vector3(x, y, z);
+	return Vector3(-(m_x), -(m_y), -(m_z) );
 }
-
 
 ////////////////////////////////////////////////////////////
 // arithmetic operators
@@ -88,27 +95,61 @@ Vector3 operator/(VectorType lhs, const Vector3& rhs)
 ////////////////////////////////////////////////////////////
 
 
-Vector3& operator+=(Vector3& lhs, const Vector3 rhs)
+void operator+=(Vector3& lhs, const Vector3 rhs)
 {
 	lhs = lhs + rhs;
-	return(lhs);
 }
 
-Vector3& operator-=(Vector3& lhs, const Vector3 rhs)
+void operator-=(Vector3& lhs, const Vector3 rhs)
 {
 	lhs = lhs - rhs;
-	return(lhs);
 }
 
-Vector3& operator*=(Vector3& lhs, const VectorType rhs)
+void operator*=(Vector3& lhs, const VectorType rhs)
 {
 	lhs = lhs * rhs;
-	return(lhs);
 }
 
-Vector3& operator/=(Vector3& lhs, const VectorType rhs)
+void operator/=(Vector3& lhs, const VectorType rhs)
 {
 	lhs = lhs / rhs;
-	return(lhs);
 }
 
+////////////////////////////////////////////////////////////
+// Member Functions
+////////////////////////////////////////////////////////////
+
+static double Square(float lhs)
+{
+	return lhs * lhs;
+}
+
+float Vector3::GetLength() const
+{
+	return sqrt( GetSquareLength() );
+}
+
+float Vector3::GetSquareLength() const
+{
+	return static_cast<VectorType> ( Square(m_x) + Square(m_y) + Square(m_z) );
+}
+
+float Vector3::GetDotProduct(const Vector3& right) const
+{
+	// https://mathinsight.org/dot_product_examples
+	return(
+		 (m_x * right.GetX())
+		+(m_y * right.GetY())
+		+(m_z * right.GetZ())
+	)
+
+}
+Vector3 Vector3::GetCrossProduct(const Vector3& right) const
+{
+	//https://www.emathhelp.net/en/calculators/linear-algebra/cross-product-calculator/
+	VectorType x = (m_y * right.m_z ) - (m_z * right.m_y );
+	VectorType y = (m_z * right.m_x ) - (m_x * right.m_z );
+	VectorType z = (m_x * right.m_y ) - (m_y * right.m_x );
+
+	return Vector3(x, y , z);
+}

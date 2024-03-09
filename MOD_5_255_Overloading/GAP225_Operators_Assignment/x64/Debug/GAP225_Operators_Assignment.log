@@ -1,22 +1,2 @@
-﻿  Main.cpp
-D:\GavinB_Repo\GavinB-2024-Spring\MOD_5_255_Overloading\GAP225_Operators_Assignment\Tests.h(25,111): warning C4805: '==': unsafe mix of type 'bool' and type 'VectorType' in operation
-  (compiling source file 'Main.cpp')
-  
-  Vector3.cpp
-  Generating Code...
-D:\GavinB_Repo\GavinB-2024-Spring\MOD_5_255_Overloading\GAP225_Operators_Assignment\Vector3.cpp(105,8): error C2679: binary '*': no operator found which takes a right-hand operand of type 'const Vector3' (or there is no acceptable conversion)
-  D:\GavinB_Repo\GavinB-2024-Spring\MOD_5_255_Overloading\GAP225_Operators_Assignment\Vector3.cpp(76,9):
-  could be 'Vector3 operator *(VectorType,const Vector3 &)'
-  D:\GavinB_Repo\GavinB-2024-Spring\MOD_5_255_Overloading\GAP225_Operators_Assignment\Vector3.cpp(56,9):
-  or       'Vector3 operator *(const Vector3 &,VectorType)'
-  D:\GavinB_Repo\GavinB-2024-Spring\MOD_5_255_Overloading\GAP225_Operators_Assignment\Vector3.cpp(105,8):
-  while trying to match the argument list '(Vector3, const Vector3)'
-  
-D:\GavinB_Repo\GavinB-2024-Spring\MOD_5_255_Overloading\GAP225_Operators_Assignment\Vector3.cpp(111,8): error C2679: binary '/': no operator found which takes a right-hand operand of type 'const Vector3' (or there is no acceptable conversion)
-  D:\GavinB_Repo\GavinB-2024-Spring\MOD_5_255_Overloading\GAP225_Operators_Assignment\Vector3.cpp(81,9):
-  could be 'Vector3 operator /(VectorType,const Vector3 &)'
-  D:\GavinB_Repo\GavinB-2024-Spring\MOD_5_255_Overloading\GAP225_Operators_Assignment\Vector3.cpp(65,9):
-  or       'Vector3 operator /(const Vector3 &,VectorType)'
-  D:\GavinB_Repo\GavinB-2024-Spring\MOD_5_255_Overloading\GAP225_Operators_Assignment\Vector3.cpp(111,8):
-  while trying to match the argument list '(Vector3, const Vector3)'
-  
+﻿  Vector3.cpp
+  GAP225_Operators_Assignment.vcxproj -> C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\MOD_5_255_Overloading\x64\Debug\GAP225_Operators_Assignment.exe

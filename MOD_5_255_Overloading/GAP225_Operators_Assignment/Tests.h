@@ -22,7 +22,7 @@ void RunAllTests()
 	Test("Parameterized ctor: first parameter assigns to x", kConstTestVector.GetZ() == 3);
 
 	const Vector3 kUnitVector = Vector3::GenerateUnitVector();
-	Test("GenerateUnitVector returns Vector{1,1,1}", kUnitVector.GetX() == kUnitVector.GetY() == kUnitVector.GetZ() == 1);
+	Test("GenerateUnitVector returns Vector{1,1,1}", ( (kUnitVector.GetX() == kUnitVector.GetY()) == (kUnitVector.GetZ() == 1) ));
 
 	Test("Comparison operator implemented", kUnitVector == kUnitVector);
 
@@ -56,11 +56,20 @@ void RunAllTests()
 	testVector6 /= 2;
 	Test("Scalar division assignment operator implemented", testVector6 == Vector3{ 0.25f, 0.25f, 0.25f });
 
-#if 0	// Move this below each test as you solve it, or set it to 1 to test everything.
 	// This won't be testable in a true unit test because it doesn't return a comparable value.
 	// It succeeds if it prints this: Vector3{1,2,3}
 	// (It should not include a newline character or std::endl.)
 	std::cout << kConstTestVector << std::endl;
 
+#if 0	// Move this below each test as you solve it, or set it to 1 to test everything.
 #endif
+
+	Vector3 testVector7 = Vector3::GenerateUnitVector();
+	Test("Test get length function", testVector7.GetLength() == 1.7320508f);
+	Test("Test get Square Length function", testVector7.GetSquareLength() == 3);
+
+	Vector3 TestVector8(1, 2, 3);
+	Test("Dot Product function", testVector7.GetDotProduct(TestVector8) == 6);
+	Test("Cross Product function", testVector7.GetCrossProduct(TestVector8) == Vector3( 1, -2, 1) );
+
 }
