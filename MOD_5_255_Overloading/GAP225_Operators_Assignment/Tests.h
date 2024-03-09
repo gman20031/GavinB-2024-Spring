@@ -10,7 +10,6 @@ void Test(const char* pTestName, bool test)
 void RunAllTests()
 {
 		//TIP: Use conditional compilation to remove tests that you haven't solved yet.
-#if 1	// Move this below each test as you solve it, or set it to 1 to test everything.
 
 	const Vector3 kZeroVector{};
 	Test("Default ctor: assigns 0 to x", kZeroVector.GetX() == 0);
@@ -57,6 +56,7 @@ void RunAllTests()
 	testVector6 /= 2;
 	Test("Scalar division assignment operator implemented", testVector6 == Vector3{ 0.25f, 0.25f, 0.25f });
 
+#if 0	// Move this below each test as you solve it, or set it to 1 to test everything.
 	// This won't be testable in a true unit test because it doesn't return a comparable value.
 	// It succeeds if it prints this: Vector3{1,2,3}
 	// (It should not include a newline character or std::endl.)
