@@ -2,9 +2,9 @@
 
 #include <math.h>
 
-Vector3& Vector3::GenerateUnitVector()
+const Vector3& Vector3::GenerateUnitVector()
 {
-	static Vector3 unitVector(1, 1, 1);
+	static const Vector3 unitVector(1, 1, 1);
 	return unitVector;
 }
 
@@ -44,38 +44,38 @@ Vector3 Vector3::operator-() const
 
 Vector3 operator+(const Vector3& lhs, const Vector3& rhs)
 {
-	VectorType x = lhs.m_x + rhs.m_x;
-	VectorType y = lhs.m_y + rhs.m_y;
-	VectorType z = lhs.m_z + rhs.m_z;
-						   
-	return Vector3(x, y, z);
+	return ( Vector3{
+		lhs.m_x + rhs.m_x,
+		lhs.m_y + rhs.m_y,	
+		lhs.m_z + rhs.m_z,
+	});
 }
 
 Vector3 operator-(const Vector3& lhs, const Vector3& rhs)
 {
-	VectorType x = lhs.m_x - rhs.m_x;
-	VectorType y = lhs.m_y - rhs.m_y;
-	VectorType z = lhs.m_z - rhs.m_z;
-
-	return Vector3(x, y, z);
+	return (Vector3{
+		lhs.m_x - rhs.m_x,
+		lhs.m_y - rhs.m_y,
+		lhs.m_z - rhs.m_z,
+	});
 }
 
 Vector3 operator*(const Vector3& lhs, VectorType rhs)
 {
-	VectorType x = lhs.m_x * rhs;
-	VectorType y = lhs.m_y * rhs;
-	VectorType z = lhs.m_z * rhs;
-
-	return Vector3(x, y, z);
+	return (Vector3{
+		lhs.m_x * rhs,
+		lhs.m_y * rhs,
+		lhs.m_z * rhs,
+	});
 }
 
 Vector3 operator/(const Vector3& lhs, VectorType rhs)
 {
-	VectorType x = lhs.m_x / rhs;
-	VectorType y = lhs.m_y / rhs;
-	VectorType z = lhs.m_z / rhs;
-
-	return Vector3(x, y, z);
+	return (Vector3{
+		lhs.m_x / rhs,
+		lhs.m_y / rhs,
+		lhs.m_z / rhs,
+	});
 }
 
 ///// overloads /////
@@ -95,24 +95,64 @@ Vector3 operator/(VectorType lhs, const Vector3& rhs)
 ////////////////////////////////////////////////////////////
 
 
-void operator+=(Vector3& lhs, const Vector3 rhs)
+Vector3& Vector3::operator += (const Vector3 rhs)
 {
-	lhs = lhs + rhs;
+	*this = *this + rhs;
+	return *this;
 }
 
-void operator-=(Vector3& lhs, const Vector3 rhs)
+Vector3& Vector3::operator -= (const Vector3 rhs)
 {
-	lhs = lhs - rhs;
+	*this = *this - rhs;
+	return *this;
 }
 
-void operator*=(Vector3& lhs, const VectorType rhs)
+Vector3& Vector3::operator *= (const VectorType rhs)
 {
-	lhs = lhs * rhs;
+	*this = *this * rhs;
+	return *this;
 }
 
-void operator/=(Vector3& lhs, const VectorType rhs)
+Vector3& Vector3::operator/=(const VectorType rhs)
 {
-	lhs = lhs / rhs;
+	*this = *this / rhs;
+	return *this;
+}
+
+////////////////////////////////////////////////////////////
+// Increment/decrement
+////////////////////////////////////////////////////////////
+
+Vector3& Vector3::operator++()
+{
+	++m_x;
+	++m_y;
+	++m_z;
+
+	return *this;
+}
+
+Vector3& Vector3::operator--()
+{
+	--m_x;
+	--m_y;
+	--m_z;
+
+	return *this;
+}
+
+Vector3 Vector3::operator++(int)
+{
+	Vector3 oldValue = *this;
+	operator++();
+	return oldValue;
+}
+
+Vector3 Vector3::operator--(int)
+{
+	Vector3 oldValue = *this;
+	operator--();
+	return oldValue;
 }
 
 ////////////////////////////////////////////////////////////
@@ -138,12 +178,12 @@ float Vector3::GetDotProduct(const Vector3& right) const
 {
 	// https://mathinsight.org/dot_product_examples
 	return(
-		 (m_x * right.GetX())
-		+(m_y * right.GetY())
-		+(m_z * right.GetZ())
-	)
-
+		  (m_x * right.GetX())
+		+ (m_y * right.GetY())
+		+ (m_z * right.GetZ())
+	);
 }
+
 Vector3 Vector3::GetCrossProduct(const Vector3& right) const
 {
 	//https://www.emathhelp.net/en/calculators/linear-algebra/cross-product-calculator/

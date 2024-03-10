@@ -61,15 +61,35 @@ void RunAllTests()
 	// (It should not include a newline character or std::endl.)
 	std::cout << kConstTestVector << std::endl;
 
-#if 0	// Move this below each test as you solve it, or set it to 1 to test everything.
-#endif
 
 	Vector3 testVector7 = Vector3::GenerateUnitVector();
 	Test("Test get length function", testVector7.GetLength() == 1.7320508f);
 	Test("Test get Square Length function", testVector7.GetSquareLength() == 3);
 
-	Vector3 TestVector8(1, 2, 3);
-	Test("Dot Product function", testVector7.GetDotProduct(TestVector8) == 6);
-	Test("Cross Product function", testVector7.GetCrossProduct(TestVector8) == Vector3( 1, -2, 1) );
+	Vector3 testVector8(1, 2, 3);
+	Test("Dot Product function", testVector7.GetDotProduct(testVector8) == 6);
+	Test("Cross Product function {1,1,1} X {1,2,3}", testVector7.GetCrossProduct(testVector8) == Vector3( 1, -2, 1) );
+	Test("Cross Product function {1,2,3} X {1,1,1}", testVector8.GetCrossProduct(testVector7) == Vector3(-1, 2, -1)  );
+#if 1	// Move this below each test as you solve it, or set it to 1 to test everything.
 
+
+	Vector3 testVector9 = Vector3::GenerateUnitVector();
+	Test("prefix Increment operator:", ++testVector9 == Vector3(2, 2, 2) );
+	Test("prefix Decrement operator:", --testVector9 == Vector3(1, 1, 1) );
+
+	Test("postfix Increment operator didnt change inline:", testVector9++ == Vector3(1, 1, 1) );
+	Test("postfix Increment operator did actually change:", testVector9 == Vector3(2, 2, 2));
+
+	Test("postfix Decrment operator didnt change inline:", testVector9-- == Vector3(2, 2, 2));
+	Test("postfix Decrement operator did actually change:", testVector9 == Vector3(1, 1, 1));
+
+	Test("< operator implemented", Vector3(1, 1, 1) < Vector3(2, 2, 2));
+	Test("> operator implemented", Vector3(2, 2, 2) > Vector3(1, 1, 1));
+	Test("<= operator implemented", Vector3(2, 2, 2) <= Vector3(2, 2, 2));
+	Test(">= operator implemented", Vector3(3, 3, 3) >= Vector3(2, 2, 2));
+	Test("!= operator implemented", Vector3(3, 3, 3) != Vector3(2, 2, 2));
+
+#endif
 }
+
+

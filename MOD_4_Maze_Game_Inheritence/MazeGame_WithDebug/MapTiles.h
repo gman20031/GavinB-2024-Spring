@@ -9,8 +9,6 @@
 // Trap tiles
 // Exit tile
 
-
-
 class EmptyTile: public GameObject
 {
 public:

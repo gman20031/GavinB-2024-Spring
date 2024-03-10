@@ -6,8 +6,7 @@
 
 void Player::Collide(Entity* collidedEntity)
 {
-	m_pCurrentMap->Reset();
-
+	collidedEntity->GetMapPointer()->Reset();
 	return;
 }
 

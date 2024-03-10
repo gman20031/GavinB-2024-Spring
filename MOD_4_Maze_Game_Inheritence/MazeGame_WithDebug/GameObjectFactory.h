@@ -2,16 +2,10 @@
 
 #include "GameObject.h"
 
-// std shared pointer to shape object
 using GameObjectPtr = std::shared_ptr<GameObject>;
-
-// Key for shape factory map
 using GameObjectFactoryKey = ObjectCharacter;
-
-// a function that returns a shared pointer of shapes with no parameters
 typedef GameObjectPtr(*GameObjectFactoryFunction)();
 
-// A factory to create instances of any derived class of Shapes
 class GameObjectFactory
 {
 public:

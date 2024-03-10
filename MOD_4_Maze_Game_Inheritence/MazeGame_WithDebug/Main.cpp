@@ -7,10 +7,8 @@
 #include "Map.h"
 #include "MazeGame.h"
 
-int main(int argc, char* argv[])
+int main()
 {
-
-
 	Map mappy("MapFiles/LEVEL_1.txt");
 
 	MazeGame game;

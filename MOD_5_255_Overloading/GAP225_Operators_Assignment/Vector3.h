@@ -4,14 +4,14 @@
 using VectorType = float;
 class Vector3
 {
+public:
 	// Stream operators
 	friend std::ostream& operator<<(std::ostream& os, const Vector3& vector);
 	// comparison operators
 	friend bool operator==(const Vector3& lhs, const Vector3& rhs);
+	auto operator<=>(const Vector3&) const = default;
 	// unary Operators
-public:
 	Vector3 operator-() const;
-private:
 	// arithmetic operators
 	friend Vector3 operator+(const Vector3& lhs, const Vector3& rhs);
 	friend Vector3 operator-(const Vector3& lhs, const Vector3& rhs);
@@ -20,11 +20,19 @@ private:
 	friend Vector3 operator*(VectorType lhs, const Vector3& rhs);
 	friend Vector3 operator/(VectorType lhs, const Vector3& rhs);
 	// assignment operators
-	friend void operator+=(Vector3& lhs, const Vector3 rhs);
-	friend void operator-=(Vector3& lhs, const Vector3 rhs);
-	friend void operator/=(Vector3& lhs, const VectorType rhs);
-	friend void operator*=(Vector3& lhs, const VectorType rhs);
+	Vector3& operator+=(const Vector3 rhs);
+	Vector3& operator-=(const Vector3 rhs);
+	Vector3& operator/=(const VectorType rhs);
+	Vector3& operator*=(const VectorType rhs);
+	//Increment/decrement
+	Vector3& operator++();
+	Vector3& operator--();
+	Vector3 operator++(int);
+	Vector3 operator--(int);
 
+	
+
+private:
 	VectorType m_x;
 	VectorType m_y;
 	VectorType m_z;
@@ -35,7 +43,7 @@ public:
 		,m_z(z)
 	{}
 
-	static Vector3& GenerateUnitVector();
+	static const Vector3& GenerateUnitVector();
 
 	float GetLength() const;
 	float GetSquareLength() const;
