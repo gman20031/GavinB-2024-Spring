@@ -1,5 +1,6 @@
 #pragma once
 #include "SDL.h"
+#include "Direction.h"
 
 #define TEST_MODEL_ONE 1
 
@@ -41,15 +42,15 @@ public:
 		// UpdateCharModel()
 
 	/*
-	Get and move their position
-	when position is moved, move the model along with it.
-	Move in specified direction distance * multiplier pixels.
-	the location is the Bottom-most center point of the model.
-
-	Change and Get color of the model.
-	all models are unicoloured right now. 
-
-	This class does not draw, but stores all the info for entities
-	that is required for the GameWindow to not need to worry about any entity
+		Get and move their position
+		when position is moved, move the model along with it.
+		Move in specified direction distance * multiplier pixels.
+		the location is the Bottom-most center point of the model.
+		
+		Change and Get color of the model.
+		all models are unicoloured right now. 
+		
+		This class does not draw, but stores all the info for entities
+		that is required for the GameWindow to not need to worry about any entity
 	*/
 };

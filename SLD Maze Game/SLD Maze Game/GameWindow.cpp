@@ -31,23 +31,6 @@ void GameWindow::SetRenderColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 	SDL_SetRenderDrawColor(m_graphicRenderer, r, g, b, a);
 }
 
-#if MOVECONCEPT
-void GameWindow::MoveChar(Entity* moveThis)
-{
-	static bool goRight = true;
-	if (goRight)
-	{
-		moveThis->TeleportLocationTo({ 100,100 });
-		goRight = false;
-	}
-	else
-	{ 
-		moveThis->TeleportLocationTo({ 50,50 });
-		goRight = true;
-	}
-}
-#endif
-
 ////////////////////////////////
 /// Start the widow
 ////////////////////////////////
@@ -56,44 +39,53 @@ void GameWindow::StartWindow()
 	InitWindow();
 	ClearWindowToBackgroundColor();
 	
-	Entity PlayerCharacter;
-	
-	
-	
+	Entity PlayerCharacter;	
 	Entity EnemyOne;
 
 	EnemyOne.SetRenderer(m_graphicRenderer);
 	EnemyOne.Draw();
 	SDL_RenderPresent(m_graphicRenderer);
 
-	bool keepWindowOpen = true;
-	while (keepWindowOpen)
+	while (m_keepRunning)
 	{
 		SDL_Event SdlEvent;
 		while (SDL_PollEvent(&SdlEvent) > 0)
 		{
-			switch (SdlEvent.type)
-			{
-			case SDL_QUIT:
-				keepWindowOpen = false;
-				break;
-			case SDL_KEYDOWN:
-				if (SdlEvent.key.keysym.sym == SDLK_e)
-					MoveChar(&EnemyOne);
-			}
-
-			// MAIN DRAW LOOP FOR EVERYTTHING
-			SDL_RenderClear(m_graphicRenderer);
-			EnemyOne.Draw();
-			SDL_RenderPresent(m_graphicRenderer);
-
-			SDL_UpdateWindowSurface(m_pDisplayWindow);
+			HandleEvent(SdlEvent);
 		}
 	}
 
 	SDL_DestroyWindow(m_pDisplayWindow);
 	SDL_Quit(); // should remove renderer
 	return;
+}
+
+void GameWindow::HandleEvent(const SDL_Event& event)
+{
+	switch (event.type)
+	{
+	case SDL_QUIT:
+		m_keepRunning = false;
+		break;
+	case SDL_KEYDOWN:
+		HandleKeyInput(event);
+	}
+}
+
+void GameWindow::HandleKeyInput(const SDL_Event& event)
+{
+
+}
+
+void GameWindow::DrawAll()
+{
+	// MAIN DRAW LOOP FOR EVERYTTHING
+	SDL_RenderClear(m_graphicRenderer);
+	for (auto& entity : m_entityVector)
+		entity->Draw();
+	SDL_RenderPresent(m_graphicRenderer);
+	SDL_UpdateWindowSurface(m_pDisplayWindow);
+
 }
 
 void GameWindow::StopWindow()

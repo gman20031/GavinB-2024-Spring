@@ -1,3 +1,3 @@
-﻿  Entity.cpp
-C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\SLD Maze Game\SLD Maze Game\Entity.cpp(87,64): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-  SLD Maze Game.vcxproj -> C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\SLD Maze Game\x64\Debug\SDL Game.exe
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (SLD Maze Game.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Vector2.cpp
+  SLD Maze Game.vcxproj -> D:\REPOS\GavinB-2024-Spring\SLD Maze Game\x64\Debug\SDL Game.exe

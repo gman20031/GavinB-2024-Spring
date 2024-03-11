@@ -143,6 +143,7 @@
     <Library Include="SDL2-2.30.0\lib\x64\SDL2main.lib" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Direction.h" />
     <ClInclude Include="GameWindow.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Vector2.h" />
