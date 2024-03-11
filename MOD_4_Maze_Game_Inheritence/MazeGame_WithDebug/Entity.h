@@ -12,7 +12,5 @@ public:
 	Entity() : GameObject() {}
 
 
-	virtual bool IsPlayer() { return false; }
 	virtual void HitWall() {};
-	virtual void Move() = 0;
 };

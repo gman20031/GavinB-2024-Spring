@@ -18,14 +18,12 @@ private:
 	bool m_gameFinished = false;
 	bool m_levelFinished = false;
 
-	void Update();
 	void PlayCurrentLevel();
-	void GotoNextLevel();
-	void GotoLastLevel();
-	void GotoLevel(size_t index);
+	void GotoNextLevel(); 
+	void GotoLastLevel();			 // unused for now
+	void GotoLevel(size_t index);    // unused for now
 	bool PromptToKeepPLaying();
 	void ResetGame();
-
 public:
 	Map* GetCurrentMapPointer() { return m_pCurrentMap; }
 

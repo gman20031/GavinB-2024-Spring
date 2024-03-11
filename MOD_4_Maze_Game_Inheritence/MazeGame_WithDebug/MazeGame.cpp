@@ -2,14 +2,7 @@
 #include "Enemies.h"
 #include "assert.h"
 
-////////////////////////////////////////////////////////////////////////
-// Eventually will be used to run AI
-////////////////////////////////////////////////////////////////////////
-void MazeGame::Update()
-{ 
-	//todo, figure out a way to get all the entities in the map, and not just
-	// loop through all objects, its already really slow, this would f everything.
-}
+
 
 ////////////////////////////////////////////////////////////////////////
 // uses Push_back to add a new map to the map Vector
@@ -26,6 +19,12 @@ void MazeGame::PushBackMap(Map* newMap)
 ////////////////////////////////////////////////////////////////////////
 void MazeGame::Run()
 {
+	if (m_pCurrentMap == nullptr)
+	{
+		//throw probably, but I forget how
+		std::cout << "no map files loaded";
+		return;
+	}
 	for(;;)
 	{
 		PlayCurrentLevel();
@@ -107,6 +106,7 @@ void MazeGame::PlayCurrentLevel()
 	while (!m_pCurrentMap->Finished())
 	{
 		m_pCurrentMap->Draw();
-		m_playerCharacter->Move();
+		m_playerCharacter->Update();
+		m_pCurrentMap->Update();
 	}
 }

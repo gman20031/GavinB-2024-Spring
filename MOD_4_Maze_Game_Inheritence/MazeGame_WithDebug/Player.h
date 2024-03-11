@@ -19,5 +19,5 @@ public:
 	Player() : Entity() {}
 
 	virtual bool IsPlayer() override{ return true; }
-	virtual void Move() override;
+	virtual void Update() override;
 };

@@ -14,7 +14,7 @@ void Player::Collide(Entity* collidedEntity)
 /////////////////////////////////////////////////////////
 /// Character movement
 /////////////////////////////////////////////////////////
-void Player::Move()
+void Player::Update()
 {
 	char input = (char)_getch();
 

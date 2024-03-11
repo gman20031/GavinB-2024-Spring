@@ -27,13 +27,13 @@ VerticalEnemy::VerticalEnemy()
 	, m_currentDirection{ Direction::kDown }
 {}
 
-void HorizontalEnemy::Move()
+void HorizontalEnemy::Update()
 {
 	MoveOnMap(m_pCurrentMap,m_currentDirection,this);
 }
 
 
-void VerticalEnemy::Move()
+void VerticalEnemy::Update()
 {
 	MoveOnMap(m_pCurrentMap, m_currentDirection, this);
 }

@@ -30,8 +30,6 @@ public:
 	Vector3 operator++(int);
 	Vector3 operator--(int);
 
-	
-
 private:
 	VectorType m_x;
 	VectorType m_y;

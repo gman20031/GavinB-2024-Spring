@@ -19,7 +19,7 @@ public:
 	HorizontalEnemy();
 
 	virtual void HitWall() override;
-	virtual void Move() override;
+	virtual void Update() override;
 };
 
 class VerticalEnemy : public Entity
@@ -33,5 +33,5 @@ public:
 	VerticalEnemy();
 
 	virtual void HitWall() override;
-	virtual void Move() override;
+	virtual void Update() override;
 };

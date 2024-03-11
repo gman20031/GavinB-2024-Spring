@@ -53,5 +53,7 @@ public:
 
 	virtual void Collide(Entity* collidedEntity) = 0;
 	virtual void Draw() = 0;
+	virtual void Update() {};
+	virtual bool IsPlayer() { return false; }
 };
 

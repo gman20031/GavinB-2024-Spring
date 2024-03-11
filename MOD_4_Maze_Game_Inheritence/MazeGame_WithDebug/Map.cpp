@@ -27,7 +27,7 @@ bool Map::FillMapVectorFromCString(char* mapCString)
 		m_mapVector.emplace_back();
 		for (int x = 0; x < m_mapWidth; ++x)
 		{
-			int index = x + (y * 8);
+			int index = x + (y * (int)m_mapWidth);
 			EmplaceBackAndFill(mapCString[index], { x,y });
 		}
 	}
@@ -54,6 +54,7 @@ void Map::EmplaceBackAndFill(char arrayCharacter, Vector2 mapVectorPosition)
 	}
 	m_mapVector.at(y).at(x)->SetCurrentMapPointer(this);
 	m_mapVector.at(y).at(x)->SetPosition(mapVectorPosition);
+	m_allObjects.emplace_back(m_mapVector.at(y).at(x));
 }
 
 char* Map::ConvertMapFileToCString(const char* filePath)
@@ -64,7 +65,7 @@ char* Map::ConvertMapFileToCString(const char* filePath)
 	std::fstream mapFile;
 	mapFile.open(filePath);
 	assert(mapFile.is_open());
-	mapFile.getline(MapCString, m_mapLength, '\0');
+	mapFile.get(MapCString, m_mapLength, EOF);
 	mapFile.close();
 
 	return MapCString;
@@ -156,7 +157,6 @@ void Map::WinLevel()
 	m_mapFinished = true;
 }
 
-
 /////////////////////////////////////////////////////////
 // Goes through every object to draw it to console
 /////////////////////////////////////////////////////////
@@ -182,6 +182,17 @@ void Map::Draw()
 
 }
 
+/////////////////////////////////////////////////////////
+// Goes through every object to Update it
+/////////////////////////////////////////////////////////
+void Map::Update()
+{
+	for (auto& entity : m_allObjects)
+	{
+		if(!entity->IsPlayer())
+			entity->Update();
+	}
+}
 
 /////////////////////////////////////////////////////////
 // Get reference to object at cordinates
