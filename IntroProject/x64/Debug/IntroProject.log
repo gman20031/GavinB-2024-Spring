@@ -1,6 +1,2 @@
 ﻿  main.cpp
-C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\main.cpp(17,17): warning C4244: '=': conversion from 'int' to 'char', possible loss of data
-C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\main.cpp(11,26): warning C4100: 'argv': unreferenced formal parameter
-C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\main.cpp(11,14): warning C4100: 'argc': unreferenced formal parameter
-C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\main.cpp(21): warning C4702: unreachable code
   IntroProject.vcxproj -> C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\x64\Debug\IntroProject.exe

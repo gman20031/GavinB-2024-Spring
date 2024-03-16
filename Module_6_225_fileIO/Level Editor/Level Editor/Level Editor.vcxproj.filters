@@ -29,5 +29,11 @@
     <ClInclude Include="LevelEditor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Prompting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleManip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "x64\\Debug\\Coordinate.h.obj",
+            "outputs": [
+                "C:\\Users\\gangs\\Desktop\\School Works\\Homework\\Freshman Year\\Game Programming\\GavinB-2024-Spring\\Module_6_225_fileIO\\Level Editor\\Level Editor\\x64\\Debug\\vc143.pdb",
+                "x64\\Debug\\",
+                "C:\\Users\\gangs\\Desktop\\School Works\\Homework\\Freshman Year\\Game Programming\\GavinB-2024-Spring\\Module_6_225_fileIO\\Level Editor\\Level Editor\\x64\\Debug\\Coordinate.h.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "Coordinate.h",
+                    "source-path": "c:\\users\\gangs\\desktop\\school works\\homework\\freshman year\\game programming\\gavinb-2024-spring\\module_6_225_fileio\\level editor\\level editor\\coordinate.h",
+                    "lookup-method": "absolute"
+                }
+            ],
+            "requires": []
+        }
+    ]
+}

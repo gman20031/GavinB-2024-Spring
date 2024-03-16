@@ -1,22 +1,26 @@
 #include <iostream>
+#include <string>
 #include <conio.h>
+#include <cstdarg>
 
-enum class Direction
+char InitLISTPromptAndGetChar(const std::string& prompt, std::initializer_list<char> charList)
 {
-	kUp = 'w',
-	kDown = 's',
-
-};
-
-int main(int argc, char* argv[])
-{
-	char input;
-
-	for (;;)
+	std::cout << prompt << '\n';
+	for (auto it = charList.begin(); it != charList.end(); ++it)
 	{
-		input = _getch();
-		std::cout << input;
+		std::cout << *it << '\n';
 	}
+	return '0';
+}
+
+
+int main()
+{
+
+	InitLISTPromptAndGetChar("hello", { 'a', 'b' });
 
 	return 0;
-}// main end
+
+}
+
+
