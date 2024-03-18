@@ -1,0 +1,3 @@
+﻿  Scanning sources for module dependencies...
+MSVCRTD.lib(exe_main.obj) : error LNK2019: unresolved external symbol main referenced in function "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ)
+C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\Module_6_225_fileIO\Level Editor\x64\Debug\Level Editor.exe : fatal error LNK1120: 1 unresolved externals

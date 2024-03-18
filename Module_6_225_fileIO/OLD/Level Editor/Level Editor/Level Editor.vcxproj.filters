@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="GameHeaderFiles">
+      <UniqueIdentifier>{236418a4-2d4a-45e8-ac23-47bd31684575}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameHeaderFiles\GameObjects">
+      <UniqueIdentifier>{3188b8de-5f0a-4437-a07a-13f21ae09b99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameHeaderFiles\Help">
+      <UniqueIdentifier>{bf538339-eef0-44bf-9b20-402fa9db14c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameHeaderFiles\Game">
+      <UniqueIdentifier>{68f849ce-851b-48c5-b392-31671c853b36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSourceFIles">
+      <UniqueIdentifier>{65697dda-f3ad-4512-822f-1c7466706d66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSourceFIles\Game">
+      <UniqueIdentifier>{d2e6b1dd-58a5-4e97-ba63-a5483b817fbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSourceFIles\GameObjects">
+      <UniqueIdentifier>{76f2e64b-f5f4-4a74-b5f0-ad9fb47f78ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditorHeader Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Coordinate.h">
+      <Filter>EditorHeader Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SharedGameFiles\MapFileLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MazeGameMenuSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Prompting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MazeGame_WithDebug\Map.cpp">
+      <Filter>GameSourceFIles\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MazeGame_WithDebug\MazeGame.cpp">
+      <Filter>GameSourceFIles\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MazeGame_WithDebug\Enemies.cpp">
+      <Filter>GameSourceFIles\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MazeGame_WithDebug\Entity.cpp">
+      <Filter>GameSourceFIles\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MazeGame_WithDebug\GameObject.cpp">
+      <Filter>GameSourceFIles\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MazeGame_WithDebug\GameObjectsRegistrar.cpp">
+      <Filter>GameSourceFIles\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MazeGame_WithDebug\MapTiles.cpp">
+      <Filter>GameSourceFIles\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MazeGame_WithDebug\Player.cpp">
+      <Filter>GameSourceFIles\GameObjects</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="LevelEditor.h">
+      <Filter>EditorHeader Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Prompting.h">
+      <Filter>EditorHeader Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleManip.h">
+      <Filter>EditorHeader Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedGameFiles\GameCharacterInfo.h">
+      <Filter>EditorHeader Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedGameFiles\MapFileLoader.h">
+      <Filter>EditorHeader Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MazeGameMenuSystem.h">
+      <Filter>EditorHeader Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MazeGame_WithDebug\Entity.h">
+      <Filter>GameHeaderFiles\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MazeGame_WithDebug\GameObjectFactory.h">
+      <Filter>GameHeaderFiles\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MazeGame_WithDebug\Enemies.h">
+      <Filter>GameHeaderFiles\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MazeGame_WithDebug\GameObject.h">
+      <Filter>GameHeaderFiles\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MazeGame_WithDebug\MapTiles.h">
+      <Filter>GameHeaderFiles\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MazeGame_WithDebug\Player.h">
+      <Filter>GameHeaderFiles\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MazeGame_WithDebug\Vector2.h">
+      <Filter>GameHeaderFiles\Help</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MazeGame_WithDebug\Directions.h">
+      <Filter>GameHeaderFiles\Help</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MazeGame_WithDebug\Map.h">
+      <Filter>GameHeaderFiles\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MazeGame_WithDebug\MazeGame.h">
+      <Filter>GameHeaderFiles\Game</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

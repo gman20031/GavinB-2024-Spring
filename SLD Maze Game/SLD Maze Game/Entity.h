@@ -2,7 +2,7 @@
 #include "SDL.h"
 #include "Direction.h"
 
-#define TEST_MODEL_ONE 1
+#define TEST_MODE_ONE 1
 
 class Entity
 {
@@ -15,9 +15,7 @@ class Entity
 	SDL_Point m_location{ 0,0 };
 	SDL_Color m_Color{ 0,0,0,255 };
 	SDL_Texture* m_pTexture = 0;
-	SDL_Renderer* m_renderer = nullptr; // redundant?
-				// the current game window should know tf renderer we are using
-				// this also brings up if gamewindow should handle everything.
+	SDL_Renderer* m_renderer = nullptr; 
 
 	void updateModelLocation(); // perhaps reduntant
 

@@ -1,6 +1,0 @@
-﻿  Scanning sources for module dependencies...
-  LevelEditor.cpp
-C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\Module_6_225_fileIO\Level Editor\Level Editor\Prompting.h(27,18): warning C4244: '=': conversion from 'int' to 'char', possible loss of data
-  (compiling source file 'LevelEditor.cpp')
-  
-  Level Editor.vcxproj -> C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\Module_6_225_fileIO\Level Editor\x64\Debug\Level Editor.exe
