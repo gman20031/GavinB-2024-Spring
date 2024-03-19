@@ -1,2 +1,5 @@
 ﻿  main.cpp
-  IntroProject.vcxproj -> D:\REPOS\GavinB-2024-Spring\IntroProject\x64\Debug\IntroProject.exe
+C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\main.cpp(33,14): warning C4189: 'newTitle': local variable is initialized but not referenced
+C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\main.cpp(25,14): warning C4189: 'hello': local variable is initialized but not referenced
+C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\main.cpp(63): warning C4702: unreachable code
+  IntroProject.vcxproj -> C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\x64\Debug\IntroProject.exe
