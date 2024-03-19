@@ -60,9 +60,6 @@
     <ClInclude Include="Editor\LevelEditor.h">
       <Filter>Header Files\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="Editor\ConsoleManip.h">
-      <Filter>Header Files\Editor</Filter>
-    </ClInclude>
     <ClInclude Include="Editor\Coordinate.h">
       <Filter>Header Files\Editor</Filter>
     </ClInclude>
@@ -78,12 +75,18 @@
     <ClInclude Include="SharedGameFiles\Prompting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SharedGameFiles\ConsoleManip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Maze_Game\ObjectMover.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedGameFiles\Timing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Maze_Game\Enemies.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Maze_Game\Entity.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="Maze_Game\GameObject.cpp">
@@ -117,6 +120,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SharedGameFiles\Prompting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Maze_Game\ObjectMover.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Maze_Game\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

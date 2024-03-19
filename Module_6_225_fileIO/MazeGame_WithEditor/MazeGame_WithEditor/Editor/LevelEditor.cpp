@@ -1,7 +1,7 @@
 #include "LevelEditor.h"
 
 #include "../SharedGameFiles/Prompting.h"
-#include "ConsoleManip.h"
+
 #include "../SharedGameFiles/MapFileLoader.h"
 
 #include <assert.h>
@@ -41,9 +41,12 @@ void EditorButton::Interact(LevelEditor* editor) const
 
 void EditorButton::Draw() const
 {
-	std::cout << m_name;
+	ConsoleManip::DrawToConsole(m_name);
 }
-
+void EditorButton::DrawSelected() const
+{
+	ConsoleManip::DrawToConsole(m_name, m_selectedColour);
+}
 
 
 
@@ -84,7 +87,7 @@ void LevelEditor::InitButtons()
 		,EditorButton{"Trap",		ButtonType::kCharacterChanger, ObjectChar::kTrap	}
 		,EditorButton{"Vert Enemy", ButtonType::kCharacterChanger, ObjectChar::kVerticalEnemy	}
 		,EditorButton{"Horz Enemy", ButtonType::kCharacterChanger, ObjectChar::kHorizontalEnemy	}
-		//,EditorButton{"Rand Enemy", ButtonType::kCharacterChanger, ObjectChar::kRandomEnemy	}
+		,EditorButton{"Rand Enemy", ButtonType::kCharacterChanger, ObjectChar::kRandomEnemy	}
 		,EditorButton{"Exit",		ButtonType::kCharacterChanger, ObjectChar::kExit	}
 		,EditorButton{"Player",		ButtonType::kCharacterChanger, ObjectChar::kPlayer	}
 	});
@@ -377,13 +380,12 @@ void LevelEditor::Print() const
 		{
 			if (!m_inLevel and (m_cursorLocation.x == x and m_cursorLocation.y == y))
 			{
-				ConsoleManip::ChangeConsoleColour(CONSOLE_RED);
-				m_allButtons[y][x].Draw();
-				ConsoleManip::ChangeConsoleColour(CONSOLE_WHITE);
-				std::cout << " | ";
-				continue;
+				m_allButtons[y][x].DrawSelected();
 			}
-			m_allButtons[y][x].Draw();
+			else
+			{
+				m_allButtons[y][x].Draw();
+			}
 			std::cout << " | ";
 		}
 		std::cout << '\n';
@@ -393,14 +395,11 @@ void LevelEditor::Print() const
 	{
 		for (int x = 0; x < m_levelWidth; ++x)
 		{
-			if (m_inLevel and (m_cursorLocation.x == x and m_cursorLocation.y == y) )
-			{
-				ConsoleManip::ChangeConsoleColour(CONSOLE_RED);
-				std::cout << m_ppLevelArray[y][x] << ' ';
-				ConsoleManip::ChangeConsoleColour(CONSOLE_WHITE);
-				continue;
-			}
-			std::cout << m_ppLevelArray[y][x] << ' ';
+			if (m_inLevel and (m_cursorLocation.x == x and m_cursorLocation.y == y))
+				ConsoleManip::DrawToConsole((m_ppLevelArray[y][x]), CONSOLE_RED);
+			else
+				ConsoleManip::DrawToConsole((m_ppLevelArray[y][x]));
+			std::cout << ' ';
 		}
 		std::cout << '\n';
 	}

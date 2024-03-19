@@ -6,4 +6,5 @@ enum class Direction
 	kDown = 's',
 	kRight = 'd',
 	kLeft = 'a',
+	kCount = 4,
 };

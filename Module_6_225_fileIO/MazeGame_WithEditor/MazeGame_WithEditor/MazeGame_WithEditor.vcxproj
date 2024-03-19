@@ -105,6 +105,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,7 +129,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Editor\ConsoleManip.h" />
     <ClInclude Include="Editor\Coordinate.h" />
     <ClInclude Include="Editor\LevelEditor.h" />
     <ClInclude Include="Maze_Game\Directions.h" />
@@ -139,12 +139,15 @@
     <ClInclude Include="Maze_Game\Map.h" />
     <ClInclude Include="Maze_Game\MapTiles.h" />
     <ClInclude Include="Maze_Game\MazeGame.h" />
+    <ClInclude Include="Maze_Game\ObjectMover.h" />
     <ClInclude Include="Maze_Game\Player.h" />
     <ClInclude Include="Maze_Game\Vector2.h" />
+    <ClInclude Include="SharedGameFiles\ConsoleManip.h" />
     <ClInclude Include="SharedGameFiles\GameCharacterInfo.h" />
     <ClInclude Include="SharedGameFiles\MapFileLoader.h" />
     <ClInclude Include="SharedGameFiles\MazeGameMenuSystem.h" />
     <ClInclude Include="SharedGameFiles\Prompting.h" />
+    <ClInclude Include="SharedGameFiles\Timing.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Editor\LevelEditor.cpp" />
@@ -155,6 +158,7 @@
     <ClCompile Include="Maze_Game\Map.cpp" />
     <ClCompile Include="Maze_Game\MapTiles.cpp" />
     <ClCompile Include="Maze_Game\MazeGame.cpp" />
+    <ClCompile Include="Maze_Game\ObjectMover.cpp" />
     <ClCompile Include="Maze_Game\Player.cpp" />
     <ClCompile Include="SharedGameFiles\main.cpp" />
     <ClCompile Include="SharedGameFiles\MapFileLoader.cpp" />

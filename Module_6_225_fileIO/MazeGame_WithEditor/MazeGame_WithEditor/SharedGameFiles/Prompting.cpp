@@ -36,9 +36,9 @@ char PromptAndGetChar(const std::string& prompt, std::initializer_list<char> cha
 	{
 		PrintPrompt(prompt);
 		input = (char)tolower(_getch());
-		for (auto it = charList.begin(); it != charList.end(); ++it)
+		for (auto& it : charList )
 		{
-			if (input == tolower(*it))
+			if (input == tolower(it))
 				return input;
 		}
 	}

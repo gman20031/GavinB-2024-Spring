@@ -1,6 +1,7 @@
 #pragma once
 #include "Coordinate.h"
 #include "../SharedGameFiles/GameCharacterInfo.h"
+#include "../SharedGameFiles/ConsoleManip.h"
 
 #include <vector>
 #include <string>
@@ -31,6 +32,7 @@ class LevelEditor;
 class EditorButton
 {
 private:
+	static constexpr int m_selectedColour = CONSOLE_RED;
 	std::string m_name;
 	ButtonType m_type;
 	ObjectChar m_charChanger;
@@ -45,12 +47,14 @@ public:
 	void Interact(LevelEditor* editor) const;
 
 	void Draw() const;
+	void DrawSelected() const;
 };
 
 class LevelEditor
 {
 	friend class EditorButton;
 private:
+	static constexpr int m_selectedColour = CONSOLE_RED;
 	static constexpr ObjectChar kDefaultChar = ObjectChar::kWall;
 	bool m_keepEditing;
 	bool m_inLevel;

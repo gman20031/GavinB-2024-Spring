@@ -1,41 +1,37 @@
 #include "Enemies.h"
 #include "Map.h"
 
-void HorizontalEnemy::Collide(Entity* collidedEntity)
-{
-	if (collidedEntity->IsPlayer())
-	{
-		m_pCurrentMap->Reset();
-	}
-}
-
-void VerticalEnemy::Collide(Entity* collidedEntity)
-{
-	if (collidedEntity->IsPlayer())
-	{
-		m_pCurrentMap->Reset();
-	}
-}
-
 HorizontalEnemy::HorizontalEnemy()
-	: Entity()
+	: Entity(s_displayCharacter)
 	, m_currentDirection{ Direction::kRight }
-{}
+{
+}
+
+RandEnemy::RandEnemy()
+	: Entity(s_displayCharacter)
+	, m_currentDirection{ Direction::kCount }
+{
+}
 
 VerticalEnemy::VerticalEnemy()
-	: Entity()
+	: Entity(s_displayCharacter)
 	, m_currentDirection{ Direction::kDown }
-{}
+{
+}
 
 void HorizontalEnemy::Update()
 {
-	MoveOnMap(m_pCurrentMap,m_currentDirection,this);
+ 	s_objectMover.MoveOnMap(m_pCurrentMap,m_currentDirection,this);
 }
-
 
 void VerticalEnemy::Update()
 {
-	MoveOnMap(m_pCurrentMap, m_currentDirection, this);
+	s_objectMover.MoveOnMap(m_pCurrentMap, m_currentDirection, this);
+}
+
+void RandEnemy::Update()
+{
+	s_objectMover.MoveRandom(this);
 }
 
 static Direction ReverseDirection(Direction direction)
@@ -53,11 +49,15 @@ static Direction ReverseDirection(Direction direction)
 void HorizontalEnemy::HitWall()
 {
 	m_currentDirection = ReverseDirection(m_currentDirection);
-
 }
 
 void VerticalEnemy::HitWall()
 {
 	m_currentDirection = ReverseDirection(m_currentDirection);
-
 }
+
+void RandEnemy::HitWall()
+{
+	return;
+}
+

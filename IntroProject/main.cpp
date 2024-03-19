@@ -3,21 +3,18 @@
 #include <conio.h>
 #include <cstdarg>
 
-char InitLISTPromptAndGetChar(const std::string& prompt, std::initializer_list<char> charList)
-{
-	std::cout << prompt << '\n';
-	for (auto it = charList.begin(); it != charList.end(); ++it)
-	{
-		std::cout << *it << '\n';
-	}
-	return '0';
-}
-
 
 int main()
 {
+	srand(0);
+	int directionInteger;
 
-	InitLISTPromptAndGetChar("hello", { 'a', 'b' });
+	for(int i = 0 ; i< 100 ; ++i)
+	{
+		directionInteger = rand() % (4);
+		std::cout << directionInteger <<'\n';
+	}
+
 
 	return 0;
 

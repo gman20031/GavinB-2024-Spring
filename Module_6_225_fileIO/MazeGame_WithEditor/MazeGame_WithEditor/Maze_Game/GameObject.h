@@ -1,48 +1,35 @@
 #pragma once
 
 #include <functional>
+#include <iostream>
 
 #include "Vector2.h"
-#include "iostream"
+#include "../SharedGameFiles/GameCharacterInfo.h"
 
-class Map;
 
-enum class ObjectCharacter
-{
-	kBase = '\0',
-	kWall = '#',
-	kExit = 'X',
-	kEmpty = '.',
-	kPlayer = '@',
-	kTrap = '0',
-	kHorizontalEnemy = '-',
-	kVerticalEnemy = '|',
-};
+typedef ObjectChar GameObjectType;
 
-#define CREATE_CHAR_DRAW(_ObjectCharacter)									\
-	public:																	\
-	static constexpr ObjectCharacter m_displayCharacter = _ObjectCharacter;	\
-	virtual void Draw() override											\
-	{ 																		\
-		std::cout << static_cast<char>(m_displayCharacter);					\
-	}																		\
+#define CREATE_CHAR(_ObjectCharacter)											    \
+	public:																			\
+	inline static constexpr GameObjectType s_displayCharacter = _ObjectCharacter;	\
 	private:
 
-
 class Entity;
+class Map;
 
 class GameObject
 {
 protected:
+	GameObjectType m_displayCharacter = GameObjectType::kBase;
 	Vector2 m_position;
 	Map* m_pCurrentMap ;
 
+	void SetDisplayChar(GameObjectType newChar) { m_displayCharacter = newChar; }
 
 public:
-	inline static constexpr ObjectCharacter m_displayCharacter = ObjectCharacter::kBase;
-	//virtual ObjectCharacter GetType() = 0;
+	inline static constexpr GameObjectType s_displayCharacter = GameObjectType::kBase;
 
-	GameObject();
+	GameObject(GameObjectType newType);
 	virtual ~GameObject() = default;
 
 	Vector2 GetPosition() const;
@@ -51,8 +38,8 @@ public:
 	Map* GetMapPointer();
 	bool SetCurrentMapPointer(Map* newMap);
 
+	void Draw();
 	virtual void Collide(Entity* collidedEntity) = 0;
-	virtual void Draw() = 0;
 	virtual void Update() {};
 	virtual bool IsPlayer() { return false; }
 };

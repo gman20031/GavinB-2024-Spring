@@ -23,7 +23,8 @@ static std::tuple<
 	GameObjectFactory::Registrar<ExitTile>,
 
 	GameObjectFactory::Registrar<HorizontalEnemy>,
-	GameObjectFactory::Registrar<VerticalEnemy>> registrar;
+	GameObjectFactory::Registrar<VerticalEnemy>,
+	GameObjectFactory::Registrar<RandEnemy>> registrar;
 
 /*
 	kWall
@@ -33,4 +34,5 @@ static std::tuple<
 	kTrap
 	kHorizontalEnemy
 	kVerticalEnemy
+	kRandEnemy
 */

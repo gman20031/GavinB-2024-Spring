@@ -1,11 +1,15 @@
 #include "GameObject.h"
+#include "../SharedGameFiles/ConsoleManip.h"
 
 #include "Map.h"
 
-GameObject::GameObject()
+GameObject::GameObject(GameObjectType newType = GameObjectType::kBase)
 	: m_position{ 0,0 }
 	, m_pCurrentMap{ nullptr }
-{}
+	, m_displayCharacter(newType)
+{
+
+}
 
 
 /////////////////////////////////////////////////////////////
@@ -31,4 +35,9 @@ bool GameObject::SetCurrentMapPointer(Map* newMap)
 {
 	m_pCurrentMap = newMap;
 	return true;
+}
+
+void GameObject::Draw()
+{
+	ConsoleManip::DrawToConsole((char)m_displayCharacter);
 }

@@ -10,15 +10,12 @@ void Player::Collide(Entity* collidedEntity)
 	return;
 }
 
- 
 /////////////////////////////////////////////////////////
 /// Character movement
 /////////////////////////////////////////////////////////
 void Player::Update()
 {
-	char input = (char)_getch();
-
-	MoveOnMap(m_pCurrentMap, static_cast<Direction>(input), this);
+	s_objectMover.MovePlayer(this);
 }
 
 

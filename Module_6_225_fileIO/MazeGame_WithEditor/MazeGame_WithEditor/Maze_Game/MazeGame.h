@@ -5,7 +5,6 @@
 
 #include "Map.h"
 #include "Player.h"
-#include "GameObject.h"
 
 class MazeGame
 {

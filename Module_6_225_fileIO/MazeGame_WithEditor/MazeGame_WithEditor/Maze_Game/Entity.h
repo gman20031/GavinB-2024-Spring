@@ -1,16 +1,18 @@
 #pragma once
+
 #include "GameObject.h"
 #include "Directions.h"
+#include "ObjectMover.h"
 
 class Entity : public GameObject
 {
 protected:
-	Vector2 GetNextPosition(Direction direction, Vector2 currentPosition) const;
-	bool MoveOnMap(Map* currentMap, Direction direction, Entity* entity);
+	friend class ObjectMover;
+	inline static ObjectMover s_objectMover;
 
 public:
-	Entity() : GameObject() {}
+	Entity(GameObjectType newType) : GameObject(newType) {}
 
-
-	virtual void HitWall() {};
+	virtual void Collide(Entity* collidedEntity) override;
+	virtual void HitWall() {}
 };

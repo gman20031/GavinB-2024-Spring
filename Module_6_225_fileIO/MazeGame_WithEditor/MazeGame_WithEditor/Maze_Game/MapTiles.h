@@ -12,40 +12,40 @@
 class EmptyTile: public GameObject
 {
 public:
-	CREATE_CHAR_DRAW(ObjectCharacter::kEmpty)
+	CREATE_CHAR(GameObjectType::kEmpty)
 private:
 	virtual void Collide(Entity* collidedEntity) override;
 public:
-	EmptyTile() : GameObject() {}
+	EmptyTile() : GameObject(s_displayCharacter) {}
 };
 
 class TrapTile : public GameObject
 {
 public:
-	CREATE_CHAR_DRAW(ObjectCharacter::kTrap)
+	CREATE_CHAR(GameObjectType::kTrap)
 private:
 	virtual void Collide(Entity* collidedEntity) override;
 public:
-	TrapTile() : GameObject() {}
+	TrapTile() : GameObject(s_displayCharacter) {}
 };
 
 class ExitTile : public GameObject
 {
 public:
-	CREATE_CHAR_DRAW(ObjectCharacter::kExit)
+	CREATE_CHAR(GameObjectType::kExit)
 private:
 	virtual void Collide(Entity* collidedEntity) override;
 public:
-	ExitTile() : GameObject() {}
+	ExitTile() : GameObject(s_displayCharacter) {}
 };
 
 class WallTile : public GameObject
 {
 public:
-	CREATE_CHAR_DRAW(ObjectCharacter::kWall)
+	CREATE_CHAR(GameObjectType::kWall)
 private:
 	virtual void Collide(Entity* collidedEntity) override;
 public:
-	WallTile() : GameObject() {}
+	WallTile() : GameObject(s_displayCharacter) {}
 };
 

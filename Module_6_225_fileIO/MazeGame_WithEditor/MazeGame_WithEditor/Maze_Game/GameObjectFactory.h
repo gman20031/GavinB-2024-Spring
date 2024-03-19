@@ -1,9 +1,10 @@
 #pragma once
 
 #include "GameObject.h"
+#include "../SharedGameFiles/GameCharacterInfo.h"
 
 using GameObjectPtr = std::shared_ptr<GameObject>;
-using GameObjectFactoryKey = ObjectCharacter;
+using GameObjectFactoryKey = ObjectChar;
 typedef GameObjectPtr(*GameObjectFactoryFunction)();
 
 class GameObjectFactory
@@ -23,7 +24,7 @@ public:
 	public:
 		Registrar()
 		{
-			GetFactoryFunctionRegister().emplace(Type::m_displayCharacter, &Registrar::Create);
+			GetFactoryFunctionRegister().emplace(Type::s_displayCharacter, &Registrar::Create);
 		}
 	private:
 		static GameObjectPtr Create() { return std::make_shared<Type>(); }

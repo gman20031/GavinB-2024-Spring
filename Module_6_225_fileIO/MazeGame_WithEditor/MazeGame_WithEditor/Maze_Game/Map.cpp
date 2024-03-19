@@ -43,11 +43,11 @@ bool Map::FillMapVectorFromCString(char* mapCString)
 
 void Map::EmplaceBackAndFill(char arrayCharacter, Vector2 mapVectorPosition)
 {
-#define CreateObject(index) GameObjectFactory::Create(static_cast<ObjectCharacter>(index))
+#define CreateObject(index) GameObjectFactory::Create(static_cast<GameObjectType>(index))
 	int x = mapVectorPosition.x;
 	int y = mapVectorPosition.y;
 
-	if (static_cast<ObjectCharacter>(arrayCharacter) == ObjectCharacter::kPlayer)
+	if (static_cast<GameObjectType>(arrayCharacter) == GameObjectType::kPlayer)
 	{
 		m_playerCharacter = std::make_shared<Player>();
 		m_mapVector.at(y).emplace_back(m_playerCharacter);
@@ -114,7 +114,8 @@ void Map::Draw()
 	{
 		for (size_t x = 0; x < m_mapWidth; ++x)
 		{
-			m_mapVector.at(y).at(x)->Draw();
+			auto& object = m_mapVector.at(y).at(x);
+			object->Draw();
 			std::cout << ' ';
 		}
 		std::cout << '\n';
