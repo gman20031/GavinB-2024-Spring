@@ -39,6 +39,10 @@ bool ObjectMover::MoveOnMap(Map* currentMap, Direction direction, Entity* entity
 	return true;
 }
 
+
+////////////////////////////////////////////////////////////////////////
+// Runs the logic for moving the player
+////////////////////////////////////////////////////////////////////////
 bool ObjectMover::MovePlayer(Entity* entity) const
 {
 	char input = (char)_getch();
@@ -47,6 +51,9 @@ bool ObjectMover::MovePlayer(Entity* entity) const
 	return true;
 }
 
+////////////////////////////////////////////////////////////////////////
+// Runs the logic for moving a entity randomly
+////////////////////////////////////////////////////////////////////////
 bool ObjectMover::MoveRandom(Entity* entity) const
 {
 	if (!Timing::SeedRandomWithTime())

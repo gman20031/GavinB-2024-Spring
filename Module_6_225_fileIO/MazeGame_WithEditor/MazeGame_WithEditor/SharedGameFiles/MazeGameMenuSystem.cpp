@@ -61,6 +61,8 @@ void MazeGameStartMenu::StartPlayingMenu()
 	PickMapToPlay();
 	m_game.Run();
 	m_game.ClearMaps();
+	delete m_currentMap;
+	m_currentMap = nullptr;
 }
 
 void MazeGameStartMenu::StartMazeGame()
