@@ -21,9 +21,15 @@
     <ClCompile Include="DotsAndBoxesGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ConsoleManip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DotsAndBoxesGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleManip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

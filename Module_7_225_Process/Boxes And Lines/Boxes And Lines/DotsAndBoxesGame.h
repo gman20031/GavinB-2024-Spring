@@ -1,20 +1,13 @@
 #pragma once
 
+#include "ConsoleManip.h"
 
 struct Position
 {
 	int x;
 	int y;
 };
-
-bool operator==(const Position& lhs, const Position& rhs)
-{
-	return(
-		lhs.x == rhs.x
-	and lhs.y == rhs.y
-	);
-}
-
+bool operator==(const Position& lhs, const Position& rhs);
 enum class Direction
 {
 	kUp = 'w',
@@ -26,46 +19,68 @@ enum class Direction
 //Box and Dots and box and dots and box and dots
 class DotsAndBoxesGame
 {
+	enum class GridCharacters
+	{
+		kVerticleLine = '|',
+		kHorizontalLine = '-',
+		kDot = '0',
+		kBox = ' ',
+	};
+	inline static const char s_kSelectedColor[] = VT_RED;
+	static constexpr char kInteractKey = 'e';
 	Position m_CursorPosition;
 
 	char** m_ppGameCharGrid;
-	int m_boardWidth;
-	int m_boardHeight;
+	int m_boardWidth= 0;
+	int m_boardHeight= 0;
+	int m_boxCount = 0;
 
-	bool m_keepRunning;
-	int m_playerCount;
-	int m_currentPlayer;
-	//Required tasks, 
-	//	5x5 board, playable by two players
-	void IntroSequence();
-	int AskInteger(int min, int max);
-	int AskInteger(int min);
-	bool AskNumberOfPlayers();
-	bool AskBoardSize();
-	//	Implement core game loop.
-	void Draw();//	Print board accurately
-	void DrawSelected(); // require windows.h
-	void ChangePlayer(int newPlayer);//	Allow players to take turns
-	void GetGameInput();
-	void HandleInput(int input);
+	bool m_keepRunning = true;
+	bool m_extraTurn = false;
+
+	int m_playerCount = 0;
+	int m_currentPlayer = 0;
+	int* m_pPlayerScores;
+
+
+	// printing
+	void Draw() const;//	Print board accurately
+	void DrawSelected(char outputChar) const; // require windows.h
+
+	// virtual cursor
 	void MoveCursor(Direction direction);
 	void SetCursor(Position newPosition);
-	void InteractPressed();//	Add lines
-	void AddLine(Position linePosition);
-	//Extra tasks
-	void Resize(int width, int height);//	Resizable boards
-	void ChangePlayers(int numberPlayers);//	More than two players
-	//	Game can finish
-	void CheckBoxCompletion(Position boxPostion);//	Checks when box is complete
-	void BoxCompleted();//	Checks who completed box
-	void GivePlayerPoint();//	Tracks points
-	bool NoBoxesRemaining();//	Check if game is done
 
+	// user input
+	void GetGameInput();
+	void HandleInput(int input);
+	void InteractPressed();
+	int AskInteger(int min, int max);
+	int AskInteger(int min); //overloaded for ease of use
+	bool AskNumberOfPlayers();
+	bool AskBoardSize();
+
+	// game board array manip
+	char GetArrayChar(Position position) const;
+	void AddLine(char type);
+	bool NoBoxesRemaining() const;//	Check if game is done
+	bool CheckBoxCompletion(Position boxPosition) const;//	Checks when box is complete
+	void BoxCompleted();//	Checks who completed box
+	
+	// Memory and cleanup
 	void ResetAll();
+	void Resize(int width, int height);//	Resizable boards
 	void ResetScore();
 	void DeleteGrid();
+	
+	// other game stuff
+	void IntroSequence();
+	void ConclusionSequence();
+	void ProcessPlayerScoring();
+
 public:
+	DotsAndBoxesGame(); 
 	~DotsAndBoxesGame(); // for destroying the heap allocated 2dArray
 
-	void Start();
+	bool Start();
 };

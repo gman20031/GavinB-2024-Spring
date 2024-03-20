@@ -1,9 +1,4 @@
 ﻿  DotsAndBoxesGame.cpp
   main.cpp
   Generating Code...
-D:\GavinB_REPO\GavinB-2024-Spring\Module_7_225_Process\Boxes And Lines\Boxes And Lines\DotsAndBoxesGame.cpp(55,9): error C2059: syntax error: '{'
-D:\GavinB_REPO\GavinB-2024-Spring\Module_7_225_Process\Boxes And Lines\Boxes And Lines\DotsAndBoxesGame.cpp(55,9): error C2143: syntax error: missing ';' before '{'
-D:\GavinB_REPO\GavinB-2024-Spring\Module_7_225_Process\Boxes And Lines\Boxes And Lines\DotsAndBoxesGame.cpp(55,13): error C2143: syntax error: missing ';' before '}'
-D:\GavinB_REPO\GavinB-2024-Spring\Module_7_225_Process\Boxes And Lines\Boxes And Lines\DotsAndBoxesGame.cpp(55,15): error C2059: syntax error: '=='
-D:\GavinB_REPO\GavinB-2024-Spring\Module_7_225_Process\Boxes And Lines\Boxes And Lines\DotsAndBoxesGame.cpp(55,35): error C2059: syntax error: ')'
-D:\GavinB_REPO\GavinB-2024-Spring\Module_7_225_Process\Boxes And Lines\Boxes And Lines\DotsAndBoxesGame.cpp(66,69): error C2677: binary '[': no global operator found which takes type 'Position' (or there is no acceptable conversion)
+  Boxes And Lines.vcxproj -> C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\Module_7_225_Process\Boxes And Lines\x64\Debug\Boxes And Lines.exe
