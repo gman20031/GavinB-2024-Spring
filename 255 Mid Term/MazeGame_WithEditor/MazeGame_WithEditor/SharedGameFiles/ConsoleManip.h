@@ -98,8 +98,6 @@
 107 	Bright Background White 	Applies bold/bright white to background
 */
 
-
-
 //https://vt100.net/docs/vt220-rm/chapter2.html#T2-4
 
 class ConsoleManip

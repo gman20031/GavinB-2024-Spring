@@ -44,6 +44,11 @@ class DotsAndBoxesGame
 	int* m_pPlayerScores;
 
 
+	// Memory and cleanup
+	void ResetAll();
+	void ResetScore();
+	void DeleteGrid();
+
 	// printing
 	void Draw() const;//	Print board accurately
 	void DrawSelected(char outputChar) const; // require windows.h
@@ -54,36 +59,36 @@ class DotsAndBoxesGame
 
 	// user input
 	void GetGameInput();
-	void HandleInput(int input);
 	void InteractPressed();
-	char CorrectCharacterAt(Position target);
 	int AskInteger(int min, int max);
-	int AskInteger(int min); //overloaded for ease of use
-	bool AskNumberOfPlayers();
-	bool AskBoardSize();
 
 	// game board array manip
-	char GetArrayChar(Position position) const;
-	bool PositionOutOfBound(Position position) const;
-	void AddLine(char type);
+	void Resize(int width, int height);//	Resizable boards
 	void CreateAndFillArray(int height, int width);
 	void FillDotRow(char* pRowArray, int width);
 	void FillBoxRow(char* pRowArray, int width);
-	bool NoBoxesRemaining() const;//	Check if game is done
-	bool CheckBoxCompletion(Position boxPosition) const;//	Checks when box is complete
-	void BoxCompleted(Position position);//	Checks who completed box
 	
-	// Memory and cleanup
-	void ResetAll();
-	void Resize(int width, int height);//	Resizable boards
-	void ResetScore();
-	void DeleteGrid();
-	
-	// other game stuff
-	void IntroSequence();
-	void ConclusionSequence();
+	bool IsPositionOutOfBound(Position position) const;
+	char GetArrayChar(Position position) const;
+
+	// high level game logic
+	void HandleInput(int input);
 	void GotoNextPlayer();
 	int FindWinnerIndex();
+
+	// low level game logic
+	void BoxCompleted(Position position);//	Checks who completed box
+	void AddLine(char type);
+	bool NoBoxesRemaining() const;//	Check if game is done
+	bool CheckBoxCompletion(Position boxPosition) const;//	Checks when box is complete
+	char FindLineType(Position target);
+
+	// Initalization
+	void IntroSequence();
+	void ConclusionSequence();
+	bool AskNumberOfPlayers();
+	bool AskBoardSize();
+
 public:
 	DotsAndBoxesGame(); 
 	~DotsAndBoxesGame(); // for destroying the heap allocated 2dArray
