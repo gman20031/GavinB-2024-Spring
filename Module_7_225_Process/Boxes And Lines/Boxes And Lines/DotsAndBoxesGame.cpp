@@ -1,6 +1,8 @@
 #include "DotsAndBoxesGame.h"
 
 #include <conio.h>
+#include <assert.h>
+#include <algorithm>
 
 #define PRINTLN(str) std::cout << str << '\n'
 
@@ -32,15 +34,20 @@ void DotsAndBoxesGame::Draw() const
 		{
 			if (Position{ x,y } == m_CursorPosition)
 				DrawSelected(m_ppGameCharGrid[y][x]);
-			std::cout << m_ppGameCharGrid[y][x];
+			else
+				std::cout << m_ppGameCharGrid[y][x];
 		}
+		std::cout << '\n';
 	}
-
+	PRINTLN("Current Player: " << (m_currentPlayer + 1));
 }
 
 void DotsAndBoxesGame::DrawSelected(char outputChar) const
 {
-	ConsoleManip::PrintInColor(outputChar, s_kSelectedColor);
+	
+	ConsoleManip::PrintInColor(outputChar, s_kSelectedBackColor);
+	//printf(VT_ESC "%c" VT_ESC VT_DEF, outputChar);
+
 }
 
 
@@ -51,13 +58,17 @@ void DotsAndBoxesGame::DrawSelected(char outputChar) const
 void DotsAndBoxesGame::MoveCursor(Direction direction)
 {
 	// Needed to ensure I dont leave the bounds of the game.
+	Position newPosition = m_CursorPosition;
 	switch (direction)
 	{
-	case Direction::kUp:	  m_CursorPosition.y -= 1; break;
-	case Direction::kDown:  m_CursorPosition.y += 1; break;
-	case Direction::kRight: m_CursorPosition.x += 1; break;
-	case Direction::kLeft:  m_CursorPosition.x -= 1; break;
+	case Direction::kUp:	newPosition.y -= 1; break;
+	case Direction::kDown:  newPosition.y += 1; break;
+	case Direction::kRight: newPosition.x += 1; break;
+	case Direction::kLeft:  newPosition.x -= 1; break;
 	}
+	newPosition.y = std::clamp(newPosition.y, 0, m_boardHeight-1);
+	newPosition.x = std::clamp(newPosition.x, 0, m_boardWidth-1);
+	m_CursorPosition = newPosition;
 }
 
 
@@ -130,13 +141,40 @@ bool DotsAndBoxesGame::AskBoardSize()
 
 void DotsAndBoxesGame::InteractPressed()
 {
-	using enum GridCharacters;
-	switch (GetArrayChar(m_CursorPosition))
+	using enum GridCharacter;
+	if (GetArrayChar(m_CursorPosition) == (char)kBox)
 	{
-	case (char)kVerticleLine:	AddLine((char)kVerticleLine); break;
-	case (char)kHorizontalLine:	AddLine((char)kHorizontalLine); break;
-	default: return;
+		switch (CorrectCharacterAt(m_CursorPosition))
+		{
+		case (char)kVerticleLine:	AddLine((char)kVerticleLine); break;
+		case (char)kHorizontalLine:	AddLine((char)kHorizontalLine); break;
+		default: return;
+		}
 	}
+}
+
+char DotsAndBoxesGame::CorrectCharacterAt(Position target)
+{
+	using enum GridCharacter;
+	bool horizontal = false;
+	bool vertical = false;
+
+	if (GetArrayChar(target) != ' ')
+		return GetArrayChar(target);
+
+	if(GetArrayChar(Position{ target.y, target.x + 1 }) == (char)kDot
+	or GetArrayChar(Position{ target.y, target.x - 1 }) == (char)kDot)
+		horizontal = true;
+
+	if(GetArrayChar(Position{ target.y - 1,target.x  }) == (char)kDot 
+	or GetArrayChar(Position{ target.y + 1,target.x  }) == (char)kDot)
+		vertical = true;
+
+	if (horizontal)
+		return (char)kHorizontalLine;
+	if (vertical)
+		return (char)kVerticleLine;
+	return '\0';
 }
 
 //--------------------------------------------
@@ -145,35 +183,109 @@ void DotsAndBoxesGame::InteractPressed()
 
 static void FillCardinalDirections(Position start, Position cardinalDirections[4])
 {
-	cardinalDirections[0] = Position{ start.y, start.x + 1 };
-	cardinalDirections[1] = Position{ start.y,start.x - 1 };
-	cardinalDirections[2] = Position{ start.y - 1,start.x };
-	cardinalDirections[3] = Position{ start.y + 1,start.x };
+	cardinalDirections[0] = Position{ start.x,    start.y + 1 };
+	cardinalDirections[1] = Position{ start.x,    start.y - 1 };
+	cardinalDirections[2] = Position{ start.x - 1,start.y };
+	cardinalDirections[3] = Position{ start.x + 1,start.y };
 }
 
 char DotsAndBoxesGame::GetArrayChar(Position position) const
 {
+	if(PositionOutOfBound(position) ) 
+		return ('\0');
 	return m_ppGameCharGrid[position.y][position.x];
+}
+
+bool DotsAndBoxesGame::PositionOutOfBound(Position position) const
+{
+	return (
+		position.x >= m_boardWidth
+	or	position.x < 0
+	or	position.y >= m_boardHeight
+	or  position.y < 0
+	);
 }
 
 void DotsAndBoxesGame::AddLine(char type)
 {
-	using enum GridCharacters;
+	using enum GridCharacter;
 	int xPos = m_CursorPosition.x;
 	int yPos = m_CursorPosition.y;
 
 	m_ppGameCharGrid[yPos][xPos] = type;
+	m_turnFinished = true;
 
 	Position CardinalDirections[4];
 	FillCardinalDirections(m_CursorPosition, CardinalDirections);
 	for (auto& position : CardinalDirections)
 	{
-		if (CheckBoxCompletion(position))
+		if (PositionOutOfBound(position))
+			continue;
+		if(GetArrayChar(position) == (char)kBox)
 		{
-			ProcessPlayerScoring();
-			m_ppGameCharGrid[position.y][position.x] = (char)m_currentPlayer;
-		}	
+			if (CheckBoxCompletion(position))
+			{
+				BoxCompleted(position);
+			}
+		}
 	}
+}
+
+void DotsAndBoxesGame::FillDotRow(char* pRowArray, int width)
+{
+	using enum GridCharacter;
+	for (size_t i = 0; i < width; ++i)
+	{
+		if (i == width - 1)
+		{
+			pRowArray[i] = (char)kDot;
+			continue;
+		}
+		pRowArray[i] = (char)kDot;
+		++i;
+		pRowArray[i] = ' ';
+	}
+	pRowArray[width] = '\0';
+}
+
+void DotsAndBoxesGame::FillBoxRow(char* pRowArray, int width)
+{
+	using enum GridCharacter;
+	for (size_t i = 0; i < width; ++i)
+	{
+		if (i == width - 1)
+		{
+			pRowArray[i] = ' ';
+			continue;
+		}
+		pRowArray[i] = (char)kBox;
+		++m_boxCount;
+		++i;
+		pRowArray[i] = ' ';
+	}
+	pRowArray[width] = '\0';
+}
+void DotsAndBoxesGame::CreateAndFillArray(int height, int width)
+{
+	int newWidth = (width * 2) - 1;
+	int newHeight = (height * 2) - 1;
+
+	Resize(newWidth + 1, newHeight + 1);
+
+	for (int y = 0; y < newHeight; ++y)
+	{
+		if (y == newHeight-1)
+		{
+			FillDotRow(m_ppGameCharGrid[y], newWidth);
+			continue;
+		}
+		FillDotRow(m_ppGameCharGrid[y], newWidth);
+		++y;
+		FillBoxRow(m_ppGameCharGrid[y], newWidth);
+
+	}
+	m_boardWidth = newWidth;
+	m_boardHeight = newHeight;
 }
 
 bool DotsAndBoxesGame::NoBoxesRemaining() const
@@ -183,38 +295,41 @@ bool DotsAndBoxesGame::NoBoxesRemaining() const
 
 bool DotsAndBoxesGame::CheckBoxCompletion(Position boxPosition) const
 {
-	using enum GridCharacters;
-	int xPos = boxPosition.x;
-	int yPos = boxPosition.y;
+	using enum GridCharacter;
+
 	int count = 0;
 
-	/*
+	
 	Position CardinalDirections[4];
-	FillCardinalDirections(m_CursorPosition, CardinalDirections);
+	FillCardinalDirections(boxPosition, CardinalDirections);
 	for (auto& position : CardinalDirections)
 	{
-		if ( at(position) == (char)kVerticleLine
-		  or at(position) == (char)kHorizontalLine)
+		if(PositionOutOfBound(position) )
+			continue;
+		if ( GetArrayChar(position) == (char)kVerticleLine
+		  or GetArrayChar(position) == (char)kHorizontalLine)
 			++count;
 	}
-	*/
-
-	// for all cardinal directions
-	if (GetArrayChar( { xPos + 1,yPos } ) == (char)kVerticleLine
-	or	GetArrayChar( { xPos - 1,yPos } ) == (char)kVerticleLine
-	or	GetArrayChar( { xPos,yPos + 1 } ) == (char)kHorizontalLine
-	or	GetArrayChar( { xPos,yPos - 1 } ) == (char)kHorizontalLine)
-		++count;
+	
+	//int xPos = boxPosition.x;
+	//int yPos = boxPosition.y;
+	//// for all cardinal directions
+	//if (GetArrayChar( { xPos + 1,yPos } ) == (char)kVerticleLine
+	//or	GetArrayChar( { xPos - 1,yPos } ) == (char)kVerticleLine
+	//or	GetArrayChar( { xPos,yPos + 1 } ) == (char)kHorizontalLine
+	//or	GetArrayChar( { xPos,yPos - 1 } ) == (char)kHorizontalLine)
+	//	++count;
 
 
 	// Boxes have four lines
 	return (count == 4);
 }
 
-void DotsAndBoxesGame::BoxCompleted()
+void DotsAndBoxesGame::BoxCompleted(Position position)
 {
-	m_extraTurn = true;
-	++m_pPlayerScores[m_currentPlayer];
+	m_ppGameCharGrid[position.y][position.x] = ((char)m_currentPlayer + '1');
+	++(m_pPlayerScores[m_currentPlayer]);
+	m_turnFinished = false;
 	--m_boxCount;
 }
 
@@ -236,6 +351,7 @@ void DotsAndBoxesGame::Resize(int width, int height)
 
 	for (int y = 0; y < height; ++y)
 	{
+		assert(m_ppGameCharGrid != nullptr);
 		m_ppGameCharGrid[y] = (char*)(calloc(width, sizeof(char)));
 	}
 }
@@ -248,6 +364,8 @@ void DotsAndBoxesGame::ResetScore()
 
 void DotsAndBoxesGame::DeleteGrid()
 {
+	if (m_ppGameCharGrid == nullptr)
+		return;
 	for (int y = 0; y < m_boardHeight; ++y)
 	{
 		free(m_ppGameCharGrid[y]);
@@ -260,6 +378,7 @@ void DotsAndBoxesGame::DeleteGrid()
 DotsAndBoxesGame::~DotsAndBoxesGame()
 {
 	DeleteGrid();
+	delete m_pPlayerScores;
 }
 
 //--------------------------------------------
@@ -269,40 +388,52 @@ DotsAndBoxesGame::~DotsAndBoxesGame()
 void DotsAndBoxesGame::IntroSequence()
 {
 	PRINTLN("Welcome to dots and boxes\n"
-		  <<"W A S D moves the cursor, press e to place your line\n"
-		  <<"Please enjoy\n");
+		<< "W A S D moves the cursor, press e to place your line\n"
+		<< "Please enjoy\n");
 	system("pause");
 	AskNumberOfPlayers();
 	AskBoardSize();
+	m_pPlayerScores = new int[m_playerCount];
+	ResetScore();
+	CreateAndFillArray(m_boardWidth, m_boardHeight);
 }
 
-void InsertionSort(int* sortedArray, int arrayLength)
+int DotsAndBoxesGame::FindWinnerIndex()
 {
-	for (int* it = sortedArray + 1; it < sortedArray + arrayLength; ++it)
+	int highscore = 0;
+	int winningPlayer = 0;
+	for (int i = 0; i < m_playerCount; ++i)
 	{
-		// compare current integer selected to all earlier integers
-		for (int* subIt = it; subIt > sortedArray; --subIt)
+		if (m_pPlayerScores[i] > highscore)
 		{
-			if (*(subIt) < *(subIt - 1))
-			{
-				int temp = *subIt;
-				*(subIt) = *(subIt - 1);
-				*(subIt - 1) = temp;
-			}
+			highscore = m_pPlayerScores[i];
+			winningPlayer = i;
 		}
 	}
+	return winningPlayer;
 }
 
 void DotsAndBoxesGame::ConclusionSequence()
 {
-	PRINTLN("the map is full");
+	PRINTLN("Game finished");
+	system("pause");
+	system("cls");
+	int winner = FindWinnerIndex();
+	PRINTLN("Player :" << (winner + 1) << " won with " << m_pPlayerScores[winner]);
+	PRINTLN("Play again?");
 	// idk
 }
 
-void DotsAndBoxesGame::ProcessPlayerScoring()
+void DotsAndBoxesGame::GotoNextPlayer()
 {
-	++m_pPlayerScores[m_currentPlayer];
-	m_extraTurn = true;
+	PRINTLN("Turn complete");
+	m_turnFinished = false;
+	if (m_currentPlayer == m_playerCount - 1)
+		m_currentPlayer = 0;
+	else
+		++m_currentPlayer;
+	PRINTLN("New player:" << (m_currentPlayer + 1));
+	system("pause");
 }
 
 bool DotsAndBoxesGame::Start()
@@ -310,23 +441,16 @@ bool DotsAndBoxesGame::Start()
 	ConsoleManip::EnableVTMode();
 	ConsoleManip::ChangeConsoleTitle("Dots And Boxes");
 
-	// intro
-		// how many players
-		// size of grid
-	// process player input
-	// check if games complete
-	// print winner
-	// ask to play again
-
 	IntroSequence();
 	while (m_keepRunning)
 	{
+		system("cls");
 		Draw();
-		GetGameInput();
 		if (NoBoxesRemaining())
-		{
 			ConclusionSequence();
-		}
+		GetGameInput();
+		if (m_turnFinished)
+			GotoNextPlayer();
 	}
 	return true;
 }

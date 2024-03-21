@@ -19,14 +19,15 @@ enum class Direction
 //Box and Dots and box and dots and box and dots
 class DotsAndBoxesGame
 {
-	enum class GridCharacters
+	enum class GridCharacter
 	{
 		kVerticleLine = '|',
 		kHorizontalLine = '-',
-		kDot = '0',
+		kDot = 'O',
 		kBox = ' ',
 	};
 	inline static const char s_kSelectedColor[] = VT_RED;
+	inline static const char s_kSelectedBackColor[] = "41m";
 	static constexpr char kInteractKey = 'e';
 	Position m_CursorPosition;
 
@@ -36,7 +37,7 @@ class DotsAndBoxesGame
 	int m_boxCount = 0;
 
 	bool m_keepRunning = true;
-	bool m_extraTurn = false;
+	bool m_turnFinished = false;
 
 	int m_playerCount = 0;
 	int m_currentPlayer = 0;
@@ -55,6 +56,7 @@ class DotsAndBoxesGame
 	void GetGameInput();
 	void HandleInput(int input);
 	void InteractPressed();
+	char CorrectCharacterAt(Position target);
 	int AskInteger(int min, int max);
 	int AskInteger(int min); //overloaded for ease of use
 	bool AskNumberOfPlayers();
@@ -62,10 +64,14 @@ class DotsAndBoxesGame
 
 	// game board array manip
 	char GetArrayChar(Position position) const;
+	bool PositionOutOfBound(Position position) const;
 	void AddLine(char type);
+	void CreateAndFillArray(int height, int width);
+	void FillDotRow(char* pRowArray, int width);
+	void FillBoxRow(char* pRowArray, int width);
 	bool NoBoxesRemaining() const;//	Check if game is done
 	bool CheckBoxCompletion(Position boxPosition) const;//	Checks when box is complete
-	void BoxCompleted();//	Checks who completed box
+	void BoxCompleted(Position position);//	Checks who completed box
 	
 	// Memory and cleanup
 	void ResetAll();
@@ -76,8 +82,8 @@ class DotsAndBoxesGame
 	// other game stuff
 	void IntroSequence();
 	void ConclusionSequence();
-	void ProcessPlayerScoring();
-
+	void GotoNextPlayer();
+	int FindWinnerIndex();
 public:
 	DotsAndBoxesGame(); 
 	~DotsAndBoxesGame(); // for destroying the heap allocated 2dArray
