@@ -8,17 +8,15 @@
 #include <filesystem>
 #include <vector>
 
-//static void ResetCin()
-//{
-//	std::cin.clear();
-//	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-//}
 
 static void PrintPrompt(const std::string& prompt)
 {
 	std::cout << prompt << '\n';
 }
 
+/////////////////////////////////////////////////////////////////////
+// Prints the given string then gets returns input string from user
+/////////////////////////////////////////////////////////////////////
 std::string PromptAndGetString(const std::string& prompt)
 {
 	std::string input = "NULL";
@@ -29,6 +27,10 @@ std::string PromptAndGetString(const std::string& prompt)
 	return input;
 }
 
+/////////////////////////////////////////////////////////////////////
+// Prints the prompt, then returns the next input from user matching
+// the listed characters
+/////////////////////////////////////////////////////////////////////
 char PromptAndGetChar(const std::string& prompt, std::initializer_list<char> charList)
 {
 	char input;
@@ -44,6 +46,10 @@ char PromptAndGetChar(const std::string& prompt, std::initializer_list<char> cha
 	}
 }
 
+/////////////////////////////////////////////////////////////////////
+// Prints the prompt, then returns the next input from user between
+// the minimum and maximum values
+/////////////////////////////////////////////////////////////////////
 int PromptAndGetInteger(const std::string& prompt, int min, int max)
 {
 	int input = 0;
@@ -56,7 +62,11 @@ int PromptAndGetInteger(const std::string& prompt, int min, int max)
 	}
 }
 
-//returns empty if file directory empty
+/////////////////////////////////////////////////////////////////////
+// Prints out every file in the directory with numbers attached
+// then asks user to pick one by typing a number
+// returns the file the user specified
+/////////////////////////////////////////////////////////////////////
 std::string ChooseFromFileDirectory(const std::string& directoryPath)
 {
 	std::vector<std::string> allCurrentFiles;
@@ -78,6 +88,16 @@ std::string ChooseFromFileDirectory(const std::string& directoryPath)
 	}
 	return chosenFile;
 
+}
+
+/////////////////////////////////////////////////////////////////////
+// Prints "press any key to continue..\n" then waits for user input
+// input is then ignored and function closes.
+/////////////////////////////////////////////////////////////////////
+void Pause()
+{
+	std::cout << "press any key to continue..\n";
+	int temp = _getch();
 }
 
 //GetString(number of words wanted)

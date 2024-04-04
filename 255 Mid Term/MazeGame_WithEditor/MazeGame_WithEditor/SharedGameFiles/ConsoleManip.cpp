@@ -6,37 +6,51 @@ bool& ConsoleManip::VTEnabled()
 	return vtEnabled;
 }
 
-void ConsoleManip::ChangeConsoleColour(int newColour)
+/////////////////////////////////////////////////////////////////////
+// Changes console color to the value specified
+// TEXT_RGB macro to specify RGB values
+/////////////////////////////////////////////////////////////////////
+void ConsoleManip::ChangeConsoleColour(const char* newColour)
 {
-	SetConsoleTextAttribute(s_outputHandle, static_cast<WORD>(newColour));
+	printf(VT_ESC "%s" , newColour);
 }
 
-void ClearConsole()
+/////////////////////////////////////////////////////////////////////
+// Replaces console with ' ' characters, then places cursor at 1,1
+/////////////////////////////////////////////////////////////////////
+void ConsoleManip::ClearConsole()
 {
-	printf(VT_ESC "[2J");
-	printf(VT_ESC "[0;0H");
+	printf(VT_ESC "1J");
+	printf(VT_ESC "1;1H"); // DOESNT START AT 0,0??
 }
 
-void ConsoleManip::ChangeConsoleTitle(const char* newTitle) const
+/////////////////////////////////////////////////////////////////////
+// Changes the title of the console to the specified Title
+/////////////////////////////////////////////////////////////////////
+void ConsoleManip::ChangeConsoleTitle(const char* newTitle)
 {
-	printf("\x1b]2;%s\7", newTitle);
+	printf(VT_CSI "2;%s\7", newTitle);
 }
 
-/// changes the colour of the console to 'consoleColour',
-/// uses the leftshift operator to draw 'output' to std::cin,
-/// changes console colour back to white
-template<typename type>
-void ConsoleManip::DrawColourToConsole(type output, int consoleColour)
+
+/////////////////////////////////////////////////////////////////////
+// Draws the string to the console with specified formatting
+/////////////////////////////////////////////////////////////////////
+void ConsoleManip::DrawToConsole(const char* output, const char* formatting)
 {
-	if (colour != CONSOLE_WHITE)
-		ChangeConsoleColour(colour);
-
-	std::cout << (output);
-
-	if (colour != CONSOLE_WHITE)
-		ChangeConsoleColour(CONSOLE_WHITE);
+	printf(VT_ESC "%s" "%s" VT_ESC TEXT_DEF, formatting, output);
+}
+/////////////////////////////////////////////////////////////////////
+// Draws the char to the console with specified formatting
+/////////////////////////////////////////////////////////////////////
+void ConsoleManip::DrawToConsole(const char output, const char* formatting)
+{
+	printf(VT_ESC "%s" "%c" VT_ESC TEXT_DEF, formatting, output);
 }
 
+/////////////////////////////////////////////////////////////////////
+// Sets console mode to ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+/////////////////////////////////////////////////////////////////////
 bool ConsoleManip::EnableVTMode()
 {
 	if (VTEnabled())

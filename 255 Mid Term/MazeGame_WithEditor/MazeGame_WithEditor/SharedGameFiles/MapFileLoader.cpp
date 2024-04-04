@@ -1,23 +1,26 @@
 #include "MapFileLoader.h"
 
-#include <fstream>
 #include <assert.h>
 
-char* MapFileLoader::ConvertMapFileToCString(const char* filePath)
+/////////////////////////////////////////////////////////////////////
+// Reads rest of file stream and returns it as a char*
+/////////////////////////////////////////////////////////////////////
+char* MapFileLoader::ConvertMapFileToCString(std::fstream& fileStream, const char* filePath)
 {
 	int mapLength = (int)std::filesystem::file_size(filePath);
 	char* MapCString = static_cast<char*>(malloc(mapLength));
 
-	std::fstream mapFile;
-	mapFile.open(filePath);
-	assert(mapFile.is_open());
-	mapFile.get(MapCString, mapLength, EOF);
-	mapFile.close();
+	fileStream.get(MapCString, mapLength, EOF);
 
 	return MapCString;
 }
 
-char* MapFileLoader::CleanMapCString(char* mapCString, mapCharArray& output)
+/////////////////////////////////////////////////////////////////////
+// Cleans a C string of any tabs, spaces, or newLines
+// returns the resultant char*
+// deallocates the given string
+/////////////////////////////////////////////////////////////////////
+char* MapFileLoader::CleanMapCString(char* mapCString, MapInformation& output)
 {
 	constexpr char tab = '\t';
 	constexpr char space = ' ';
@@ -62,23 +65,57 @@ char* MapFileLoader::CleanMapCString(char* mapCString, mapCharArray& output)
 		}
 	}
 
-
 	free(mapCString);
 	return newMapCString;
 }
 
-mapCharArray MapFileLoader::ConvertToCString(const char* filePath)
+/////////////////////////////////////////////////////////////////////
+// Reads the information stored in the file before the map
+/////////////////////////////////////////////////////////////////////
+void MapFileLoader::FillPreInformation(MapInformation& mapStruct, std::fstream& fileStream)
 {
-	mapCharArray MapStruct;
-
-	char* mapCString = ConvertMapFileToCString(filePath);
-	MapStruct.m_charArray = CleanMapCString(mapCString, MapStruct);
-	return MapStruct;
+	fileStream >> mapStruct.m_enemyCount;
+	fileStream.ignore(1); // ignore space
+	fileStream >> mapStruct.m_switchCount;
+	fileStream.ignore(std::numeric_limits<int>::max() , '\n'); // ignore till I get to the new line
 }
 
+/////////////////////////////////////////////////////////////////////
+// Takes a file path an returnsa MapInformation struct containing
+//    m_charArray
+//    m_switchCount
+//    m_enemyCount
+//    m_width
+//    m_height
+//    m_length
+/////////////////////////////////////////////////////////////////////
+MapInformation MapFileLoader::CreateMapInformation(const char* filePath)
+{
+	MapInformation mapStruct;
 
-mapCharArray MapFileLoader::ConvertToCString(const std::string& filePath)
+	std::fstream mapFile;
+	mapFile.open(filePath);
+	assert(mapFile.is_open());
+
+	FillPreInformation(mapStruct, mapFile);
+	char* mapCString = ConvertMapFileToCString(mapFile, filePath);
+	mapStruct.m_charArray = CleanMapCString(mapCString, mapStruct);
+
+	mapFile.close();
+	return mapStruct;
+}
+
+/////////////////////////////////////////////////////////////////////
+// Takes a file path an returnsa MapInformation struct containing
+//    m_charArray
+//    m_switchCount
+//    m_enemyCount
+//    m_width
+//    m_height
+//    m_length
+/////////////////////////////////////////////////////////////////////
+MapInformation MapFileLoader::CreateMapInformation(const std::string& filePath)
 {
 	const char* fileName = filePath.c_str();
-	return ConvertToCString(fileName);
+	return CreateMapInformation(fileName);
 }

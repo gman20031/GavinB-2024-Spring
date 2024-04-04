@@ -1,5 +1,4 @@
 #include "GameObject.h"
-#include "../SharedGameFiles/ConsoleManip.h"
 
 #include "Map.h"
 
@@ -10,11 +9,6 @@ GameObject::GameObject(GameObjectType newType = GameObjectType::kBase)
 {
 
 }
-
-
-/////////////////////////////////////////////////////////////
-/// Couts this objects display char with no linebreak
-/////////////////////////////////////////////////////////////
 
 Vector2 GameObject::GetPosition() const
 {
@@ -39,5 +33,5 @@ bool GameObject::SetCurrentMapPointer(Map* newMap)
 
 void GameObject::Draw()
 {
-	ConsoleManip::DrawToConsole((char)m_displayCharacter);
+	ConsoleManip::DrawToConsole((char)m_displayCharacter, m_displayFormat);
 }

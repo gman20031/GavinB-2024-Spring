@@ -11,3 +11,5 @@ int PromptAndGetInteger(const std::string& prompt, int min, int max);
 
 //returns empty if file directory empty
 std::string ChooseFromFileDirectory(const std::string& directoryPath);
+
+void Pause();

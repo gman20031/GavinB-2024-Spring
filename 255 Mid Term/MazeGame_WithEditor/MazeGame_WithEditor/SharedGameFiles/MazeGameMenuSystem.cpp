@@ -1,26 +1,38 @@
 #include "MazeGameMenuSystem.h"
 
+#include <iostream>
 
 #include "Prompting.h"
 #include "MapFileLoader.h"
 #include "../Maze_Game/Map.h"
 
+/////////////////////////////////////////////////////////////////////
+// Prints the intro sequence for the entire Game
+/////////////////////////////////////////////////////////////////////
 static void DisplayIntro()
 {
-	std::cout << "Maze Game:\n"
-		<< "0 : Play Levels\n"
-		<< "1 : Edit Levels\n"
-		<< "2 : Quit\n";
+
+	std::cout << "quick intro." << '\n'
+	 << "you move around and naviagate menus with wasd" << '\n'
+	 << "if you mistype something it will do nothing, waiting for a good response" << '\n'
+	 << "e will interact with things in the level editor" << '\n'
+	 << "8,9,0 are debug buttons you can cheat with in the game itself" << '\n'
+	 << "thank you" << '\n';
+	Pause();
+	ConsoleManip::ClearConsole();
 }
 
 MazeGameStartMenu::MazeGameStartMenu()
-	:m_editor()
-	,m_game()
+	:m_game()
 	,m_currentMap(nullptr)
 {
-
+	//
 }
 
+/////////////////////////////////////////////////////////////////////
+// Prompts to either edit existing, create new, or go back
+// then runs a level editor based on respone
+/////////////////////////////////////////////////////////////////////
 void MazeGameStartMenu::StartEditingMenu()
 {
 	LevelEditor editor;
@@ -31,22 +43,25 @@ void MazeGameStartMenu::StartEditingMenu()
 	 << "2 : Go Back\n";
 
 	int input = PromptAndGetInteger("Pick an option", 0, 2);
-	system("cls");
+	ConsoleManip::ClearConsole();
 
 	switch (input)
 	{
 	case 0:
-		m_editor.Load();
+		editor.Load();
 		break;
 	case 1:
-		m_editor.Resize();
+		editor.Resize();
 		break;
 	default: return;
 	}
-	if(m_editor.IsRunning())
-		m_editor.Run();
+	if (editor.IsRunning())
+		editor.Run();
 }
 
+/////////////////////////////////////////////////////////////////////
+// Gets user to pick a map from the file directory to use
+/////////////////////////////////////////////////////////////////////
 void MazeGameStartMenu::PickMapToPlay()
 {
 	const std::string directory = MapFileLoader::kdefaultFilePath;
@@ -56,23 +71,37 @@ void MazeGameStartMenu::PickMapToPlay()
 	m_game.PushBackMap(m_currentMap);
 }
 
+
+/////////////////////////////////////////////////////////////////////
+// asks for map to play, then runs that map with m_game object
+/////////////////////////////////////////////////////////////////////
 void MazeGameStartMenu::StartPlayingMenu()
 {
 	PickMapToPlay();
 	m_game.Run();
-	m_game.ClearMaps();
-	delete m_currentMap;
+	m_game.DeleteGame();
+	delete m_currentMap; // this should error?
 	m_currentMap = nullptr;
 }
 
+
+/////////////////////////////////////////////////////////////////////
+// asks user for what section of the game they want to go to,
+// then runs the correct section, either playing or editing.
+/////////////////////////////////////////////////////////////////////
 void MazeGameStartMenu::StartMazeGame()
 {
+	DisplayIntro();
+	//ConsoleManip::EnableVTMode();
 	for(;;)
 	{
-		system("cls");
-		DisplayIntro();
+		ConsoleManip::ClearConsole();
+		std::cout << "Maze Game:\n"
+			<< "0 : Play Levels\n"
+			<< "1 : Edit Levels\n"
+			<< "2 : Quit\n";
 		int input = PromptAndGetInteger("Pick an option", 0, 2);
-		system("cls");
+		ConsoleManip::ClearConsole();
 		switch (input)
 		{
 		case 0:

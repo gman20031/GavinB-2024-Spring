@@ -1,7 +1,9 @@
 #pragma once
-#include "Coordinate.h"
 #include "../SharedGameFiles/GameCharacterInfo.h"
 #include "../SharedGameFiles/ConsoleManip.h"
+#include "../SharedGameFiles/TwoDimensionalArray.h"
+#include "../SharedGameFiles/Vector2.h"
+
 
 #include <vector>
 #include <string>
@@ -32,7 +34,7 @@ class LevelEditor;
 class EditorButton
 {
 private:
-	static constexpr int m_selectedColour = CONSOLE_RED;
+	inline static const char* kSelectedColour = TEXT_RED;
 	std::string m_name;
 	ButtonType m_type;
 	ObjectChar m_charChanger;
@@ -54,18 +56,20 @@ class LevelEditor
 {
 	friend class EditorButton;
 private:
-	static constexpr int m_selectedColour = CONSOLE_RED;
+	inline static const char* kSelectedColour = TEXT_RED;
 	static constexpr ObjectChar kDefaultChar = ObjectChar::kWall;
 	bool m_keepEditing;
 	bool m_inLevel;
 
 	std::vector<std::vector<EditorButton>> m_allButtons;
-	Coordinates m_cursorLocation;
+	Vector2 m_cursorLocation;
 	ObjectChar m_selectedChar;
 
-	char** m_ppLevelArray;
+	TwoDimensionalArray<char> m_levelArray;
 	int m_levelHeight;  
 	int m_levelWidth;
+	int m_enemyCount;
+	int m_switchCount;
 
 	std::fstream m_fileStream;
 	std::string m_currentFilePath;
@@ -75,15 +79,15 @@ private:
 	void ChangeArraySize(int newWidth, int newHeight);
 	void FillLevelFromArray(char* array);
 	void PrintLevelArray(std::ostream& os) const;
-	void DeleteLevelArray();
 	bool LevelIsLegal() const;
 
 	void GetKeyInput();
 	void Interact();
 	void MoveCursor(EditorControls direction);
-	Coordinates MoveCursorToButtons(Coordinates newCursorLocation);
-	Coordinates MoveCursorToLevel(Coordinates newCursorLocation);
+	Vector2 MoveCursorToButtons(Vector2 newCursorLocation);
+	Vector2 MoveCursorToLevel(Vector2 newCursorLocation);
 
+	void ChangeCharacter(char newCharacter);
 	void Save();
 	void SaveAs();
 	void Quit();
@@ -94,7 +98,7 @@ private:
 	void Print() const;
 public:
 	LevelEditor();
-	~LevelEditor() { DeleteLevelArray(); }
+	~LevelEditor() = default;
 
 	bool IsRunning() const { return m_keepEditing; };
 	void Resize(); 

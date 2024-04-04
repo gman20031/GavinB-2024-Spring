@@ -1,5 +1,6 @@
 #pragma once
 
+// enum for directionality
 enum class Direction
 {
 	kUp = 'w',

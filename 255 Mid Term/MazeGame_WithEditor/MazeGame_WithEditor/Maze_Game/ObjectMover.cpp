@@ -46,6 +46,12 @@ bool ObjectMover::MoveOnMap(Map* currentMap, Direction direction, Entity* entity
 bool ObjectMover::MovePlayer(Entity* entity) const
 {
 	char input = (char)_getch();
+	if (input == '0')
+		entity->GetMapPointer()->WinLevel();
+	if (input == '9')
+		entity->GetMapPointer()->UnlockAllDoors();
+	if(input == '8')
+		entity->GetMapPointer()->ToggleDoors();
 
 	MoveOnMap(entity->m_pCurrentMap, static_cast<Direction>(input), entity);
 	return true;
@@ -69,6 +75,28 @@ bool ObjectMover::MoveRandom(Entity* entity) const
 	case 3: moveDirection = Direction::kLeft; break;
 	default: break;
 	}
+	MoveOnMap(entity->m_pCurrentMap, moveDirection, entity);
+	return true;
+}
+
+
+////////////////////////////////////////////////////////////////////////
+// Runs the logic for moving towards the player character
+////////////////////////////////////////////////////////////////////////
+bool ObjectMover::MoveTowardsPlayer(Entity* entity) const
+{
+	Direction moveDirection = Direction::kDown;
+	Vector2 playerPosition = entity->GetMapPointer()->GetPlayer()->GetPosition();
+
+	if (entity->m_position.y < playerPosition.y)
+		moveDirection = Direction::kDown;
+	if (entity->m_position.y > playerPosition.y)
+		moveDirection = Direction::kUp;
+	if (entity->m_position.x > playerPosition.x)
+		moveDirection = Direction::kLeft;
+	if (entity->m_position.x < playerPosition.x)
+		moveDirection = Direction::kRight;
+
 	MoveOnMap(entity->m_pCurrentMap, moveDirection, entity);
 	return true;
 }

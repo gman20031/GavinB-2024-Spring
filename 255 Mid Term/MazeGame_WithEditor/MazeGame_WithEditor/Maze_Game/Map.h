@@ -3,40 +3,65 @@
 #include <vector>
 #include <filesystem>
 
-#include "Vector2.h"
+#include "../SharedGameFiles/Vector2.h"
 #include "Enemies.h"
 #include "Player.h"
+#include "../SharedGameFiles/MapFileLoader.h"
+#include "MapRenderer.h"
 
 class GameObject;
+using GameObjectPtr = std::shared_ptr <GameObject>;
 
 class Map
 {
-	std::vector< std::shared_ptr<GameObject> > m_allObjects;
-	std::vector<std::vector< std::shared_ptr<GameObject> > > m_mapVector;
+	// these are all friend classes to reduce the number of public functions I need.
+	friend class Entity;
+	friend class MapRenderer;
+	friend class ToggleTile;
 
-	std::shared_ptr<Player> m_playerCharacter;
+	using GameObject2dVector = std::vector<std::vector< GameObjectPtr>>;
+
+	MapRenderer m_mapRenderer;
+	MapRenderer::playerVision m_visionMode = MapRenderer::playerVision::kSquare;
+	static constexpr int kdrawDistance = 4;
+
+	GameObject2dVector m_mapVector;
+	const MapInformation m_mapStruct;
 
 	size_t m_mapWidth;
 	size_t m_mapHeight;
 	size_t m_mapLength;
+	size_t m_switchesOn;
+	size_t m_switchCount;
+	int m_enemyCount;
+	int m_enemyStartCount;
+
 	Vector2 m_playerStart;
+	std::shared_ptr<Player> m_playerCharacter;
+	bool m_doorsUnlocked = false;
 	bool m_mapFinished;
 
 	bool FillMapVectorFromCString(char* mapCString);
 	void EmplaceBackAndFill(char arrayCharacter, Vector2 mapVectorPosition);
+	void UpdateDoorState();
+	void InitMap(const MapInformation& mapStruct);
 public:
 	Map(const char* filePath);
 
-	size_t GetMapWidth() const { return m_mapWidth; }
-	size_t GetMapHeight() const { return m_mapHeight; }
 	std::shared_ptr<Player> GetPlayer() const { return m_playerCharacter;}
-	std::vector<std::vector< std::shared_ptr<GameObject> > >& GetMapVector() { return m_mapVector; }
 
-	std::shared_ptr<GameObject>& at(Vector2 coordinatePair);
+	GameObjectPtr& at(Vector2 coordinatePair);
 	void Draw();
 	void Update();
+	bool ReplaceObject(Vector2 objectLocation, ObjectChar identifierChar);
+	bool ChangeObjectAt(Vector2 objectLocation, GameObjectPtr newObject);
 	bool SwapObjects(Vector2 firstObject, Vector2 secondObject);
 	void Reset();
-	void WinLevel();
+	bool DoorsUnlocked() const { return m_doorsUnlocked; }
 	bool Finished() const{ return m_mapFinished; }
+	
+	//debug stuff
+	void WinLevel();
+	void UnlockAllDoors();
+	void ToggleDoors();
 };

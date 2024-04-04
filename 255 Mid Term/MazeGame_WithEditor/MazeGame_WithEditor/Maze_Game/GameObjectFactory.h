@@ -3,21 +3,23 @@
 #include "GameObject.h"
 #include "../SharedGameFiles/GameCharacterInfo.h"
 
-using GameObjectPtr = std::shared_ptr<GameObject>;
-using GameObjectFactoryKey = ObjectChar;
-typedef GameObjectPtr(*GameObjectFactoryFunction)();
-
 class GameObjectFactory
 {
+	using GameObjectPtr = std::shared_ptr<GameObject>;
+	using GameObjectFactoryKey = ObjectChar;
+	typedef GameObjectPtr(*GameObjectFactoryFunction)();
 public:
-	static GameObjectPtr Create(GameObjectFactoryKey ObjectName)
+	// uses objectKey as the key for a map for functions, runs that function if found.
+	// returns std::shared_ptr<GameObject> with the contents being of the type specified by the key
+	static GameObjectPtr Create(GameObjectFactoryKey objectKey)
 	{
-		auto it = GetFactoryFunctionRegister().find(ObjectName);
-		if (it != GetFactoryFunctionRegister().end())
-			return it->second();
+		auto entry = GetFactoryFunctionRegister().find(objectKey);
+		if (entry != GetFactoryFunctionRegister().end())
+			return entry->second();
 		return {};
 	}
 
+	// Creating a Registrar<Type> instance will add a function to create std::shared_ptr<Type> to the factory's Map
 	template <typename Type>
 	class Registrar
 	{
@@ -31,6 +33,7 @@ public:
 	};
 
 private:
+	// Returns & to a statically allocated std::unordered_map keyed to ObjectChar filled with GameObjectFactoryFunctions
 	static std::unordered_map< GameObjectFactoryKey, GameObjectFactoryFunction>& GetFactoryFunctionRegister()
 	{
 		static std::unordered_map< GameObjectFactoryKey, GameObjectFactoryFunction> FactoryFunctionRegister;

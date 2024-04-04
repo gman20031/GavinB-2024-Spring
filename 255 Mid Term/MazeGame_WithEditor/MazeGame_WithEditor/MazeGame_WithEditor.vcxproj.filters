@@ -54,13 +54,10 @@
     <ClInclude Include="Maze_Game\Player.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Maze_Game\Vector2.h">
+    <ClInclude Include="SharedGameFiles\Vector2.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="Editor\LevelEditor.h">
-      <Filter>Header Files\Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Coordinate.h">
       <Filter>Header Files\Editor</Filter>
     </ClInclude>
     <ClInclude Include="SharedGameFiles\GameCharacterInfo.h">
@@ -82,6 +79,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SharedGameFiles\Timing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedGameFiles\TwoDimensionalArray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Maze_Game\DoorTiles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Maze_Game\MapRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Maze_Game\Items.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -129,6 +138,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SharedGameFiles\ConsoleManip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Maze_Game\DoorTiles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Maze_Game\MapRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Maze_Game\Items.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

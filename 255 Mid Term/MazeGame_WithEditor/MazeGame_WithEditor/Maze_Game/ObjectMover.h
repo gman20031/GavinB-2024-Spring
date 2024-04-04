@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Directions.h"
-#include "Vector2.h"
+#include "../SharedGameFiles/Vector2.h"
 
 class Map;
 class Entity;
@@ -17,4 +17,5 @@ public:
 
 	bool MovePlayer(Entity* entity)const ;
 	bool MoveRandom(Entity* entity)const ;
+	bool MoveTowardsPlayer(Entity* entity)const;
 };

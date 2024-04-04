@@ -1,4 +1,7 @@
 #pragma once
+/////////////////////////////////////////////////////////////////////
+// All the characters used for the game
+/////////////////////////////////////////////////////////////////////
 enum class ObjectChar
 {
 	kBase = '\0',
@@ -7,8 +10,17 @@ enum class ObjectChar
 	kExit = 'X',
 	kPlayer = '@',
 	kTrap = '0',
+
 	kHorizontalEnemy = '-',
 	kVerticalEnemy = '|',
 	kRandomEnemy = '&',
-	kCount = 9,
+	kDirectEnemy = '$',
+
+	kClearDoor = '~',
+	kHiddenDoor = 'D',
+
+	kTogglePlate = '*',
+	kSwordItem = '+',
+
+	kCount = 12,
 };

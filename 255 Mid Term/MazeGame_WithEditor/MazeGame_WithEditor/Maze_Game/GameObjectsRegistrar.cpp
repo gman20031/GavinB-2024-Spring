@@ -5,6 +5,8 @@
 #include "Player.h"
 #include "MapTiles.h"
 #include "Enemies.h"
+#include "DoorTiles.h"
+#include "Items.h"
 
 // this tuple contains ever Registrar object that is being created 
 // in order to register a subclass into the factory.
@@ -14,6 +16,23 @@
 // 
 // I dont dont know why the tuple was used, it was a reccomendation from Rez about the factory class,
 
+/*
+* Currently Registered Objects
+	kBase = '\0',
+	kEmpty = '.',
+	kWall = '#',
+	kExit = 'X',
+	kPlayer = '@',
+	kTrap = '0',
+	kHorizontalEnemy = '-',
+	kVerticalEnemy = '|',
+	kRandomEnemy = '&',
+	kDirectEnemy = '$',
+	kClearDoor = '~',
+	kHiddenDoor = 'D',
+	kSword Item = '+'
+*/
+
 static std::tuple<
 	GameObjectFactory::Registrar<Player>,
 
@@ -21,18 +40,14 @@ static std::tuple<
 	GameObjectFactory::Registrar<TrapTile>,
 	GameObjectFactory::Registrar<WallTile>,
 	GameObjectFactory::Registrar<ExitTile>,
+	GameObjectFactory::Registrar<ToggleTile>,
 
 	GameObjectFactory::Registrar<HorizontalEnemy>,
 	GameObjectFactory::Registrar<VerticalEnemy>,
-	GameObjectFactory::Registrar<RandEnemy>> registrar;
+	GameObjectFactory::Registrar<RandEnemy>,
+	GameObjectFactory::Registrar<DirectEnemy>,
 
-/*
-	kWall
-	kExit
-	kEmpty
-	kPlayer
-	kTrap
-	kHorizontalEnemy
-	kVerticalEnemy
-	kRandEnemy
-*/
+	GameObjectFactory::Registrar<ClearDoor>,
+	GameObjectFactory::Registrar<HiddenDoor>,
+	
+	GameObjectFactory::Registrar<Sword>>registrar;

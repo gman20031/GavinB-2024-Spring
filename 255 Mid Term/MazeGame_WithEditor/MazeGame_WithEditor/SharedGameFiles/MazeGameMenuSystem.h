@@ -5,7 +5,6 @@
 
 class MazeGameStartMenu
 {
-	LevelEditor m_editor;
 	MazeGame m_game;
 	Map* m_currentMap;
 

@@ -4,6 +4,21 @@
 #include "../SharedGameFiles/Prompting.h"
 #include "../SharedGameFiles/MapFileLoader.h"
 
+void MazeGame::ResetGame()
+{
+	m_gameFinished = false;
+	m_currentIndex = 0;
+	m_pCurrentMap = m_pAllMaps.at(0);
+}
+
+void MazeGame::DeleteGame()
+{
+	ResetGame();
+	m_pAllMaps.clear();
+	m_playerCharacter.reset();
+	m_pCurrentMap = nullptr;
+}
+
 ////////////////////////////////////////////////////////////////////////
 // uses Push_back to add a new map to the map Vector
 ////////////////////////////////////////////////////////////////////////
@@ -17,13 +32,6 @@ void MazeGame::PushBackMap(Map* newMap)
 ////////////////////////////////////////////////////////////////////////
 // Runs the MazeGame
 ////////////////////////////////////////////////////////////////////////
-
-
-void MazeGame::ClearMaps()
-{
-	m_pAllMaps.clear();
-}
-
 void MazeGame::Run()
 {
 	if (m_pCurrentMap == nullptr)
@@ -100,21 +108,17 @@ bool MazeGame::PromptToKeepPLaying()
 	return false;
 }
 
-void MazeGame::ResetGame()
-{
-	m_gameFinished = false;
-	m_currentIndex = 0;
-	m_pCurrentMap = m_pAllMaps.at(0);
-}
-
 void MazeGame::PlayCurrentLevel()
 {
-	m_playerCharacter = m_pCurrentMap->GetPlayer();
+	printf(VT_ESC CSR_SHOW_OFF);
 
 	while (!m_pCurrentMap->Finished())
 	{
 		m_pCurrentMap->Draw();
-		m_playerCharacter->Update();
+		m_pCurrentMap->GetPlayer()->Update();
 		m_pCurrentMap->Update();
+		m_pCurrentMap->GetPlayer()->CheckCollisions();
 	}
+	printf(VT_ESC CSR_SHOW_ON);
+
 }

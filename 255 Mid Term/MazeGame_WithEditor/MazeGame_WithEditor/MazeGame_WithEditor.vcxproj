@@ -130,33 +130,39 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Editor\Coordinate.h" />
     <ClInclude Include="Editor\LevelEditor.h" />
     <ClInclude Include="Maze_Game\Directions.h" />
+    <ClInclude Include="Maze_Game\DoorTiles.h" />
     <ClInclude Include="Maze_Game\Enemies.h" />
     <ClInclude Include="Maze_Game\Entity.h" />
     <ClInclude Include="Maze_Game\GameObject.h" />
     <ClInclude Include="Maze_Game\GameObjectFactory.h" />
+    <ClInclude Include="Maze_Game\Items.h" />
     <ClInclude Include="Maze_Game\Map.h" />
+    <ClInclude Include="Maze_Game\MapRenderer.h" />
     <ClInclude Include="Maze_Game\MapTiles.h" />
     <ClInclude Include="Maze_Game\MazeGame.h" />
     <ClInclude Include="Maze_Game\ObjectMover.h" />
     <ClInclude Include="Maze_Game\Player.h" />
-    <ClInclude Include="Maze_Game\Vector2.h" />
+    <ClInclude Include="SharedGameFiles\Vector2.h" />
     <ClInclude Include="SharedGameFiles\ConsoleManip.h" />
     <ClInclude Include="SharedGameFiles\GameCharacterInfo.h" />
     <ClInclude Include="SharedGameFiles\MapFileLoader.h" />
     <ClInclude Include="SharedGameFiles\MazeGameMenuSystem.h" />
     <ClInclude Include="SharedGameFiles\Prompting.h" />
     <ClInclude Include="SharedGameFiles\Timing.h" />
+    <ClInclude Include="SharedGameFiles\TwoDimensionalArray.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Editor\LevelEditor.cpp" />
+    <ClCompile Include="Maze_Game\DoorTiles.cpp" />
     <ClCompile Include="Maze_Game\Enemies.cpp" />
     <ClCompile Include="Maze_Game\Entity.cpp" />
     <ClCompile Include="Maze_Game\GameObject.cpp" />
     <ClCompile Include="Maze_Game\GameObjectsRegistrar.cpp" />
+    <ClCompile Include="Maze_Game\Items.cpp" />
     <ClCompile Include="Maze_Game\Map.cpp" />
+    <ClCompile Include="Maze_Game\MapRenderer.cpp" />
     <ClCompile Include="Maze_Game\MapTiles.cpp" />
     <ClCompile Include="Maze_Game\MazeGame.cpp" />
     <ClCompile Include="Maze_Game\ObjectMover.cpp" />
