@@ -1,38 +1,48 @@
 // World.h
 #pragma once
 
-#include <utility>
 #include "TileFactories.h"
+
+#include <utility>
 
 class Tile;
 class Player;
+class Enemy;
+class Entity;
 
 class World
 {
-	using _TileType = TileFactory::TileType;
-    typedef std::pair<int, TileFactory::TileType> TileProbability;
+	using TileType = TileFactory::TileType;
+	using TileProbability = std::pair<int, TileFactory::TileType>;
 
-    inline static const TileProbability s_tileProbabilities[(int)_TileType::kCount]
+    inline static const TileProbability s_tileProbabilities[(int)TileType::kCount]
 	{
-		World::TileProbability(800, _TileType::kEmpty),
-		World::TileProbability(75, _TileType::kBomb),
-		World::TileProbability(75, _TileType::kTreasure),
-		World::TileProbability(50, _TileType::kMimic),
+		{800, TileType::kEmpty},
+		{75, TileType::kBomb},
+		{75, TileType::kTreasure},
+		{50, TileType::kMimic},
 	};
     
     int m_width, m_height;
-	Tile** m_ppGrid;
+	std::vector< int > m_EntityStartIndecies;
+	std::vector< Enemy* > m_allEnemies;
 	Player* m_pPlayer;
+	Tile** m_ppGrid;
     bool m_gameOver;
 
 public:
 	World();
 	~World();
 
+	Player* GetPlayerPointer() { return m_pPlayer; }
+	Tile* GetTileAt(int x, int y);
+
 	// initialization
 	void Init(int width, int height);
 	void CreatePlayer(int x = 0, int y = 0);
+	void GenerateEnemies(size_t amount);
 	void GenerateWorld();
+	void ProcessEntity(Entity* entity);
 
 	// update
 	void Draw();

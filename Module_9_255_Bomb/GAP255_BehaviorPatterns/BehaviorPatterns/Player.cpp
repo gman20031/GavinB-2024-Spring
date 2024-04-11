@@ -5,71 +5,55 @@
 
 #include "World.h"
 
-using std::cout;
-
-const int Player::k_maxHitPoints = 10;
-
-const int Player::k_baseScore = 1000;
-const int Player::k_hitPointsWeight = 100;
-const int Player::k_goldWeight = 10;
-const int Player::k_moveCountWeight = 10;
-
 Player::Player(int x, int y, World* pWorld)
-	: m_x(x)
-	, m_y(y)
-	, m_pWorld(pWorld)
-    , m_hitPoints(k_maxHitPoints)
+	: Entity(x, y , pWorld)
+	, m_detectorCharges(kDetectorChrages)
     , m_gold(0)
     , m_moveCount(0)
-{ }
-
-void Player::Draw() const
 {
-    if (!IsDead())
-	    cout << "@";
+	m_x = x;
+	m_y = y;
+	m_pWorld = pWorld;
+	m_hitPoints = kMaxHitPoints;
+}
+
+void Player::Draw()
+{
+	DrawSelf();
+	DrawUi();
+}
+
+void Player::DrawSelf() const
+{
+    if (IsDead())
+        std::cout << "~";
     else
-        cout << "~";
+	    std::cout << "@";
 }
 
 void Player::DrawUi() const
 {
-    cout << "HP: " << m_hitPoints << "  Gold: " << m_gold << "  Move Count: " << m_moveCount << "  Score: " << CalculateScore() << "\n\n";
+    std::cout << "HP: " << m_hitPoints << "  Gold: " << m_gold <<
+		"  Move Count: " << m_moveCount << "  Score: " << CalculateScore()<<
+		"  Detector Charges: " << m_detectorCharges << "\n\n";
 }
 
-bool Player::Update()
+void Player::Update()
 {
-    if (IsDead())
-        return false;
+	if (IsDead())
+		return;
 
     char input = (char)_getch();
-
     switch (input)
     {
-        case 'q':
-            return false;  // quitting
-
-        case 'w':
-            Move(0, -1);
-            break;
-
-        case 'a':
-            Move(-1, 0);
-            break;
-
-        case 's':
-            Move(0, 1);
-            break;
-
-        case 'd':
-            Move(1, 0);
-            break;
-
-        default:
-            cout << "Invalid input";
-            break;
+        case 'w': Move(0, -1);break;
+        case 'a': Move(-1, 0);break;
+        case 's': Move(0, 1); break;
+        case 'd': Move(1, 0); break;
+		case 'e': CheckForBombs(); break;
+		case 'q': Kill();  return;  // quitting
+		default : std::cout << "Invalid input"; break;
     }
-
-    return true;
 }
 
 void Player::Move(int deltaX, int deltaY)
@@ -79,12 +63,32 @@ void Player::Move(int deltaX, int deltaY)
     ++m_moveCount;
 }
 
-void Player::Damage(int amount)
+void Player::CheckForBombs()
 {
-    m_hitPoints -= amount;
+	if(m_detectorCharges > 0)
+	{
+		++m_moveCount;
+		--m_detectorCharges;
 
-    if (m_hitPoints < 0)
-        m_hitPoints = 0;
+		constexpr int detectionWidth = (kDetectorRange * 2) + 1;
+		constexpr int detectedSquares = detectionWidth * detectionWidth;
+		int xPos = -kDetectorRange;
+		int yPos = -kDetectorRange;
+
+		for (size_t i = 0; i < detectedSquares; ++i)
+		{
+			Tile* tile = m_pWorld->GetTileAt(m_x + xPos, m_y + yPos);
+			if (tile->GetBehaviorType() == BehaviorStrategy::Behavior::kExplosion)
+				tile->SetAppearance(AppearanceStrategy::Appearance::kBomb);
+			++xPos;
+			if (xPos > kDetectorRange)
+			{
+				xPos = -kDetectorRange;
+				++yPos;
+			}
+		}
+
+	}
 }
 
 void Player::AddGold(int amount)
@@ -94,7 +98,7 @@ void Player::AddGold(int amount)
 
 int Player::CalculateScore() const
 {
-    int score = k_baseScore + (m_hitPoints * k_hitPointsWeight) + (m_gold * k_goldWeight) - (m_moveCount * k_moveCountWeight);
+    int score = kBaseScore + (m_hitPoints * kHitPointsWeight) + (m_gold * kGoldWeight) - (m_moveCount * kMoveCountWeight);
     return score;
 }
 

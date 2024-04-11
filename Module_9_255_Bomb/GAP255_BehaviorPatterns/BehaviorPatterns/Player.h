@@ -1,45 +1,37 @@
 // Player.h
-#ifndef __PLAYER_H__
-#define __PLAYER_H__
+#pragma once
+#include "Entity.h"
 
 class World;
 
-class Player
+class Player : public Entity
 {
-    static const int k_maxHitPoints;
+	static constexpr int kMaxHitPoints = 10;
 
-	World* m_pWorld;
+	static constexpr int kBaseScore = 1000;
+	static constexpr int kHitPointsWeight = 100;
+	static constexpr int kGoldWeight = 10;
+	static constexpr int kMoveCountWeight = 10;
+	static constexpr int kDetectorChrages = 3;
+	static constexpr int kDetectorRange = 1;
 
-    static const int k_baseScore;
-    static const int k_hitPointsWeight, k_goldWeight, k_moveCountWeight;
-
-	int m_x, m_y;
-    int m_hitPoints;
     int m_gold;
     int m_moveCount;
+	int m_detectorCharges;
 
 public:
 	Player(int x, int y, World* pWorld);
 
-	void Draw() const;  // assumes the cursor is at the right place
+	void Move(int deltaX, int deltaY);
+	virtual void Draw() override;
+	void DrawSelf() const;  // assumes the cursor is at the right place
     void DrawUi() const;
-    bool Update();
+    virtual void Update() override;
+	virtual bool IsPlayer() override { return true; }
 
-	int GetX() const { return m_x; }
-	int GetY() const { return m_y; }
-
-    bool IsDead() const { return (m_hitPoints <= 0); }
-    void Damage(int amount);
-    void Kill() { m_hitPoints = 0; }
-
+	void CheckForBombs();
     void AddGold(int amount);
-
     int CalculateScore() const;
 
 	void EndGame();
-
-private:
-    void Move(int deltaX, int deltaY);
 };
-
-#endif

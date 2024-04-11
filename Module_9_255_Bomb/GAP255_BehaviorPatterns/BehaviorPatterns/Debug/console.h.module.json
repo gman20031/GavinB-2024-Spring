@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "Debug\\Console.h.obj",
+            "outputs": [
+                "C:\\Users\\gangs\\Desktop\\School Works\\Homework\\Freshman Year\\Game Programming\\GavinB-2024-Spring\\Module_9_255_Bomb\\GAP255_BehaviorPatterns\\BehaviorPatterns\\Debug\\vc143.pdb",
+                "Debug\\",
+                "C:\\Users\\gangs\\Desktop\\School Works\\Homework\\Freshman Year\\Game Programming\\GavinB-2024-Spring\\Module_9_255_Bomb\\GAP255_BehaviorPatterns\\BehaviorPatterns\\Debug\\Console.h.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "Console.h",
+                    "source-path": "c:\\users\\gangs\\desktop\\school works\\homework\\freshman year\\game programming\\gavinb-2024-spring\\module_9_255_bomb\\gap255_behaviorpatterns\\behaviorpatterns\\console.h",
+                    "lookup-method": "absolute"
+                }
+            ],
+            "requires": []
+        }
+    ]
+}

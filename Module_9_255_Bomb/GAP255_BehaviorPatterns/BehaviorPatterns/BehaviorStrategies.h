@@ -1,7 +1,10 @@
 #pragma once
-#include <random>
 
-#include "Player.h"
+#include <utility>
+
+class Tile;
+class World;
+class Entity;
 
 class BehaviorStrategy
 {
@@ -14,17 +17,27 @@ public:
 		kEndGame,
 
 		kCount,
-	} static ;
-
+	} static;
+protected:
+	Tile* m_pOwner = nullptr;
+	World* m_pWorld = nullptr;
+	const Behavior m_behaviorType;
+public:
+	BehaviorStrategy(Behavior behaviorType) : m_behaviorType(behaviorType) {}
 	virtual ~BehaviorStrategy() = default;
 
-	virtual void OnEnter([[maybe_unused]] Player* pPlayer) = 0;
+	Behavior GetBehavior() const { return m_behaviorType; }
+	void GiveOwner(Tile* pOwner);
+
+	virtual Behavior OnEnter([[maybe_unused]] Entity* pEntity) = 0;
 };
 
 class DoNothing : public BehaviorStrategy
 {
 public:
-	virtual void OnEnter([[maybe_unused]] Player* pPlayer) override {}
+	DoNothing() : BehaviorStrategy(Behavior::kNothing) {}
+
+	virtual Behavior OnEnter([[maybe_unused]] Entity* pEntity) override { return Behavior::kNothing; }
 };
 
 class Explosion : public BehaviorStrategy
@@ -33,20 +46,24 @@ class Explosion : public BehaviorStrategy
 	inline static constexpr DamageRange s_damageRange{ 3,6 };
 
 public:
-	Explosion() {}
-	virtual void OnEnter([[maybe_unused]] Player* pPlayer) override;
+	Explosion() : BehaviorStrategy(Behavior::kExplosion) {}
+	virtual Behavior OnEnter([[maybe_unused]] Entity* pEntity) override;
 };
 
 class GiveTreasure : public BehaviorStrategy
 {
 	static constexpr std::pair<int, int> s_treasureRange{ 50,150 };
 public:
-	virtual void OnEnter([[maybe_unused]] Player* pPlayer) override;
+	GiveTreasure() : BehaviorStrategy(Behavior::kGiveTreasure) {}
+
+	virtual Behavior OnEnter([[maybe_unused]] Entity* pEntity) override;
 };
 
 class EndGame : public BehaviorStrategy
 {
 public:
-	virtual void OnEnter([[maybe_unused]] Player* pPlayer) override;
+	EndGame() : BehaviorStrategy(Behavior::kEndGame) {}
+
+	virtual Behavior OnEnter([[maybe_unused]] Entity* pEntity) override;
 };
 

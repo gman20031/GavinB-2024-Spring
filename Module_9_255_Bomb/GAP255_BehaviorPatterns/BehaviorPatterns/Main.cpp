@@ -1,38 +1,35 @@
 // Main.cpp
 #include "World.h"
 #include <time.h>
-#include <stdlib.h>
-#include <conio.h>
+#include <Windows.h>
 
-const int k_worldWidth = 20;
-const int k_worldHeight = 20;
 
-World* g_pWorld = nullptr;
 
 int main()
 {
+	constexpr int kWorldWidth = 20;
+	constexpr int kWorldHeight = 20;
+
 	srand((unsigned int)time(nullptr));
 
+	World world;
 	// create the world
-	g_pWorld = new World;
-	g_pWorld->Init(k_worldWidth, k_worldHeight);
+	world.Init(kWorldWidth, kWorldHeight);
 
 	// create the player
-	g_pWorld->CreatePlayer();
+	world.CreatePlayer();
+	world.GenerateEnemies(4);
 
 	// now that the player has been placed, generate the world
-	g_pWorld->GenerateWorld();
+	world.GenerateWorld();
 
     // main game loop
-    while (!g_pWorld->IsGameOver())
+    while (!world.IsGameOver())
     {
-        g_pWorld->Draw();
-        g_pWorld->Update();
+        world.Draw();
+        world.Update();
     }
 
-    delete g_pWorld;
-    g_pWorld = nullptr;
-    
     return 0;
 }
 

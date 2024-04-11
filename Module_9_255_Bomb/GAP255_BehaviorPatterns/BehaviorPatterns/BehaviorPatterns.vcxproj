@@ -82,6 +82,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BehaviorStrategies.cpp" />
+    <ClCompile Include="Console.cpp" />
+    <ClCompile Include="Console.h" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Tile.cpp" />
@@ -90,6 +94,9 @@
   <ItemGroup>
     <ClInclude Include="AppearanceStrategies.h" />
     <ClInclude Include="BehaviorStrategies.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyFactory.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="TileFactories.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Tile.h" />

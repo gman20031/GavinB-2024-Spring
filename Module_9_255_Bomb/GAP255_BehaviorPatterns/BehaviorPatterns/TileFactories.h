@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <assert.h>
 
 #include "Tile.h"
 #include "AppearanceStrategies.h"
@@ -25,8 +26,6 @@ private:
 	using Behavior = BehaviorStrategy::Behavior;
 	using TileMap = std::unordered_map< TileType, Tile >;
 
-public:
-
 	static TileMap& GetTiles()
 	{
 		using enum TileType;
@@ -41,6 +40,7 @@ public:
 		return tiles;
 	}
 
+public:
 	static Tile* Create(TileType type)
 	{
 		auto it = GetTiles().find(type);
@@ -58,6 +58,7 @@ public:
 
 	static BehaviorStrategy* Create(Behavior type)
 	{
+		assert(type != Behavior::kCount);
 		using enum Behavior;
 		switch (type)
 		{
@@ -80,11 +81,11 @@ class FlyweightAppearanceFactory
 		using enum Appearance;
 		static AppearanceMap AppearancesMap
 		{
-			{kEmpty		, AppearanceStrategy((char)kEmpty)},
-			{kBomb		, AppearanceStrategy((char)kBomb)},
-			{kUsedBomb	, AppearanceStrategy((char)kUsedBomb)},
-			{kExit		, AppearanceStrategy((char)kExit)},
-			{kTreasure  , AppearanceStrategy((char)kTreasure)},
+			{kEmpty		, AppearanceStrategy(kEmpty)},
+			{kBomb		, AppearanceStrategy(kBomb)},
+			{kUsedBomb	, AppearanceStrategy(kUsedBomb)},
+			{kExit		, AppearanceStrategy(kExit)},
+			{kTreasure  , AppearanceStrategy(kTreasure)},
 		};
 		return AppearancesMap;
 	}

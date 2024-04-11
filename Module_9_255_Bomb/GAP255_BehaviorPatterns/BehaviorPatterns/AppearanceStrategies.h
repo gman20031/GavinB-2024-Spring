@@ -6,8 +6,7 @@
 
 class AppearanceStrategy
 {
-private:
-	const char m_displayerChar;
+
 public:
 	enum class Appearance
 	{
@@ -17,12 +16,17 @@ public:
 		kExit = 'H',
 		kTreasure = '$',
 	} static ;
+private:
+	const Appearance m_displayerChar;
+public:
+	Appearance GetAppearance() const { return m_displayerChar; }
 
-	AppearanceStrategy(char displayer) : m_displayerChar(displayer) {}
+	AppearanceStrategy(Appearance displayer) : m_displayerChar(displayer) {}
 	virtual void Draw() const
 	{
-		std::cout << m_displayerChar;
+		std::cout << (char)m_displayerChar;
 	}
+
 };
 
 
