@@ -33,6 +33,9 @@ World::~World()
 Tile* World::GetTileAt(int x, int y)
 {
 	int index = (m_width * y) + x;
+	if (x >= m_width or y >= m_height
+	 or x < 0 or y < 0)
+		return nullptr;
 	return m_ppGrid[index];
 }
 
@@ -79,6 +82,7 @@ void World::GenerateEnemies(size_t amount)
 		int randomIndex = (rand() % (lastIndex - 1)) + 1;
 		m_EntityStartIndecies.emplace_back(randomIndex);
 		EnemyMover::MoveType type = (EnemyMover::MoveType)(rand() % 2); // randomize enemy
+
 		m_allEnemies.emplace_back( EnemyFactory::Create(type) );
 		int x = randomIndex % m_width;
 		int y = randomIndex / m_width;
@@ -177,26 +181,32 @@ void World::ProcessEntity(Entity* entity)
 
 	// this is a death arena, so check to see if we went over the edge of the world
 	if (x < 0 or y < 0 or x >= m_width or y >= m_height)
+	{
 		entity->Kill();
+		return;
+	}
 
 	int index = (y * m_width) + x;
-	m_ppGrid[index]->OnEnter(m_pPlayer);
+	m_ppGrid[index]->OnEnter(entity);
 }
 
 void World::Update()
 {
 	m_pPlayer->Update();
 	ProcessEntity(m_pPlayer);
-	for (auto it = m_allEnemies.begin(); it != m_allEnemies.end(); ++it)
+	Entity* enemy;
+	for (auto it = m_allEnemies.begin(); it != m_allEnemies.end(); )
 	{
-		Enemy*& enemy = *it;
+		enemy = *it;
 		enemy->Update();
 		ProcessEntity(enemy);
 		if (enemy->IsDead())
 		{
 			delete enemy;
-			m_allEnemies.erase(it);
+			it = m_allEnemies.erase(it);
+			continue;
 		}
+		++it;
 	}
 
     if (m_pPlayer->IsDead())

@@ -1,4 +1,26 @@
 ﻿  Scanning sources for module dependencies...
+  Console.h
+  Compiling...
+  Console.h
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(1005,1): message : sorry: 'inline' function definition for 'ULONGLONG Int64ShllMod32(ULONGLONG,DWORD)' could not be written to module due to unrecognized expression or statement at 'C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(1010,5)'.
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(1005,1): message : If possible please provide a repro here: https://developercommunity.visualstudio.com
+  (compiling source file 'Console.h')
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(1021,1): message : sorry: 'inline' function definition for 'LONGLONG Int64ShraMod32(LONGLONG,DWORD)' could not be written to module due to unrecognized expression or statement at 'C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(1026,5)'.
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(1021,1): message : If possible please provide a repro here: https://developercommunity.visualstudio.com
+  (compiling source file 'Console.h')
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(1037,1): message : sorry: 'inline' function definition for 'ULONGLONG Int64ShrlMod32(ULONGLONG,DWORD)' could not be written to module due to unrecognized expression or statement at 'C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(1042,5)'.
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(1037,1): message : If possible please provide a repro here: https://developercommunity.visualstudio.com
+  (compiling source file 'Console.h')
+  
+  BehaviorStrategies.cpp
+  Console.cpp
+  Enemy.cpp
+  Entity.cpp
+  Main.cpp
+  Player.cpp
+  Tile.cpp
   World.cpp
-C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\Module_9_255_Bomb\GAP255_BehaviorPatterns\BehaviorPatterns\EnemyFactory.h(25): warning C4715: 'EnemyFactory::Create': not all control paths return a value
+  Generating Code...
   BehaviorPatterns.vcxproj -> C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\Module_9_255_Bomb\GAP255_BehaviorPatterns\Debug\BehaviorPatterns.exe

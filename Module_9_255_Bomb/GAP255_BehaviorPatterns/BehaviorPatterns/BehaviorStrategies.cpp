@@ -14,7 +14,7 @@ BehaviorStrategy::Behavior EndGame::OnEnter(Entity* pEntity)
 {
 	if(pEntity->IsPlayer())
 		pEntity->GetWorld()->GetPlayerPointer()->EndGame();
-	return Behavior::kNothing;
+	return Behavior::kEndGame;
 }
 
 BehaviorStrategy::Behavior Explosion::OnEnter(Entity* pEntity)

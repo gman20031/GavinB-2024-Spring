@@ -19,7 +19,8 @@ public:
 		switch (moveType)
 		{
 		case kChase:	return s_chasingPrototype.Clone();
-		case kRunAway:	return s_chasingPrototype.Clone();
+		case kRunAway:	return s_runningPrototype.Clone();
+		default: return nullptr;
 		}
 		
 	}

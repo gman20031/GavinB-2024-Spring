@@ -21,7 +21,7 @@ public:
 	Enemy(const Enemy& original) = default;
 
 	virtual Enemy* Clone();
-	void Init(int x, int y, World* pWorld);
+	constexpr void Init(int x, int y, World* pWorld);
 
 	virtual void Update();
 	virtual void Draw();
@@ -36,7 +36,7 @@ public:
 		kRunAway,
 		kCount,
 	} static;
-	struct Postion
+	struct Position
 	{
 		int x, y;
 	};
@@ -44,27 +44,15 @@ public:
 protected:
 	MoveType m_moveType;
 
-	Postion FindPlayerLocation(Enemy* enemy) const;
-	bool PlayerInRange(Postion playerPos, Enemy* enemy) const;
+	Position FindPlayerLocation(Enemy* enemy) const;
+	bool PlayerInRange(Position playerPos, Enemy* enemy) const;
 	void ChangePostion(Enemy* enemy, int deltaX, int deltaY) const;
 	void MoveRandom(Enemy* enemy) const;
 	void SafeMove(Enemy* enemy,int deltaX, int deltaY) const;
 
-	void RunAway(Enemy* enemy, Postion playerPos) const;
-	void Chase(Enemy* enemy, Postion playerPos) const;
+	void RunAway(Enemy* enemy, Position playerPos) const;
+	void Chase(Enemy* enemy, Position playerPos) const;
 public:
 	EnemyMover(MoveType moveType) : m_moveType(moveType) {}
 	void Move(Enemy* enemy) const;
 };
-
-//class RunAwayFromPlayer : EnemyMover
-//{
-//public:
-//	virtual void Update(Enemy* enemy) const ;
-//};
-//
-//class ChasePlayer : EnemyMover
-//{
-//public:
-//	virtual void Update(Enemy* enemy) const ;
-//};
