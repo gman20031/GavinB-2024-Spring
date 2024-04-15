@@ -8,8 +8,8 @@ Tile::~Tile()
 	delete m_pBehavior;
 }
 
-Tile::Tile(AppearanceStrategy::Appearance appearanceType, BehaviorStrategy::Behavior behaviorType
-	, const std::initializer_list<int>& behaviorInputs)
+Tile::Tile(AppearanceType appearanceType, BehaviorType behaviorType
+	, const std::initializer_list<int>& behaviorInputs )
 {
 	SetAppearance(appearanceType);
 	SetBehavior(behaviorType, behaviorInputs);
@@ -17,11 +17,11 @@ Tile::Tile(AppearanceStrategy::Appearance appearanceType, BehaviorStrategy::Beha
 
 Tile::Tile(const Tile& original, const std::initializer_list<int>& behaviorInputs)
 {
-	SetAppearance(original.m_pAppearance->GetAppearance());
-	SetBehavior(original.m_pBehavior->GetBehavior() , behaviorInputs);
+	SetAppearance( (AppearanceType)original.m_pAppearance->GetAppearanceType());
+	SetBehavior( (BehaviorType)original.m_pBehavior->GetBehaviorType() , behaviorInputs);
 }
 
-void Tile::SetBehavior(BehaviorStrategy::Behavior behaviorType,
+void Tile::SetBehavior(BehaviorType behaviorType,
 	const std::initializer_list<int>& behaviorInputs)
 {
 	if (m_pBehavior)
@@ -30,7 +30,7 @@ void Tile::SetBehavior(BehaviorStrategy::Behavior behaviorType,
 	m_pBehavior->GiveOwner(this);
 }
 
-void Tile::SetAppearance(AppearanceStrategy::Appearance appearanceType)
+void Tile::SetAppearance(AppearanceType appearanceType)
 {						  
 	m_pAppearance = FlyweightAppearanceFactory::Create(appearanceType);
 }
@@ -42,7 +42,7 @@ Tile* Tile::Clone(const std::initializer_list<int>& behaviorInputs)
 
 void Tile::OnEnter(Entity* pEntity)
 {
-	auto newType = m_pBehavior->OnEnter(pEntity);
-	if (newType != m_pBehavior->GetBehavior())
+	BehaviorType newType = (BehaviorType)m_pBehavior->OnEnter(pEntity);
+	if (newType != (BehaviorType)m_pBehavior->GetBehaviorType())
 		SetBehavior(newType);
 }

@@ -74,7 +74,7 @@ void EnemyMover::SafeMove(Enemy* enemy, int deltaX, int deltaY) const
 	int newY = enemy->m_y + deltaY;
 
 	if (pWorld->GetTileAt(newX, newY) != nullptr		
-	and pWorld->GetTileAt(newX, newY)->GetAppearanceType() == AppearanceStrategy::Appearance::kEmpty)
+	and pWorld->GetTileAt(newX, newY)->GetAppearanceType() == FlyweightAppearanceFactory::Appearance::kEmpty)
 		ChangePostion(enemy, deltaX, deltaY);
 }
 

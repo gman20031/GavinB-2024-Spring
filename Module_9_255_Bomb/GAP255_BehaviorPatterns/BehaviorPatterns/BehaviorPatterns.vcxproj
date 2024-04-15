@@ -94,9 +94,11 @@
   <ItemGroup>
     <ClInclude Include="AppearanceStrategies.h" />
     <ClInclude Include="BehaviorStrategies.h" />
+    <ClInclude Include="Component.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyFactory.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="StrategyFactories.h" />
     <ClInclude Include="TileFactories.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Tile.h" />

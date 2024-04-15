@@ -12,13 +12,13 @@ class UnitFactory
 		static constexpr UnitConfig soldier("Soldier", 1, 1, true);
 		static constexpr UnitConfig archer("Archer", 1, 3, true);
 
-		static UnitMap m_UnitTypes
+		static UnitMap s_UnitTypes
 		{
 			{"Peon"    , Unit(5  , 1 , peon) },
 			{"Soldier" , Unit(15 , 3 , soldier) },
 			{"Archer"  , Unit(10 , 2 , archer) },
 		};
-		return m_UnitTypes;
+		return s_UnitTypes;
 	}
 
 public:

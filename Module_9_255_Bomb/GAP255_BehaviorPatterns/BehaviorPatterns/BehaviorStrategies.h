@@ -9,25 +9,17 @@ class Entity;
 class BehaviorStrategy
 {
 public:
-	enum class Behavior
-	{
-		kNothing,
-		kExplosion,
-		kGiveTreasure,
-		kEndGame,
-		kTeleport,
 
-		kCount,
-	} static;
 protected:
 	Tile* m_pOwner = nullptr;
 	World* m_pWorld = nullptr;
-	const Behavior m_behaviorType;
+	const int m_behaviorType;
+	using Behavior = int;
 public:
-	BehaviorStrategy(Behavior behaviorType) : m_behaviorType(behaviorType) {}
+	constexpr BehaviorStrategy(Behavior behaviorType) : m_behaviorType(behaviorType) {}
 	virtual ~BehaviorStrategy() = default;
 
-	Behavior GetBehavior() const { return m_behaviorType; }
+	Behavior GetBehaviorType() const { return m_behaviorType; }
 	void GiveOwner(Tile* pOwner);
 
 	virtual Behavior OnEnter([[maybe_unused]] Entity* pEntity) = 0;
@@ -36,9 +28,9 @@ public:
 class DoNothing : public BehaviorStrategy
 {
 public:
-	DoNothing() : BehaviorStrategy(Behavior::kNothing) {}
+	constexpr DoNothing() : BehaviorStrategy(0) {}
 
-	virtual Behavior OnEnter([[maybe_unused]] Entity* pEntity) override { return Behavior::kNothing; }
+	virtual Behavior OnEnter([[maybe_unused]] Entity* pEntity) override { return 0; }
 };
 
 class Explosion : public BehaviorStrategy
@@ -47,7 +39,7 @@ class Explosion : public BehaviorStrategy
 	inline static constexpr DamageRange s_damageRange{ 3,6 };
 
 public:
-	Explosion() : BehaviorStrategy(Behavior::kExplosion) {}
+	constexpr Explosion() : BehaviorStrategy(1) {}
 
 	virtual Behavior OnEnter([[maybe_unused]] Entity* pEntity) override;
 };
@@ -56,7 +48,7 @@ class GiveTreasure : public BehaviorStrategy
 {
 	static constexpr std::pair<int, int> s_treasureRange{ 50,150 };
 public:
-	GiveTreasure() : BehaviorStrategy(Behavior::kGiveTreasure) {}
+	constexpr GiveTreasure() : BehaviorStrategy(2) {}
 
 	virtual Behavior OnEnter([[maybe_unused]] Entity* pEntity) override;
 };
@@ -64,7 +56,7 @@ public:
 class EndGame : public BehaviorStrategy
 {
 public:
-	EndGame() : BehaviorStrategy(Behavior::kEndGame) {}
+	constexpr EndGame() : BehaviorStrategy(3) {}
 
 	virtual Behavior OnEnter([[maybe_unused]] Entity* pEntity) override;
 };
@@ -75,13 +67,24 @@ class Teleport : public BehaviorStrategy
 	int m_linkedTileY = 0;
 
 public:
-	Teleport(std::initializer_list<int> behaviorInputs)
-		: BehaviorStrategy(Behavior::kTeleport)
+	constexpr Teleport(std::initializer_list<int> behaviorInputs)
+		: BehaviorStrategy(4)
 	{
 		auto it = behaviorInputs.begin();
 		m_linkedTileX = *it;
 		m_linkedTileY = *(it + 1);
 	}
+
+	virtual Behavior OnEnter([[maybe_unused]] Entity* pEntity) override;
+};
+
+
+class NewBehavior : public BehaviorStrategy
+{
+	int random;
+
+public:
+	constexpr NewBehavior() : BehaviorStrategy(5) { random = 5; }
 
 	virtual Behavior OnEnter([[maybe_unused]] Entity* pEntity) override;
 };

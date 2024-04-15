@@ -1,9 +1,6 @@
 // Main.cpp
 #include "World.h"
 #include <time.h>
-#include <Windows.h>
-
-
 
 int main()
 {

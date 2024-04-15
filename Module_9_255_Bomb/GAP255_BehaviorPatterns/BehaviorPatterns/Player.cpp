@@ -78,8 +78,8 @@ void Player::CheckForBombs()
 		for (size_t i = 0; i < detectedSquares; ++i)
 		{
 			Tile* pTile = m_pWorld->GetTileAt(m_x + xPos, m_y + yPos);
-			if (pTile->GetBehaviorType() == BehaviorStrategy::Behavior::kExplosion)
-				pTile->SetAppearance(AppearanceStrategy::Appearance::kBomb);
+			if (pTile->GetBehaviorType() == BehaviorFactory::Behavior::kExplosion)
+				pTile->SetAppearance(FlyweightAppearanceFactory::Appearance::kBomb);
 			++xPos;
 			if (xPos > kDetectorRange)
 			{
