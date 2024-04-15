@@ -3,21 +3,31 @@
 #include "TileFactories.h"
 
 //////////////////////// Tile ////////////////////////////////
-Tile::Tile(AppearanceStrategy::Appearance apearanceType, BehaviorStrategy::Behavior behaviorType)
-{
-	SetAppearance(apearanceType);
-	SetBehavior(behaviorType);
-}
-
-Tile::Tile(const Tile& original)
-{
-	SetAppearance(original.m_pAppearance->GetAppearance());
-	SetBehavior(original.m_pBehavior->GetBehavior());
-}
-
 Tile::~Tile()
 {
 	delete m_pBehavior;
+}
+
+Tile::Tile(AppearanceStrategy::Appearance appearanceType, BehaviorStrategy::Behavior behaviorType
+	, const std::initializer_list<int>& behaviorInputs)
+{
+	SetAppearance(appearanceType);
+	SetBehavior(behaviorType, behaviorInputs);
+}
+
+Tile::Tile(const Tile& original, const std::initializer_list<int>& behaviorInputs)
+{
+	SetAppearance(original.m_pAppearance->GetAppearance());
+	SetBehavior(original.m_pBehavior->GetBehavior() , behaviorInputs);
+}
+
+void Tile::SetBehavior(BehaviorStrategy::Behavior behaviorType,
+	const std::initializer_list<int>& behaviorInputs)
+{
+	if (m_pBehavior)
+		delete m_pBehavior;
+	m_pBehavior = BehaviorFactory::Create(behaviorType, behaviorInputs);
+	m_pBehavior->GiveOwner(this);
 }
 
 void Tile::SetAppearance(AppearanceStrategy::Appearance appearanceType)
@@ -25,17 +35,9 @@ void Tile::SetAppearance(AppearanceStrategy::Appearance appearanceType)
 	m_pAppearance = FlyweightAppearanceFactory::Create(appearanceType);
 }
 
-void Tile::SetBehavior(BehaviorStrategy::Behavior behaviorType)
+Tile* Tile::Clone(const std::initializer_list<int>& behaviorInputs)
 {
-	if (m_pBehavior)
-		delete m_pBehavior;
-	m_pBehavior = BehaviorFactory::Create(behaviorType);
-	m_pBehavior->GiveOwner(this);
-}
-
-Tile* Tile::Clone()
-{
-	return new Tile(*this);
+	return new Tile(*this, behaviorInputs);
 }
 
 void Tile::OnEnter(Entity* pEntity)

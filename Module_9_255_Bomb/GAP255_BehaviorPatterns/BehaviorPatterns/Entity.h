@@ -17,6 +17,7 @@ public:
 	virtual ~Entity() = default;
 
 	World* GetWorld() const { return m_pWorld; }
+	void SetPosition(int x, int y) { m_x = x; m_y = y; }
 	int GetX() const { return m_x; }
 	int GetY() const { return m_y; }
 

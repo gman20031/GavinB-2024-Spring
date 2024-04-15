@@ -33,3 +33,9 @@ BehaviorStrategy::Behavior GiveTreasure::OnEnter(Entity* pEntity)
 	m_pOwner->SetAppearance(AppearanceStrategy::Appearance::kEmpty);
 	return Behavior::kNothing;
 }
+
+BehaviorStrategy::Behavior  Teleport::OnEnter(Entity* pEntity)
+{
+	pEntity->SetPosition(m_linkedTileX, m_linkedTileY);
+	return m_behaviorType;
+}

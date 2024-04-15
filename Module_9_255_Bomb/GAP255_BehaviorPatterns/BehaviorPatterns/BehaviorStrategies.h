@@ -15,6 +15,7 @@ public:
 		kExplosion,
 		kGiveTreasure,
 		kEndGame,
+		kTeleport,
 
 		kCount,
 	} static;
@@ -47,6 +48,7 @@ class Explosion : public BehaviorStrategy
 
 public:
 	Explosion() : BehaviorStrategy(Behavior::kExplosion) {}
+
 	virtual Behavior OnEnter([[maybe_unused]] Entity* pEntity) override;
 };
 
@@ -67,3 +69,19 @@ public:
 	virtual Behavior OnEnter([[maybe_unused]] Entity* pEntity) override;
 };
 
+class Teleport : public BehaviorStrategy
+{
+	int m_linkedTileX = 0;
+	int m_linkedTileY = 0;
+
+public:
+	Teleport(std::initializer_list<int> behaviorInputs)
+		: BehaviorStrategy(Behavior::kTeleport)
+	{
+		auto it = behaviorInputs.begin();
+		m_linkedTileX = *it;
+		m_linkedTileY = *(it + 1);
+	}
+
+	virtual Behavior OnEnter([[maybe_unused]] Entity* pEntity) override;
+};

@@ -21,6 +21,7 @@ class World
 		{75, TileType::kBomb},
 		{75, TileType::kTreasure},
 		{50, TileType::kMimic},
+		{5 , TileType::kTeleporter},
 	};
     
     int m_width, m_height;

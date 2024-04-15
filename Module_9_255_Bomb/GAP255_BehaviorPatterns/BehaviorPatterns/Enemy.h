@@ -21,7 +21,7 @@ public:
 	Enemy(const Enemy& original) = default;
 
 	virtual Enemy* Clone();
-	constexpr void Init(int x, int y, World* pWorld);
+	void Init(int x, int y, World* pWorld);
 
 	virtual void Update();
 	virtual void Draw();

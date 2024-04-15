@@ -134,8 +134,20 @@ void World::GenerateWorld()
                 break;
             ++probabilityIndex;
         }
-		
-		m_ppGrid[tileIndex] = TileFactory::Create(s_tileProbabilities[probabilityIndex].second);
+
+		if (s_tileProbabilities[probabilityIndex].second == kTeleporter)
+		{
+			// required to make in pair
+			int randomX = rand() % m_width;
+			int randomY = rand() % m_height;
+			int randomIndex = (randomY * m_height) + randomX;
+			int tileX = tileIndex % m_width;
+			int tileY = tileIndex / m_width;
+			m_ppGrid[tileIndex] = TileFactory::Create(kTeleporter, { randomX, randomY });
+			m_ppGrid[randomIndex] = TileFactory::Create(kTeleporter, { tileX , tileY });
+		}
+		else
+			m_ppGrid[tileIndex] = TileFactory::Create(s_tileProbabilities[probabilityIndex].second);
 
 	}
 }
@@ -200,6 +212,11 @@ void World::Update()
 		enemy = *it;
 		enemy->Update();
 		ProcessEntity(enemy);
+
+		if (enemy->GetX() == m_pPlayer->GetX()
+		and enemy->GetY() == m_pPlayer->GetY())
+			m_pPlayer->Kill();
+
 		if (enemy->IsDead())
 		{
 			delete enemy;

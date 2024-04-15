@@ -15,6 +15,7 @@ public:
 		kUsedBomb = '#',
 		kExit = 'H',
 		kTreasure = '$',
+		KTeleporter = '&',
 	} static ;
 private:
 	const Appearance m_displayerChar;
@@ -28,48 +29,3 @@ public:
 	}
 
 };
-
-
-//class EmptyAppearance : public AppearanceStrategy
-//{
-//public:
-//	virtual void Draw() const override
-//	{
-//		std::cout << '.';
-//	}
-//};
-//
-//class UsedBomb : public AppearanceStrategy
-//{
-//	virtual void Draw() const override
-//	{
-//		std::cout << '#';
-//	}
-//};
-//class BombAppearance : public AppearanceStrategy
-//{
-//public:
-//	virtual void Draw() const override
-//	{
-//		std::cout << "*";
-//	}
-//};
-//
-//class ExitAppearance : public AppearanceStrategy
-//{
-//public:
-//	virtual void Draw() const override
-//	{
-//		std::cout << "H";
-//	}
-//};
-//
-//class TreasureAppearance : public AppearanceStrategy
-//{
-//
-//public:
-//	virtual void Draw() const override
-//	{
-//		std::cout << '$';
-//	}
-//};

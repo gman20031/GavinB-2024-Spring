@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 #include <assert.h>
+#include <initializer_list>
 
 #include "Tile.h"
 #include "AppearanceStrategies.h"
@@ -18,6 +19,7 @@ public:
 		kTreasure,
 		kMimic,
 		kExit,
+		kTeleporter,
 		kCount,
 	} static;
 
@@ -36,16 +38,17 @@ private:
 			{ kTreasure,{Appearance::kTreasure,	Behavior::kGiveTreasure}},
 			{ kMimic,   {Appearance::kTreasure,	Behavior::kExplosion}},
 			{ kExit,    {Appearance::kExit    ,	Behavior::kEndGame}},
+			{ kTeleporter , {Appearance::KTeleporter , Behavior::kTeleport}},
 		};
 		return tiles;
 	}
 
 public:
-	static Tile* Create(TileType type)
+	static Tile* Create(TileType type, std::initializer_list<int> behaviorInputs = {} )
 	{
 		auto it = GetTiles().find(type);
 		if (it != GetTiles().end())
-			return it->second.Clone();
+			return it->second.Clone(behaviorInputs);
 		return nullptr;
 	}
 };
@@ -55,8 +58,7 @@ class BehaviorFactory
 	using Behavior = BehaviorStrategy::Behavior;
 
 public:
-
-	static BehaviorStrategy* Create(Behavior type)
+	static BehaviorStrategy* Create(Behavior type, const std::initializer_list<int>& behaviorInputs = {})
 	{
 		assert(type != Behavior::kCount);
 		using enum Behavior;
@@ -66,6 +68,7 @@ public:
 		case kExplosion: return new Explosion;
 		case kNothing:   return new DoNothing;
 		case kEndGame:   return new EndGame;
+		case kTeleport:  return new Teleport(behaviorInputs);
 		default: return nullptr;
 		}
 	}
@@ -86,6 +89,7 @@ class FlyweightAppearanceFactory
 			{kUsedBomb	, AppearanceStrategy(kUsedBomb)},
 			{kExit		, AppearanceStrategy(kExit)},
 			{kTreasure  , AppearanceStrategy(kTreasure)},
+			{KTeleporter, AppearanceStrategy(KTeleporter)},
 		};
 		return AppearancesMap;
 	}

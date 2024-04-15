@@ -31,7 +31,7 @@ Enemy* Enemy::Clone()
 	return new Enemy(*this);
 }
 
-constexpr void Enemy::Init(int x, int y, World* pWorld)
+void Enemy::Init(int x, int y, World* pWorld)
 {
 	m_x = x;
 	m_y = y;
