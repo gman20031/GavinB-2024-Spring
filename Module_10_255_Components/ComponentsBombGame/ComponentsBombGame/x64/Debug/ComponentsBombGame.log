@@ -1,10 +1,2 @@
-﻿  BehaviorStrategies.cpp
-  Console.cpp
-  Enemy.cpp
-  Entity.cpp
-  Main.cpp
-  Player.cpp
-  Tile.cpp
-  World.cpp
-  Generating Code...
-  ComponentsBombGame.vcxproj -> C:\Users\gavin\Documents\GitHub\GavinB-2024-Spring\Module_10_255_Components\ComponentsBombGame\x64\Debug\ComponentsBombGame.exe
+﻿  World.cpp
+  ComponentsBombGame.vcxproj -> C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\Module_10_255_Components\ComponentsBombGame\x64\Debug\ComponentsBombGame.exe

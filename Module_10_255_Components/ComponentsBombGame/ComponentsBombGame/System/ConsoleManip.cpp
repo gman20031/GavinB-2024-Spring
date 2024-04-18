@@ -1,4 +1,5 @@
 #include "ConsoleManip.h"
+#include "conio.h"
 
 bool& ConsoleManip::VTEnabled()
 {
@@ -46,6 +47,16 @@ void ConsoleManip::DrawToConsole(const char* output, const char* formatting)
 void ConsoleManip::DrawToConsole(const char output, const char* formatting)
 {
 	printf(VT_ESC "%s" "%c" VT_ESC TEXT_DEF, formatting, output);
+}
+
+/////////////////////////////////////////////////////////////////////
+// Prints "press any key to continue..\n" then waits for user input
+// input is then ignored and function closes.
+/////////////////////////////////////////////////////////////////////
+void Pause()
+{
+	std::cout << "press any key to continue..\n";
+	[[maybe_unused]] int idk = _getwch();
 }
 
 /////////////////////////////////////////////////////////////////////
