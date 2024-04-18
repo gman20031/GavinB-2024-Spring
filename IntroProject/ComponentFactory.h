@@ -7,42 +7,44 @@
 #include "ComponentImplementations.h"
 
 
-//template <typename ... ArgTypes>
-//class ComponentFactory
-//{
-//	using ComponentPtr = Component*;
-//	using FactoryKey = Component::IdType;
-//	typedef ComponentPtr(*ComponentCreationFunction)(ArgTypes...);
-//	using Registry = std::unordered_map<FactoryKey, ComponentCreationFunction>;
-//
-//public:
-//	static ComponentPtr Create(FactoryKey key, ArgTypes... componentArgs)
-//	{
-//		auto entry = GetFunctionRegistry().find(key);
-//		if (entry == GetFunctionRegistry().end()) return nullptr;
-//		return entry->second(&componentArgs...);
-//	}
-//
-//	template <class RegisteredType>
-//	class Registrar
-//	{
-//	public:
-//		Registrar()
-//		{
-//			GetFunctionRegistry().emplace(RegisteredType::s_Id, &Registrar::Create);
-//		}
-//	private:
-//		static ComponentPtr Create(ArgTypes... args) { return new RegisteredType(args); }
-//	};
-//
-//private:
-//
-//	static Registry& GetFunctionRegistry()
-//	{
-//		static Registry s_registry;
-//		return s_registry;
-//	}
-//};
+template <typename ... ArgTypes>
+class ComponentFactory
+{
+	using ComponentPtr = Component*;
+	using FactoryKey = Component::IdType;
+	typedef ComponentPtr (*ComponentCreationFunction)(ArgTypes...);
+	using Registry = std::unordered_map<FactoryKey, ComponentCreationFunction>;
+
+public:
+	static ComponentPtr Create(FactoryKey key, ArgTypes... componentArgs)
+	{
+		auto entry = GetFunctionRegistry().find(key);
+		if (entry == GetFunctionRegistry().end()) return nullptr;
+
+		auto ptr = entry->second(componentArgs...);
+		return ptr;
+	}
+
+	template <class RegisteredType>
+	class Registrar
+	{
+	public:
+		Registrar()
+		{
+			GetFunctionRegistry().emplace(RegisteredType::s_Id, &Registrar::Create);
+		}
+	private:
+		static ComponentPtr Create(ArgTypes... componentArgs) { return new RegisteredType(componentArgs...); }
+	};
+
+private:
+
+	static Registry& GetFunctionRegistry()
+	{
+		static Registry s_registry;
+		return s_registry;
+	}
+};
 
 //template <typename ... ArgTypes>
 class ExampleInstationIntBool

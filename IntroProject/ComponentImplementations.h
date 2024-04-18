@@ -22,7 +22,7 @@ class MoveComponent : public Component
 public:
 	static constexpr size_t s_Id = 1;
 	MoveComponent(int speed) : m_speed(speed) {}
-	void MoveTowards(Actor* otherActor) { std::cout << "moving towards other Actor\n"; }
+	void MoveTowards([[maybe_unused]] Actor*  otherActor) { std::cout << "moving towards other Actor\n"; }
 };
 
 
@@ -75,4 +75,17 @@ public:
 		for (int number : allInts) std::cout << number << " , ";
 		std::cout << '\n';
 	}
+};
+
+class IntIntTest : public Component
+{
+	int m_i;
+	int m_b;
+
+public:
+	IntIntTest(int i, int b) : m_i(i), m_b(b) {}
+	static constexpr size_t s_Id = 6;
+
+	void Print() const { std::cout << "int : " << m_i << " , Int : " << m_b << '\n'; }
+
 };

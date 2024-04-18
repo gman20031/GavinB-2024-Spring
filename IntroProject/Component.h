@@ -18,7 +18,7 @@ public:
 
 class Component
 {
-	Actor* m_pOwner;
+	Actor* m_pOwner = nullptr;
 public:
 	using IdType = size_t;
 
