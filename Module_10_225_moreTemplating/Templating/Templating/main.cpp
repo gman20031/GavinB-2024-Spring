@@ -28,6 +28,7 @@ public:
 	constexpr internalType& Get(size_t index) { return m_pArray[index]; }
 };
 
+
 /* instantiation of Vector<int , 2 >
 template<typename int, int 2>
 class Vector
