@@ -3,14 +3,12 @@
 #include "Component.h"
 
 
-class ConcreteComponentTest : public Component
-{
-	int value;
-public:
-	ConcreteComponentTest(int val) : value(val) {}
 
-	void PrintValue() { std::cout << value; }
-};
+template <class ComponentType, typename ... ArgTypes>
+Component* CreateComponent(ArgTypes&& ... args)
+{
+	return new ComponentType(args...);
+}
 
 template <typename ... componentArgs>
 class ComponentFactory

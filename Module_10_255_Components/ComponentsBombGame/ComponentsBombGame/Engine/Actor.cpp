@@ -1,6 +1,13 @@
 #include "Actor.h"
 
-void Actor::AddComponent(Component* pNewComponent)
-{
+#include <assert.h>
 
+constexpr Component* Actor::AddComponent(Component* pNewComponent)
+{
+	assert(pNewComponent != nullptr);
+}
+
+constexpr Component* Actor::GetComponent(size_t)
+{
+	return nullptr;
 }

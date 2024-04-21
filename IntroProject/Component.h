@@ -2,29 +2,17 @@
 #pragma once
 #include <vector>
 
-class Component;
-
-class Actor {
-	int x, y;
-	//std::vector<Component*> allComponents;
-public:
-	//void AddComponent(Component* pNewComponent) {
-	//	allComponents.emplace_back(pNewComponent);
-	//	allComponents.back()->GiveOwner(this);
-	//}
-
-	void Print() const { std::cout << "actor printed\n"; }
-};
 
 class Component
 {
-	Actor* m_pOwner = nullptr;
+//	Actor* m_pOwner = nullptr;
 public:
 	using IdType = size_t;
 
 	virtual ~Component() = default;
+	Component* Clone() const {}
 
-	constexpr void GiveOwner(Actor* pOwner) { m_pOwner = pOwner; }
+	//constexpr void GiveOwner(Actor* pOwner) { m_pOwner = pOwner; }
 
 	virtual void Render() {}
 	virtual void Start() {}

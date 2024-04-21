@@ -1,5 +1,4 @@
 ﻿  main.cpp
-C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\main.cpp(95,68): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\main.cpp(63,27): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\main.cpp(89,48): message : see reference to function template instantiation 'Component *TestCreateComponent<IntIntTest,int,double>(int &&,double &&)' being compiled
-  IntroProject.vcxproj -> C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\x64\Debug\IntroProject.exe
+C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\main.cpp(39,39): error C2660: 'ComponentFactory::Create': function does not take 3 arguments
+C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\ComponentFactory.h(24,22): message : see declaration of 'ComponentFactory::Create'
+C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\main.cpp(39,39): message : while trying to match the argument list '(const size_t, int, int)'
