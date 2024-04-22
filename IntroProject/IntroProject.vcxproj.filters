@@ -8,15 +8,25 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Test\Actor.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ComponentFactory.h">
+    <ClInclude Include="Test\Actor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Component.h">
+    <ClInclude Include="Test\Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentImplementations.h">
+    <ClInclude Include="Test\ComponentFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Test\Vector2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Test\Basic2dCollider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Test\BasicRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

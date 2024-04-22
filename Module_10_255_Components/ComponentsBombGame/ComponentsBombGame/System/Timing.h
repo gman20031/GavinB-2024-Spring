@@ -1,6 +1,6 @@
 #pragma once
 
-#include "time.h"
+#include <time.h>	
 class Timing
 {
 	static constexpr bool randSeeded = false;

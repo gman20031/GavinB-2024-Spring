@@ -1,9 +1,7 @@
 // World.cpp
 #include "World.h"
-#include "Tile.h"
-#include "Player.h"
+//#include "Player.h"
 #include "../System/ConsoleManip.h"
-#include "EnemyFactory.h"
 
 #include <assert.h>
 

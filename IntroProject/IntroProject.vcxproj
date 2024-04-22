@@ -20,11 +20,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Test\Actor.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="ComponentFactory.h" />
-    <ClInclude Include="ComponentImplementations.h" />
+    <ClInclude Include="Test\Actor.h" />
+    <ClInclude Include="Test\Basic2dCollider.h" />
+    <ClInclude Include="Test\BasicRenderer.h" />
+    <ClInclude Include="Test\Component.h" />
+    <ClInclude Include="Test\ComponentFactory.h" />
+    <ClInclude Include="Test\Vector2.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

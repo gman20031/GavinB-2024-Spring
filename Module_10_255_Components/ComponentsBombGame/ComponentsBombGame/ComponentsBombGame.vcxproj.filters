@@ -15,43 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="OldGameCode\AppearanceStrategies.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OldGameCode\BehaviorStrategies.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OldGameCode\Enemy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OldGameCode\EnemyFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OldGameCode\Entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OldGameCode\Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OldGameCode\StrategyFactories.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OldGameCode\Tile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OldGameCode\TileFactories.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OldGameCode\World.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="System\ConsoleManip.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="System\Prompting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="System\Timing.h">
@@ -66,30 +33,27 @@
     <ClInclude Include="Engine\ComponentFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Vector2.h">
+    <ClInclude Include="System\Prompting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\World.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Vector2d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ActorFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\EnemyComponents.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameTags.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="OldGameCode\BehaviorStrategies.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OldGameCode\Enemy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OldGameCode\Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OldGameCode\Player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OldGameCode\Tile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OldGameCode\World.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="System\ConsoleManip.cpp">
@@ -102,6 +66,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Actor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\BasicRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Basic2dCollider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\World.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\EnemyComponents.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

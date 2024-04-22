@@ -1,6 +1,22 @@
 #pragma once
 
-class Basic2dCollider
-{
+#include <vector>
+#include "Component.h"
 
+class Actor;
+class World;
+
+class Basic2dCollider : public Component
+{
+public:
+	NEW_STATIC_ID;
+	Basic2dCollider(Actor* pOwner) : Component(pOwner, s_id), m_pCollidedActors(nullptr) {}
+	Basic2dCollider(const Basic2dCollider& other);
+private:
+	std::vector<Actor*>* m_pCollidedActors;
+public:
+	virtual Component* Clone() override;
+
+	void Init(std::vector<Actor*>* pcollidedActors);
+	virtual void Update() override;
 };

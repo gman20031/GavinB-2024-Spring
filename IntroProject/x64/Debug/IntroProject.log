@@ -1,4 +1,3 @@
 ﻿  main.cpp
-C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\main.cpp(39,39): error C2660: 'ComponentFactory::Create': function does not take 3 arguments
-C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\ComponentFactory.h(24,22): message : see declaration of 'ComponentFactory::Create'
-C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\main.cpp(39,39): message : while trying to match the argument list '(const size_t, int, int)'
+main.obj : error LNK2001: unresolved external symbol "public: static class CounterId TestA::s_id" (?s_id@TestA@@2VCounterId@@A)
+C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\x64\Debug\IntroProject.exe : fatal error LNK1120: 1 unresolved externals

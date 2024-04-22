@@ -1,7 +1,7 @@
 #include "Prompting.h"
 
-#include <string>
 #include <iostream>
+#include <string>
 #include <conio.h>
 #include <initializer_list>
 #include <limits.h>
