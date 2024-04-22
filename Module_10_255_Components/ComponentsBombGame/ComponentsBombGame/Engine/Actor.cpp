@@ -5,8 +5,9 @@
 Actor::Actor(id_t RendererID, id_t ColliderID)
 	: m_pRenderer(ComponentFactory::Create(RendererID, this))
 	, m_pCollider(ComponentFactory::Create(ColliderID, this))
-	, m_position(0.f,0.f)
+	, m_position(0,0)
 	, m_uniqueId(s_actorCount++)
+	, m_pWorld(nullptr)
 {	
 	// empty
 }
@@ -14,8 +15,8 @@ Actor::Actor(id_t RendererID, id_t ColliderID)
 Actor::Actor(const Actor& original)
 	: m_position(original.m_position)
 	, m_pWorld(original.m_pWorld)
-	, m_pRenderer(original.m_pRenderer->Clone())
-	, m_pCollider(original.m_pCollider->Clone())
+	, m_pRenderer(original.m_pRenderer->Clone(this))
+	, m_pCollider(original.m_pCollider->Clone(this))
 	, m_uniqueId(s_actorCount++)
 {
 	for (Component* entry : original.m_pComponentVector)
@@ -52,11 +53,33 @@ Component* Actor::AddComponent(id_t componentId)
 	return AddComponent(pComponent, componentId);
 }
 
+void Actor::RemoveComponent(id_t id)
+{
+	m_pRemovedComponents.emplace_back(id);
+}
+
+void Actor::DeleteRemovedComponents()
+{
+	for(id_t removedID : m_pRemovedComponents)
+	{
+		m_ComponentMap.erase(removedID);
+		for (auto it = m_pComponentVector.begin(); it != m_pComponentVector.end(); ++it)
+		{
+			if ((*it)->m_id == removedID)
+			{	
+				delete* it;
+				m_pComponentVector.erase(it);
+			}
+		}
+	}
+	m_pRemovedComponents.clear();
+}
+
 ////////////////////////////////////////////////////////////
 // Returns component attached to actor with matching id
 // Returns nullptr if Id is not found
 ////////////////////////////////////////////////////////////
-Component* Actor::GetComponent(id_t id)
+[[nodiscard("Component Unused")]] Component* Actor::GetComponent(id_t id)
 {
 	auto entry = m_ComponentMap.find(id);
 	if (entry == m_ComponentMap.end()) return nullptr;
@@ -91,7 +114,7 @@ Actor* Actor::Clone()
 	return new Actor(*this);
 }
 
-void Actor::Start(World* pWorld, Position_t startPosition)
+void Actor::Init(World* pWorld, Position_t startPosition)
 {
 	m_pWorld = pWorld;
 	m_position = startPosition;
@@ -114,6 +137,7 @@ void Actor::Update()
 		if (m_pCollidedActors.size() >= 1) 
 			component->OnCollide();
 	}
+	DeleteRemovedComponents();
 	m_pCollidedActors.clear();
 }
 

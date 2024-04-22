@@ -4,14 +4,15 @@
 
 #include "../engine/Actor.h"
 
-enum class AllTiles
+enum class TileAppearances
 {
-	kEmpty,
-	kBomb,
-	kTreasure,
-	kMimic,
-	kTeleporter,
-	kCount,
+	kEmpty = '.',
+	kBomb = '*',
+	kUsedBomb = '#',
+	kExit = 'H',
+	kTreasure = '$',
+	kTeleporter = '&',
+	kCount
 };
 
 class World

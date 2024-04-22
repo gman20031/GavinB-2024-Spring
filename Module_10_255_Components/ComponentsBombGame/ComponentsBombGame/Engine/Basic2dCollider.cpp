@@ -10,9 +10,16 @@ Basic2dCollider::Basic2dCollider(const Basic2dCollider& other)
 	// empty
 }
 
-Component* Basic2dCollider::Clone()
+Basic2dCollider::Basic2dCollider(const Basic2dCollider& other, Actor* pOwner)
+	: Component(m_pOwner, s_id)
+	, m_pCollidedActors(other.m_pCollidedActors)
 {
-	return new Basic2dCollider(*this);
+	// empty
+}
+
+Component* Basic2dCollider::Clone(Actor* pOwner)
+{
+	return new Basic2dCollider(*this, pOwner);
 }
 
 void Basic2dCollider::Init(std::vector<Actor*>* pCollidedActors)

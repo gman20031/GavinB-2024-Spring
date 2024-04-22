@@ -24,7 +24,7 @@ public:
 	const size_t m_id;
 	Component(Actor* pOwner, const size_t id) : m_pOwner(pOwner), m_id(id) { /*EMPTY*/ }
 	virtual ~Component() = default;
-	virtual Component* Clone() { return nullptr; }
+	virtual Component* Clone(Actor* pOwner);
 
 	constexpr virtual void Start()	{ /*EMPTY*/ }
 	virtual void Render()	{ /*EMPTY*/ }

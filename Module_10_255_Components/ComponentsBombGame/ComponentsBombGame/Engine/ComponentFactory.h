@@ -30,7 +30,7 @@ public:
 		return entry->second(pOwner);
 	}
 
-	template<class ComponentSubClass>
+	template<SubComponent ComponentSubClass>
 	class Registrar {
 	public:
 		Registrar() {

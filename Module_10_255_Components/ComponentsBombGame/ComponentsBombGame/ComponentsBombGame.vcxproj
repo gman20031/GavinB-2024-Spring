@@ -134,7 +134,10 @@
     <ClInclude Include="Engine\Component.h" />
     <ClInclude Include="Game\ActorFactory.h" />
     <ClInclude Include="Game\EnemyComponents.h" />
+    <ClInclude Include="Game\HealthTracker.h" />
     <ClInclude Include="Game\GameTags.h" />
+    <ClInclude Include="Game\PlayerComponents.h" />
+    <ClInclude Include="Game\TileComponents.h" />
     <ClInclude Include="Game\World.h" />
     <ClInclude Include="System\ConsoleManip.h" />
     <ClInclude Include="System\Prompting.h" />
@@ -146,7 +149,12 @@
     <ClCompile Include="Engine\Actor.h" />
     <ClCompile Include="Engine\Basic2dCollider.cpp" />
     <ClCompile Include="Engine\BasicRenderer.cpp" />
+    <ClCompile Include="Engine\Component.cpp" />
+    <ClCompile Include="Game\ComponentRegistrar.cpp" />
     <ClCompile Include="Game\EnemyComponents.cpp" />
+    <ClCompile Include="Game\HealthTracker.cpp" />
+    <ClCompile Include="Game\PlayerComponents.cpp" />
+    <ClCompile Include="Game\TileComponents.cpp" />
     <ClCompile Include="Game\World.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="System\ConsoleManip.cpp" />

@@ -6,15 +6,16 @@
 #include "world.h"
 
 bool PlayerInRange(Actor::Position_t playerPos, Actor* enemy, size_t sightRangeSquared);
-void ChangePosition(Actor* enemy, int delatX, int deltaY);
 void SafeMove(Actor* enemy, int deltaX, int deltaY);
 void MoveRandom(Actor* enemy);
 Actor::Position_t MoveRelatedToPlayer(Actor* enemy, Actor::Position_t playerPos);
 Actor::Position_t GetPlayerLocation(Actor* enemy);
 
+
 void DirectEnemyLogic::Update()
 {
 	Actor::Position_t playerPos = GetPlayerLocation(m_pOwner);
+	m_oldPosition = playerPos;
 	if (PlayerInRange(playerPos, m_pOwner, kSightRange))
 	{
 		Actor::Position_t newPos = MoveRelatedToPlayer(m_pOwner, playerPos);
@@ -24,14 +25,10 @@ void DirectEnemyLogic::Update()
 		MoveRandom(m_pOwner);
 }	
 
-void DirectEnemyLogic::OnCollide()
-{
-
-}
-
 void ScaredEnemyLogic::Update()
 {
 	Actor::Position_t playerPos = GetPlayerLocation(m_pOwner);
+	m_oldPosition = playerPos;
 	if (PlayerInRange(playerPos, m_pOwner, kSightRange))
 	{
 		Actor::Position_t newPos = MoveRelatedToPlayer(m_pOwner, playerPos);
@@ -41,9 +38,14 @@ void ScaredEnemyLogic::Update()
 		MoveRandom(m_pOwner);
 }
 
+void DirectEnemyLogic::OnCollide()
+{
+	m_pOwner->SetPosition(m_oldPosition);
+}
+
 void ScaredEnemyLogic::OnCollide()
 {
-
+	m_pOwner->SetPosition(m_oldPosition);
 }
 
 template<Number T>
@@ -123,3 +125,4 @@ static void MoveRandom(Actor* enemy)
 	case 3: SafeMove(enemy, 0, -1); break;
 	}
 }
+
