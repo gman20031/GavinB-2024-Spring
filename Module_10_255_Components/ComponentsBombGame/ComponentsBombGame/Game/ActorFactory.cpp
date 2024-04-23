@@ -59,6 +59,7 @@ Actor* ActorFactory::CreateTreasureTile(World* pWorld, Actor::Position_t Pos)
 {
 	Actor* newActor = CreateAndSetActorAppearance(kTreasure, pWorld, Pos);
 	newActor->AddComponent<GiveTreasureCollide>();
+	newActor->GiveTag("treasure");
 	
 	return newActor;
 }

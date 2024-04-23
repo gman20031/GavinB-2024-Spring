@@ -75,6 +75,7 @@ void World::CreatePlayer(int x, int y)
 	assert(y >= 0 && y < m_height);
 	m_pPlayer = ActorFactory::Createplayer(this, { x,y }, kPlayerStartingHealth);
 	m_EntityStartPositions.emplace_back( x, y );
+	m_allActors.emplace_back(m_pPlayer);
 }
 
 void World::GenerateEnemies(size_t amount)
@@ -91,7 +92,9 @@ void World::GenerateEnemies(size_t amount)
 		case 1: newEnemy = ActorFactory::CreateDirectEnemy(this, { x,y }); break;
 		}
 		m_allEnemies.emplace_back(newEnemy);
+		m_allActors.emplace_back(newEnemy);
 		m_allEnemies.back()->Init(this , {x,y} );
+
 	}
 }
 

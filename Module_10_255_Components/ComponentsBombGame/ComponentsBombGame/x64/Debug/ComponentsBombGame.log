@@ -4,6 +4,8 @@
   Actor.h
   Actor.cpp
   Basic2dCollider.cpp
+  BasicRenderer.cpp
+  Component.cpp
   ActorFactory.cpp
   ComponentRegistrar.cpp
   EnemyComponents.cpp
@@ -12,5 +14,7 @@
   TileComponents.cpp
   World.cpp
   Main.cpp
+  ConsoleManip.cpp
+  Prompting.cpp
   Generating Code...
-  ComponentsBombGame.vcxproj -> C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\Module_10_255_Components\ComponentsBombGame\x64\Debug\ComponentsBombGame.exe
+  ComponentsBombGame.vcxproj -> C:\Users\gavin\Documents\GitHub\GavinB-2024-Spring\Module_10_255_Components\ComponentsBombGame\x64\Debug\ComponentsBombGame.exe

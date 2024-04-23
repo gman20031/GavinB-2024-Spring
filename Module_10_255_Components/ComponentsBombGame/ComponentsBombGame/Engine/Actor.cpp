@@ -66,13 +66,15 @@ void Actor::DeleteRemovedComponents()
 	for(id_t removedID : m_pRemovedComponents)
 	{
 		m_ComponentMap.erase(removedID);
-		for (auto it = m_pComponentVector.begin(); it != m_pComponentVector.end(); ++it)
+		for (auto it = m_pComponentVector.begin(); it != m_pComponentVector.end(); )
 		{
 			if ((*it)->m_id == removedID)
 			{	
 				delete* it;
-				m_pComponentVector.erase(it);
+				it = m_pComponentVector.erase(it);
+				continue;
 			}
+			++it;
 		}
 	}
 	m_pRemovedComponents.clear();
@@ -131,6 +133,9 @@ void Actor::Init(World* pWorld, Position_t startPosition)
 ////////////////////////////////////////////////////////////
 void Actor::Update()
 {
+	if (HasTag("treasure"))
+		assert(true); // debug statement
+
 	// Update Components -> for every collison run on Collide.
 	
 	// allow for movement and logic
