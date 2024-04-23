@@ -2,14 +2,15 @@
 
 #include <concepts>
 #include "GameTags.h"
+#include "HealthTracker.h"
 #include "../Engine/Actor.h"
 #include "world.h"
 
-bool PlayerInRange(Actor::Position_t playerPos, Actor* enemy, size_t sightRangeSquared);
-void SafeMove(Actor* enemy, int deltaX, int deltaY);
-void MoveRandom(Actor* enemy);
-Actor::Position_t MoveRelatedToPlayer(Actor* enemy, Actor::Position_t playerPos);
-Actor::Position_t GetPlayerLocation(Actor* enemy);
+static bool PlayerInRange(Actor::Position_t playerPos, Actor* enemy, size_t sightRangeSquared);
+static void SafeMove(Actor* enemy, int deltaX, int deltaY);
+static void MoveRandom(Actor* enemy);
+static Actor::Position_t MoveRelatedToPlayer(Actor* enemy, Actor::Position_t playerPos);
+static Actor::Position_t GetPlayerLocation(Actor* enemy);
 
 
 void DirectEnemyLogic::Update()
@@ -23,6 +24,9 @@ void DirectEnemyLogic::Update()
 	}
 	else
 		MoveRandom(m_pOwner);
+
+	//update the tile I am now standing on.
+	m_pOwner->GetWorldPtr()->GetTileAt(m_pOwner->GetPosition())->Update();
 }	
 
 void ScaredEnemyLogic::Update()
@@ -36,16 +40,29 @@ void ScaredEnemyLogic::Update()
 	}
 	else
 		MoveRandom(m_pOwner);
+
+	//update the tile I am now standing on.
+	m_pOwner->GetWorldPtr()->GetTileAt(m_pOwner->GetPosition())->Update();
 }
 
 void DirectEnemyLogic::OnCollide()
 {
 	m_pOwner->SetPosition(m_oldPosition);
+	for (Actor* actor : m_pOwner->GetCollidedActors())
+	{
+		if (actor->HasTag(GameTag::kPlayer))
+			actor->GetComponent<HealthTracker>()->Kill();
+	}
 }
 
 void ScaredEnemyLogic::OnCollide()
 {
 	m_pOwner->SetPosition(m_oldPosition);
+	for (Actor* actor : m_pOwner->GetCollidedActors())
+	{
+		if (actor->HasTag(GameTag::kPlayer))
+			actor->GetComponent<HealthTracker>()->Kill();
+	}
 }
 
 template<Number T>
@@ -60,10 +77,10 @@ static Actor::Position_t GetPlayerLocation(Actor* enemy)
 
 [[nodiscard]] static Actor::Position_t MoveRelatedToPlayer(Actor* enemy, Actor::Position_t playerPos)
 {
-https://imgur.com/a/ckZGmPe
+	// https://imgur.com/a/ckZGmPe
 
-	int xDistance = enemy->GetPosition().x;
-	int yDistance = enemy->GetPosition().y;
+	int xDistance = playerPos.x - enemy->GetPosition().x;
+	int yDistance = playerPos.y - enemy->GetPosition().y;
 	int absX = std::abs(xDistance);
 	int absY = std::abs(yDistance);
 

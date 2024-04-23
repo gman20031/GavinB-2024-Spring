@@ -34,12 +34,14 @@ public:
 	class Registrar {
 	public:
 		Registrar() {
-			auto test = GetMap().try_emplace( (ComponentSubClass::s_Id.Get()) , &ComponentMaker);
+			auto test = GetMap().try_emplace( (ComponentSubClass::s_id) , &ComponentMaker);
 			assert(("Cannot have duplicate Id Values" , test.second));
 		}
 	private:
 		static ComponentPtr ComponentMaker(Actor* pOwner) { return new ComponentSubClass(pOwner); }
 	};
+
+
 };
 
 

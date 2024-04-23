@@ -13,7 +13,7 @@ public:
 	// Stream operators
 	friend std::ostream& operator<<(std::ostream& os, const Vector2d& vector);
 	// comparison operators
-	friend bool operator==(const Vector2d& lhs, const Vector2d& rhs);
+	//friend bool operator==(const Vector2d& lhs, const Vector2d& rhs);
 	auto operator<=>(const Vector2d&) const = default;
 	// unary Operators
 	Vector2d operator-() const;
@@ -65,14 +65,15 @@ std::ostream& operator<<(std::ostream& os, const Vector2d<dataType>& vector)
 /// Comparison Operators
 /////////////////////////////////////////////
 
-template<Number dataType>
-bool operator==(const Vector2d<dataType>& lhs, const Vector2d <dataType>& rhs)
-{
-	return(
-		lhs.x == rhs.x
-	and lhs.y == rhs.y
-		);
-}
+// FUNCTION NOT WORKING
+//template<Number dataType>
+//bool operator==(const Vector2d<dataType>& lhs, const Vector2d<dataType>& rhs)
+//{
+//	return(
+//		lhs.x == rhs.x
+//	and lhs.y == rhs.y
+//	);
+//}
 
 
 /////////////////////////////////////////////

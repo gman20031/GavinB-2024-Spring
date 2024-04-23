@@ -33,7 +33,7 @@ public:
 	PlayerMover(Actor* pOwner);
 
 	int GetMoveCount() const { return m_moveCount;}
-	int ChangeMoveCount(int amount) { m_moveCount += amount; }
+	void ChangeMoveCount(int amount) { m_moveCount += amount; }
 	int* operator&() { return &m_moveCount; }
 
 	virtual void Update() override;
@@ -45,7 +45,6 @@ class MoneyCounter : public Component
 {
 	NEW_STATIC_ID;
 private:
-
 	int m_moneyCounter = 0;
 public:
 	MoneyCounter(Actor* pOwner) : Component(pOwner, s_id) {}
@@ -74,7 +73,7 @@ private:
 public:
 	PlayerScore(Actor* pOwner);
 	
-	int GetScore() const { return m_score; }
+	int GetScore() { return CalculateScore(); }
 	int* operator&() { return &m_score; }
 
 	int CalculateScore();
@@ -87,7 +86,7 @@ class MimicFinder : public  Component
 {
 	NEW_STATIC_ID;
 private:
-	static constexpr size_t kDetectorRange = 1;
+	static constexpr int kDetectorRange = 1;
 	static constexpr int kStartingChrages = 3;
 	int m_detectorCharges;
 	World* m_pWorld;
@@ -98,5 +97,5 @@ public:
 	int GetCharges() const { return m_detectorCharges; }
 	int* operator&() { return &m_detectorCharges; }
 
-	void CheckForBombs(Vector2d<int>& playerPosition);
+	void CheckForBombs();
 };

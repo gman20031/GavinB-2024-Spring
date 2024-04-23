@@ -3,41 +3,35 @@
 #include "Actor.h"
 #include "../Game/World.h"
 
-Basic2dCollider::Basic2dCollider(const Basic2dCollider& other)
-	: Component(other.m_pOwner, s_id)
-	, m_pCollidedActors(other.m_pCollidedActors)
+Basic2dCollider::Basic2dCollider(Actor* pOwner)
+	: Component(pOwner, s_id)
 {
-	// empty
 }
 
-Basic2dCollider::Basic2dCollider(const Basic2dCollider& other, Actor* pOwner)
-	: Component(m_pOwner, s_id)
-	, m_pCollidedActors(other.m_pCollidedActors)
+Basic2dCollider::Basic2dCollider(const Basic2dCollider& other)
+	: Component(other.m_pOwner, s_id)
 {
 	// empty
 }
 
 Component* Basic2dCollider::Clone(Actor* pOwner)
 {
-	return new Basic2dCollider(*this, pOwner);
-}
-
-void Basic2dCollider::Init(std::vector<Actor*>* pCollidedActors)
-{
-	m_pCollidedActors = pCollidedActors;
+	return new Basic2dCollider(pOwner);
 }
 
 void Basic2dCollider::Update()
 {
+	std::vector<Actor*>* CollidedActors = &m_pOwner->m_pCollidedActors;
 	World* pWorld = m_pOwner->GetWorldPtr();
-	for (Actor* enemy : pWorld->m_allActors)
+	Actor::Position_t ownerPos = m_pOwner->GetPosition();
+
+	for (Actor* actor : pWorld->m_allActors)
 	{
-		if (*enemy == *m_pOwner) 
+		if (*actor == *m_pOwner) 
 			continue;
 
-		Actor::Position_t v1 = enemy->GetPosition();
-		Actor::Position_t v2 = m_pOwner->GetPosition();
-		if (v1.x == v2.x and v1.y == v2.y)
-			m_pCollidedActors->emplace_back(enemy);
+		Actor::Position_t otherPos = actor->GetPosition();
+		if (otherPos.x == ownerPos.x and otherPos.y == ownerPos.y)
+			CollidedActors->emplace_back(actor);
 	}
 }

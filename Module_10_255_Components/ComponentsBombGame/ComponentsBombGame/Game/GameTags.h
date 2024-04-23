@@ -2,9 +2,11 @@
 
 #include <string>
 
-namespace GameTags
+
+struct GameTag
 {
-	std::string kEmpty = "empty";
-	std::string kPlayer = "player";
-	std::string kEnemy = "enemy";
-}
+	inline static std::string kEmpty  = "empty";
+	inline static std::string kPlayer = "player";
+	inline static std::string kEnemy  = "enemy";
+};
+

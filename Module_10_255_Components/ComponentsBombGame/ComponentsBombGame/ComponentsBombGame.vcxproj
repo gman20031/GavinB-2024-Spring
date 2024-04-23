@@ -133,6 +133,7 @@
     <ClInclude Include="Engine\ComponentFactory.h" />
     <ClInclude Include="Engine\Component.h" />
     <ClInclude Include="Game\ActorFactory.h" />
+    <ClInclude Include="Game\Appearances.h" />
     <ClInclude Include="Game\EnemyComponents.h" />
     <ClInclude Include="Game\HealthTracker.h" />
     <ClInclude Include="Game\GameTags.h" />
@@ -150,6 +151,7 @@
     <ClCompile Include="Engine\Basic2dCollider.cpp" />
     <ClCompile Include="Engine\BasicRenderer.cpp" />
     <ClCompile Include="Engine\Component.cpp" />
+    <ClCompile Include="Game\ActorFactory.cpp" />
     <ClCompile Include="Game\ComponentRegistrar.cpp" />
     <ClCompile Include="Game\EnemyComponents.cpp" />
     <ClCompile Include="Game\HealthTracker.cpp" />

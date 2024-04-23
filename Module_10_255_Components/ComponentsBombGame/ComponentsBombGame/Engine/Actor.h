@@ -56,6 +56,7 @@ public:
 	void SetPosition(Position_t newPos) { m_position = newPos; }
 	World* GetWorldPtr() const { return m_pWorld; }
 
+	friend class Basic2dCollider;
 	const std::vector<Actor*>& GetCollidedActors() { return m_pCollidedActors; }
 	void Init(World* pWorld, Position_t startPosition);
 	void Update(); 
@@ -65,11 +66,13 @@ public:
 template<SubComponent ComponentType>
 inline ComponentType* Actor::AddComponent()
 {
-	AddComponent(new ComponentType, ComponentType::s_id);
+	ComponentType* newComponent = new ComponentType(this);
+	AddComponent(newComponent, ComponentType::s_id);
+	return newComponent;
 }
 
 template<SubComponent ComponentType>
 inline ComponentType* Actor::GetComponent()
 {
-	return static_cast<ComponentType>(GetComponent(ComponentType::s_id));
+	return static_cast<ComponentType*>(GetComponent(ComponentType::s_id));
 }

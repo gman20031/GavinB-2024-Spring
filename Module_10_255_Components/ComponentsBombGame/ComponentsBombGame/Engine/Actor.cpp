@@ -9,7 +9,8 @@ Actor::Actor(id_t RendererID, id_t ColliderID)
 	, m_uniqueId(s_actorCount++)
 	, m_pWorld(nullptr)
 {	
-	// empty
+	AddComponent(m_pRenderer, RendererID);
+	AddComponent(m_pCollider, ColliderID);
 }
 
 Actor::Actor(const Actor& original)
@@ -19,14 +20,16 @@ Actor::Actor(const Actor& original)
 	, m_pCollider(original.m_pCollider->Clone(this))
 	, m_uniqueId(s_actorCount++)
 {
+	AddComponent(m_pRenderer, m_pRenderer->m_id);
+	AddComponent(m_pCollider, m_pCollider->m_id);
 	for (Component* entry : original.m_pComponentVector)
 		AddComponent(entry->m_id);
 }
 
 Actor::~Actor()
 {
-	if (m_pCollider) delete m_pCollider;
-	if (m_pRenderer)delete m_pRenderer;
+	//if (m_pCollider) delete m_pCollider;
+	//if (m_pRenderer)delete m_pRenderer;
 	for (auto& component : m_pComponentVector)
 		if (component) delete component;
 }
@@ -129,14 +132,22 @@ void Actor::Init(World* pWorld, Position_t startPosition)
 void Actor::Update()
 {
 	// Update Components -> for every collison run on Collide.
-	m_pCollider->Update();
 	
+	// allow for movement and logic
 	for (auto& component : m_pComponentVector)
 	{
+		if (component->m_id == Basic2dCollider::s_id) continue;
+		if (component->m_id == BasicRenderer::s_id) continue;
 		component->Update();
-		if (m_pCollidedActors.size() >= 1) 
-			component->OnCollide();
 	}
+
+	// check if they then collided
+	m_pCollider->Update();
+
+	// then do collision stuff
+	for (auto& component : m_pComponentVector)
+		component->OnCollide();
+
 	DeleteRemovedComponents();
 	m_pCollidedActors.clear();
 }

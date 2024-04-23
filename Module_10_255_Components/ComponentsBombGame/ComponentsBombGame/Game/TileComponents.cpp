@@ -2,7 +2,10 @@
 
 #include "../Engine/Actor.h"
 
+#include "GameTags.h"
 #include "HealthTracker.h"
+#include "Appearances.h"
+#include "PlayerComponents.h"
 #include "World.h"
 
 // TeleportCollide on collide
@@ -28,7 +31,7 @@ void EndGameOnCollide::OnCollide()
 	auto& collidedActors = m_pOwner->GetCollidedActors();
 	for (Actor* actor : collidedActors)
 	{
-		if (actor->HasTag("player"))
+		if (actor->HasTag(GameTag::kPlayer))
 			actor->GetWorldPtr()->EndGame();
 	}
 }
@@ -50,9 +53,9 @@ void ExplodeOnCollide::OnCollide()
 		auto pHealth = static_cast<HealthTracker*>( actor->GetComponent(HealthTracker::s_id) );
 		assert((pHealth and "Cannot find health component"));
 		int damage = (rand() % (s_damageRange.second - s_damageRange.first)) + s_damageRange.first;
-		pHealth->ChangeHealth(-damage);
+		pHealth->ModifyHealth(-damage);
 	}
-	m_pOwnerRenderer->ChangeSprite((char)TileAppearances::kEmpty);
+	m_pOwnerRenderer->ChangeSprite((char)TileAppearance::kEmpty);
 	m_pOwner->RemoveComponent(s_id);
 }
 
@@ -68,10 +71,12 @@ GiveTreasureCollide::GiveTreasureCollide(Actor* pOwner)
 void GiveTreasureCollide::OnCollide()
 {
 	auto& collidedActors = m_pOwner->GetCollidedActors();
+	int goldAmount = (rand() % (s_treasureRange.second - s_treasureRange.first)) + s_treasureRange.first;
 	for (Actor* actor : collidedActors)
 	{
-
+		if (actor->HasTag(GameTag::kPlayer))
+			actor->GetComponent<MoneyCounter>()->ChangeMoney(goldAmount);
 	}
-	m_pOwnerRenderer->ChangeSprite((char)TileAppearances::kEmpty);
+	m_pOwnerRenderer->ChangeSprite((char)TileAppearance::kEmpty);
 	m_pOwner->RemoveComponent(s_id);
 }

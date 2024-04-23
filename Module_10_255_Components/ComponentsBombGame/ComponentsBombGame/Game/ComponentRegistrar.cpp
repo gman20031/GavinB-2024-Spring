@@ -5,9 +5,14 @@
 #include "HealthTracker.h"
 #include "TileComponents.h"
 #include "PlayerComponents.h"
+#include "../Engine/Basic2dCollider.h"
+#include "../Engine/BasicRenderer.h"
 
 /*
 	Current Registered Components
+
+
+
 	Direct Enemy Logic
 	Scared Enemy Logic
 
@@ -27,6 +32,9 @@
 */
 
 static std::tuple<
+	ComponentFactory::Registrar<Basic2dCollider>,
+	ComponentFactory::Registrar<BasicRenderer>,
+
 	ComponentFactory::Registrar<DirectEnemyLogic>,
 	ComponentFactory::Registrar<ScaredEnemyLogic>,
 

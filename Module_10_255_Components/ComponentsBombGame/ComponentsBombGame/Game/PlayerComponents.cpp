@@ -2,6 +2,7 @@
 
 #include <conio.h>
 
+#include "Appearances.h"
 #include "../Engine/Actor.h"
 #include "HealthTracker.h"
 #include "TileComponents.h"
@@ -10,7 +11,7 @@
 // Player Ui
 
 PlayerUI::PlayerUI(Actor* pOwner)
-	:Component(pOwner , s_id)
+	: Component(pOwner , s_id)
 	, m_pHitPoints		(&*m_pOwner->GetComponent<HealthTracker>())
 	, m_pMoneyCount		(&*m_pOwner->GetComponent<MoneyCounter>())
 	, m_pDetectCharges	(&*m_pOwner->GetComponent<MimicFinder>() )
@@ -30,9 +31,9 @@ void PlayerUI::DrawUI()
 PlayerMover::PlayerMover(Actor* pOwner)
 	: Component(pOwner, s_id)
 	, m_PlayerPostion(pOwner->GetPosition())
+	, m_moveCount(0)
 {
 }
-
 
 void PlayerMover::Move(int deltaX, int deltaY)
 {
@@ -53,10 +54,13 @@ void PlayerMover::Update()
 	case 'a': Move(-1, 0); break;
 	case 's': Move(0, 1); break;
 	case 'd': Move(1, 0); break;
-	case 'e': m_pOwner->GetComponent<MimicFinder>()->CheckForBombs(m_PlayerPostion); break;
-	case 'q': m_pOwner->GetComponent<HealthTracker>()->Kill();  return;  // quitting
+	case 'e': m_pOwner->GetComponent<MimicFinder>()->CheckForBombs(); break;
+	case 'q': m_pOwner->GetComponent<HealthTracker>()->Kill();  break;  // quitting
 	default: std::cout << "Invalid input"; break;
 	}
+
+	//update the tile I am now standing on.
+	m_pOwner->GetWorldPtr()->GetTileAt(m_pOwner->GetPosition())->Update();
 }
 
 // Money Counter
@@ -73,6 +77,7 @@ PlayerScore::PlayerScore(Actor* pOwner)
 	, m_pHitPoints(&*m_pOwner->GetComponent<HealthTracker>())
 	, m_pMoveCount(&*m_pOwner->GetComponent<PlayerMover>())
 	, m_pGoldCount(&*m_pOwner->GetComponent<MoneyCounter>())
+	, m_score(kBaseScore)
 {
 }
 
@@ -101,7 +106,7 @@ MimicFinder::MimicFinder(Actor* pOwner)
 
 }
 
-void MimicFinder::CheckForBombs(Vector2d<int>& playerPosition)
+void MimicFinder::CheckForBombs()
 {
 	if (m_detectorCharges > 0)
 	{
@@ -120,7 +125,7 @@ void MimicFinder::CheckForBombs(Vector2d<int>& playerPosition)
 		{
 			Actor* pTile = m_pWorld->GetTileAt(targetX, targetY);
 			if (pTile->GetComponent<ExplodeOnCollide>())
-				pTile->GetComponent<BasicRenderer>()->ChangeSprite((char)TileAppearances::kEmpty);
+				pTile->GetComponent<BasicRenderer>()->ChangeSprite((char)TileAppearance::kEmpty);
 			++targetX;
 			if (targetX > kDetectorRange)
 			{
@@ -130,4 +135,5 @@ void MimicFinder::CheckForBombs(Vector2d<int>& playerPosition)
 		}
 	}
 }
+
 

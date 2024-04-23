@@ -1,0 +1,16 @@
+﻿  Scanning sources for module dependencies...
+  Actor.h
+  Compiling...
+  Actor.h
+  Actor.cpp
+  Basic2dCollider.cpp
+  ActorFactory.cpp
+  ComponentRegistrar.cpp
+  EnemyComponents.cpp
+  HealthTracker.cpp
+  PlayerComponents.cpp
+  TileComponents.cpp
+  World.cpp
+  Main.cpp
+  Generating Code...
+  ComponentsBombGame.vcxproj -> C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\Module_10_255_Components\ComponentsBombGame\x64\Debug\ComponentsBombGame.exe

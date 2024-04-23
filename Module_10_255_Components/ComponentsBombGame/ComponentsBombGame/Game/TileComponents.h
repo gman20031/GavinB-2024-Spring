@@ -30,6 +30,7 @@ public:
 class GiveTreasureCollide : public Component
 {
 	NEW_STATIC_ID;
+	static constexpr std::pair<int, int> s_treasureRange{ 50,150 };
 	BasicRenderer* m_pOwnerRenderer;
 public:
 	GiveTreasureCollide(Actor* pOwner);
@@ -38,13 +39,16 @@ public:
 
 // --------
 
+///////////////////////////////////////////////////////////////
+// Requires Init of linked position
+///////////////////////////////////////////////////////////////
 class TeleportCollide : public Component
 {
 	NEW_STATIC_ID;
 
 	Vector2d<int> m_linkedPosition;
 public:
-	TeleportCollide(Actor* pOwner) : Component(pOwner, s_id) {}
+	TeleportCollide(Actor* pOwner) : Component(pOwner, s_id) , m_linkedPosition(0,0) {}
 	void Init(Vector2d<int> linkedPosition);
 	virtual void OnCollide() override;
 
