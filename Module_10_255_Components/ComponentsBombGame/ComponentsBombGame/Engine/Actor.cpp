@@ -138,8 +138,8 @@ void Actor::Init(World* pWorld, Position_t startPosition)
 ////////////////////////////////////////////////////////////
 void Actor::Update()
 {
-	//if (HasTag("treasure")) // debug test
-	//	std::cout << "treausre\n";
+	if (!this) // debug test
+		std::cout << "fucked\n";
 	
 	// Update Components -> for every collison run on Collide.
 	

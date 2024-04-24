@@ -10,7 +10,7 @@
 static bool PlayerInRange(Actor::Position_t playerPos, Actor* enemy, int sightRange);
 static void SafeMove(Actor* enemy, int deltaX, int deltaY);
 static void MoveRandom(Actor* enemy);
-static Actor::Position_t MoveRelatedToPlayer(Actor::Position_t enemyPos, Actor::Position_t playerPos);
+static Actor::Position_t GetNormalMoveTowardsPlayer(Actor::Position_t enemyPos, Actor::Position_t playerPos);
 static Actor::Position_t GetPlayerLocation(Actor* enemy);
 static void MoveActorPosition(Actor* enemy, Actor::Position_t moveDistances);
 
@@ -21,14 +21,15 @@ void DirectEnemyLogic::Update()
 	m_oldPosition = ownerPos;
 	if (PlayerInRange(playerPos, m_pOwner, (int)kSightRange))
 	{
-		Actor::Position_t moveDistances = MoveRelatedToPlayer(ownerPos, playerPos);
+		Actor::Position_t moveDistances = GetNormalMoveTowardsPlayer(ownerPos, playerPos);
 		MoveActorPosition(m_pOwner, ownerPos);
 	}
 	else
 		MoveRandom(m_pOwner);
 
 	//update the tile I am now standing on.
-	m_pOwner->GetWorldPtr()->GetTileAt(m_pOwner->GetPosition())->Update();
+	Actor* tile = m_pOwner->GetWorldPtr()->GetTileAt(m_pOwner->GetPosition());
+	if (tile) tile->Update();
 }	
 
 void ScaredEnemyLogic::Update()
@@ -38,7 +39,7 @@ void ScaredEnemyLogic::Update()
 	m_oldPosition = ownerPos;
 	if (PlayerInRange(playerPos, m_pOwner, (int)kSightRange))
 	{
-		Actor::Position_t moveDistances = MoveRelatedToPlayer(ownerPos, playerPos);
+		Actor::Position_t moveDistances = GetNormalMoveTowardsPlayer(ownerPos, playerPos);
 		MoveActorPosition(m_pOwner, ownerPos);
 	}
 	else
@@ -85,33 +86,38 @@ void MoveActorPosition(Actor* enemy, Actor::Position_t moveDistances)
 	enemy->SetPosition(newPos);
 }
 
-[[nodiscard]] static Actor::Position_t MoveRelatedToPlayer(Actor::Position_t enemyPos, Actor::Position_t playerPos)
-{
-	// https://imgur.com/a/ckZGmPe
 
-	int xDistance = playerPos.x - enemyPos.x;
-	int yDistance = playerPos.y - enemyPos.y;
-	int absX = std::abs(xDistance);
-	int absY = std::abs(yDistance);
-
+[[nodiscard]] static Actor::Position_t GetNormalMoveTowardsPlayer(Actor::Position_t enemyPos, Actor::Position_t playerPos)
+{												
+	// https://imgur.com/a/ckZGmPe				// . -1 . 	 
+												// -1 E +1 	 
+	int xDistance = playerPos.x - enemyPos.x;	// . +1 . 	 
+	int yDistance = playerPos.y - enemyPos.y;		
+	int absX = std::abs(xDistance);					
+	int absY = std::abs(yDistance);					
+													
 	int deltaX = 0;
 	int deltaY = 0;
 
+	// if player is in the same collumn(y)
 	if (absX == 0)
 	{
 		deltaY = (yDistance / absY);
 		return { deltaX, deltaY };
 	}
 
+	// if player is in the same row (x)
 	if (absY == 0)
 	{
 		deltaX = (xDistance / absX);
 		return { deltaX, deltaY };
 	}
 
+	// if player is closer horizontally than verically
 	if (absX < absY)
 		deltaX = (xDistance / absX);
 
+	// if player is closer vertically than horziontally
 	if (absY < absX)
 		deltaY = (yDistance / absY);
 

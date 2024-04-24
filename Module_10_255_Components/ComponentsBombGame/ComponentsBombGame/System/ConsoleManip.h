@@ -13,13 +13,13 @@
 #define CSR_SHOW_OFF "?25l"		 // Text Cursor Enable Mode Hide 
 
 #define CSR_SHAPE(n) #n " q"
-	#define CSR_SHAPE_DEF		  CSR_SHAPE(0) 	 //User Shape		
-	#define CSR_SHAPE_BLINK_BLOCK CSR_SHAPE(1)	 //Blinking Block	
-	#define CSR_SHAPE_STEAD_BLOCK CSR_SHAPE(2)	 //Steady Block 	
-	#define CSR_SHAPE_BLINK_UNDER CSR_SHAPE(3)	 //Blinking Underlin
-	#define CSR_SHAPE_STEAD_UNDER CSR_SHAPE(4)	 //Steady Underline 
-	#define CSR_SHAPE_BLINK_BAR   CSR_SHAPE(5)	 //Blinking Bar 	
-	#define CSR_SHAPE_STEAD_BAR   CSR_SHAPE(6)	 //Steady Bar
+#define CSR_SHAPE_DEF		  CSR_SHAPE(0) 	 //User Shape		
+#define CSR_SHAPE_BLINK_BLOCK CSR_SHAPE(1)	 //Blinking Block	
+#define CSR_SHAPE_STEAD_BLOCK CSR_SHAPE(2)	 //Steady Block 	
+#define CSR_SHAPE_BLINK_UNDER CSR_SHAPE(3)	 //Blinking Underlin
+#define CSR_SHAPE_STEAD_UNDER CSR_SHAPE(4)	 //Steady Underline 
+#define CSR_SHAPE_BLINK_BAR   CSR_SHAPE(5)	 //Blinking Bar 	
+#define CSR_SHAPE_STEAD_BAR   CSR_SHAPE(6)	 //Steady Bar
 
 #define CSR_MOVE_UP(n)		#n "A" 	//Cursor up by <n>
 #define CSR_MOVE_DOWN(n)	#n "B" 	//Cursor down by <n>
@@ -41,19 +41,19 @@
 #define TEXT_DELETE_LINE(n)  #n "M"  //Deletes <n> lines from the buffer, starting with the row the cursor is on.
 #define TEXT_ERASE_DISPLAY(n)#n "J"	 //Replace all text in the current viewport/screen specified by <n> with space characters
 #define TEXT_ERASE_LINE(n)	 #n "K"	 //Replace all text on the line with the cursor specified by <n> with space characters
-	#define TEXT_ERASE_DISPLAY_UNTIL  TEXT_ERASE_DISPLAY(0)  //0 erases from the current cursor position (inclusive) to the end of the line/display
-	#define TEXT_ERASE_DISPLAY_FROM	  TEXT_ERASE_DISPLAY(1)	 //1 erases from the beginning of the line/display up to and including the current cursor position
-	#define TEXT_ERASE_DISPLAY_ALL    TEXT_ERASE_DISPLAY(2)	 //2 erases the entire line/display
-	#define TEXT_ERASE_LINE_UNTIL	  TEXT_ERASE_LINE(0)
-	#define TEXT_ERASE_LINE_FROM	  TEXT_ERASE_LINE(1)
-	#define TEXT_ERASE_LINE_ALL		  TEXT_ERASE_LINE(2)
+#define TEXT_ERASE_DISPLAY_UNTIL  TEXT_ERASE_DISPLAY(0)  //0 erases from the current cursor position (inclusive) to the end of the line/display
+#define TEXT_ERASE_DISPLAY_FROM	  TEXT_ERASE_DISPLAY(1)	 //1 erases from the beginning of the line/display up to and including the current cursor position
+#define TEXT_ERASE_DISPLAY_ALL    TEXT_ERASE_DISPLAY(2)	 //2 erases the entire line/display
+#define TEXT_ERASE_LINE_UNTIL	  TEXT_ERASE_LINE(0)
+#define TEXT_ERASE_LINE_FROM	  TEXT_ERASE_LINE(1)
+#define TEXT_ERASE_LINE_ALL		  TEXT_ERASE_LINE(2)
 
 #define TEXT_FORMAT(n) #n##"m" //Set the format of the screen and text as specified by <n>
-	#define TEXT_RGB(r,g,b) TEXT_FORMAT(38;2;r;g;b)
-	#define TEXT_RED   TEXT_RGB(255,0,0)
-	#define TEXT_GREEN TEXT_RGB(0,255,0)
-	#define TEXT_BLUE  TEXT_RGB(0,0,255)
-	#define TEXT_DEF "0m"
+#define TEXT_RGB(r,g,b) TEXT_FORMAT(38;2;r;g;b)
+#define TEXT_RED   TEXT_RGB(255,0,0)
+#define TEXT_GREEN TEXT_RGB(0,255,0)
+#define TEXT_BLUE  TEXT_RGB(0,0,255)
+#define TEXT_DEF "0m"
 #define TEXT_FOR_DEF "39"
 #define BACK_RGB(r,g,b) TEXT_FORMAT(48;2;r;g;b)
 
@@ -80,11 +80,18 @@ class ConsoleManip
 	inline static HANDLE s_outputHandle;
 
 public:
+	// dont do this
 	static bool EnableVTMode();
 
+	// changes to console
 	static void ChangeConsoleTitle(const char* newTitle);
-	static void ClearConsole();
 	static void ChangeConsoleColour(const char* newColour);
-	static void DrawToConsole(const char* output, const char* formatting = TEXT_DEF);
-	static void DrawToConsole(const char output, const char* formatting = TEXT_DEF);
+
+	// simple functionality
+	static void ClearConsole();
+	static void Pause();
+
+	// printing
+	static void Printf(const char* output, const char* formatting = TEXT_DEF);
+	static void Printf(const char output, const char* formatting = TEXT_DEF);
 };

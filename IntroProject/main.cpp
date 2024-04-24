@@ -1,41 +1,14 @@
-#include <iostream>
-
-#include "Test/Actor.h"
-#include "Test/Component.h"
-
-class TestA : public Component
-{
-public:
-	static CounterId s_id;
-	TestA(Actor* pOwner) : Component(pOwner, *s_id) {}
-};
-
-class TestB : public Component
-{
-public:
-	static CounterId s_id;
-	TestB(Actor* pOwner) : Component(pOwner, *s_id) {}
-};
-
-class TestC : public Component
-{
-public:
-	static CounterId s_id;
-	TestC(Actor* pOwner) : Component(pOwner, *s_id) {}
-};
-
-
-#define PRINTLN(str) std::cout << str << '\n'
+#include "ConsoleManip.h"
 
 int main()
 {
-	std::cout << TestA::s_id << '\n';
+	ConsoleManip::ChangeConsoleTitle("Test Title");
+	ConsoleManip::ChangeConsoleFormat(TEXT_RGB(255, 0, 255));
+	std::cout << "help\n";
+	std::cout << "gooday\n";
+	ConsoleManip::Printf("Printed with formatting\n", TEXT_RGB(0, 255, 0));
+	std::cout << "gooday";
 
-	PRINTLN(TestA::s_id);
-	PRINTLN(TestA::s_id);
-	PRINTLN(TestA::s_id);
-
-
-
+	printf("good day sir");
 	return 0;
 }

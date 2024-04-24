@@ -13,6 +13,11 @@ Component* BasicRenderer::Clone(Actor* pOwner)
 	return new BasicRenderer(*this, pOwner);
 }
 
+void BasicRenderer::SetColor(Color* newColor)
+{
+
+}
+
 void BasicRenderer::Render()
 {
 	std::cout << m_sprite;

@@ -8,25 +8,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Test\Actor.cpp" />
+    <ClCompile Include="ConsoleManip.cpp" />
+    <ClCompile Include="ArraySize.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Test\Actor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Test\Component.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Test\ComponentFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Test\Vector2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Test\Basic2dCollider.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Test\BasicRenderer.h">
+    <ClInclude Include="ConsoleManip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

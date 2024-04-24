@@ -13,7 +13,7 @@ bool& ConsoleManip::VTEnabled()
 /////////////////////////////////////////////////////////////////////
 void ConsoleManip::ChangeConsoleColour(const char* newColour)
 {
-	printf(VT_ESC "%s" , newColour);
+	std::cout << VT_ESC << newColour;
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -21,8 +21,7 @@ void ConsoleManip::ChangeConsoleColour(const char* newColour)
 /////////////////////////////////////////////////////////////////////
 void ConsoleManip::ClearConsole()
 {
-	printf(VT_ESC "1J");
-	printf(VT_ESC "1;1H"); // DOESNT START AT 0,0??
+	std::cout << VT_ESC << "1J" << VT_ESC << "0;0H";
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -30,30 +29,30 @@ void ConsoleManip::ClearConsole()
 /////////////////////////////////////////////////////////////////////
 void ConsoleManip::ChangeConsoleTitle(const char* newTitle)
 {
-	printf(VT_CSI "2;%s\7", newTitle);
+	std::cout << VT_CSI << "2;" << newTitle << "\7";
 }
 
 
 /////////////////////////////////////////////////////////////////////
 // Draws the string to the console with specified formatting
 /////////////////////////////////////////////////////////////////////
-void ConsoleManip::DrawToConsole(const char* output, const char* formatting)
+void ConsoleManip::Printf(const char* output, const char* formatting)
 {
-	printf(VT_ESC "%s" "%s" VT_ESC TEXT_DEF, formatting, output);
+	std::cout << VT_ESC << formatting << output << VT_ESC << TEXT_DEF;
 }
 /////////////////////////////////////////////////////////////////////
 // Draws the char to the console with specified formatting
 /////////////////////////////////////////////////////////////////////
-void ConsoleManip::DrawToConsole(const char output, const char* formatting)
+void ConsoleManip::Printf(const char output, const char* formatting)
 {
-	printf(VT_ESC "%s" "%c" VT_ESC TEXT_DEF, formatting, output);
+	std::cout << VT_ESC << formatting << output << VT_ESC << TEXT_DEF;
 }
 
 /////////////////////////////////////////////////////////////////////
 // Prints "press any key to continue..\n" then waits for user input
 // input is then ignored and function closes.
 /////////////////////////////////////////////////////////////////////
-void Pause()
+void ConsoleManip::Pause()
 {
 	std::cout << "press any key to continue..\n";
 	[[maybe_unused]] int idk = _getwch();

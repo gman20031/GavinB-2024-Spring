@@ -19,16 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ArraySize.h" />
+    <ClCompile Include="ConsoleManip.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Test\Actor.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Test\Actor.h" />
-    <ClInclude Include="Test\Basic2dCollider.h" />
-    <ClInclude Include="Test\BasicRenderer.h" />
-    <ClInclude Include="Test\Component.h" />
-    <ClInclude Include="Test\ComponentFactory.h" />
-    <ClInclude Include="Test\Vector2.h" />
+    <ClInclude Include="ConsoleManip.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

@@ -55,7 +55,7 @@ void ExplodeOnCollide::OnCollide()
 		int damage = (rand() % (s_damageRange.second - s_damageRange.first)) + s_damageRange.first;
 		pHealth->ModifyHealth(-damage);
 	}
-	m_pOwnerRenderer->ChangeSprite((char)TileAppearance::kEmpty);
+	m_pOwnerRenderer->ChangeSprite((char)TileAppearance::kUsedBomb);
 	m_pOwner->RemoveComponent(s_id);
 }
 

@@ -1,3 +1,13 @@
-﻿  main.cpp
-main.obj : error LNK2001: unresolved external symbol "public: static class CounterId TestA::s_id" (?s_id@TestA@@2VCounterId@@A)
-C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\x64\Debug\IntroProject.exe : fatal error LNK1120: 1 unresolved externals
+﻿  ArraySize.cpp
+C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\ArraySize.cpp(1,1): error C3378: a declaration can be exported only from a module interface unit
+C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\ArraySize.cpp(1,24): error C2230: could not find module 'ArraySize'
+C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\ArraySize.cpp(3,1): error C3378: a declaration can be exported only from a module interface unit
+  ConsoleManip.cpp
+C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\ConsoleManip.h(82,67): error C2440: 'return': cannot convert from 'const char *' to 'char *'
+C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\ConsoleManip.h(82,67): message : Conversion loses qualifiers
+C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\ConsoleManip.h(109,42): error C2065: 'size': undeclared identifier
+  main.cpp
+C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\ConsoleManip.h(82,67): error C2440: 'return': cannot convert from 'const char *' to 'char *'
+C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\ConsoleManip.h(82,67): message : Conversion loses qualifiers
+C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\IntroProject\ConsoleManip.h(109,42): error C2065: 'size': undeclared identifier
+  Generating Code...

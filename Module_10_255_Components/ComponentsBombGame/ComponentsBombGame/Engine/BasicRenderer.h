@@ -12,7 +12,9 @@ private:
 public:
 	BasicRenderer(Actor* pOwner) : Component(pOwner, s_id) {}
 	BasicRenderer(const BasicRenderer& original, Actor* pOwner);
-	bool ChangeSprite(sprite_t newSprite) { m_sprite = newSprite; return true; }
 	virtual Component* Clone(Actor* pOwner) override;
+
+	void SetColour(Color* newColor);
+	bool ChangeSprite(sprite_t newSprite) { m_sprite = newSprite; return true; }
 	virtual void Render() override;
 };
