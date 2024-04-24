@@ -45,7 +45,8 @@ void ScaredEnemyLogic::Update()
 		MoveRandom(m_pOwner);
 
 	//update the tile I am now standing on.
-	m_pOwner->GetWorldPtr()->GetTileAt(m_pOwner->GetPosition())->Update();
+	Actor* tile = m_pOwner->GetWorldPtr()->GetTileAt(m_pOwner->GetPosition());
+	if(tile) tile->Update();
 }
 
 void DirectEnemyLogic::OnCollide()

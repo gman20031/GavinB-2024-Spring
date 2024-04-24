@@ -12,19 +12,19 @@ class Vector2d
 {
 public:
 	// Stream operators
-	friend std::ostream& operator<<(std::ostream& os, const Vector2d& vector);
+	//friend std::ostream& operator<<(std::ostream& os, const Vector2d& vector);
 	// comparison operators
 	//friend bool operator==(const Vector2d& lhs, const Vector2d& rhs);
 	auto operator<=>(const Vector2d&) const = default;
 	// unary Operators
 	Vector2d operator-() const;
 	// arithmetic operators
-	friend Vector2d operator+(const Vector2d& lhs, const Vector2d& rhs);
-	friend Vector2d operator-(const Vector2d& lhs, const Vector2d& rhs);
-	friend Vector2d operator*(const Vector2d& lhs, dataType rhs);
-	friend Vector2d operator/(const Vector2d& lhs, dataType rhs);
-	friend Vector2d operator*(dataType lhs, const Vector2d& rhs);
-	friend Vector2d operator/(dataType lhs, const Vector2d& rhs);
+	//friend Vector2d operator+(const Vector2d& lhs, const Vector2d& rhs);
+	//friend Vector2d operator-(const Vector2d& lhs, const Vector2d& rhs);
+	//friend Vector2d operator*(const Vector2d& lhs, dataType rhs);
+	//friend Vector2d operator/(const Vector2d& lhs, dataType rhs);
+	//friend Vector2d operator*(dataType lhs, const Vector2d& rhs);
+	//friend Vector2d operator/(dataType lhs, const Vector2d& rhs);
 	// assignment operators
 	Vector2d& operator+=(const Vector2d rhs);
 	Vector2d& operator-=(const Vector2d rhs);
