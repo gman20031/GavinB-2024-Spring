@@ -4,8 +4,6 @@
   Actor.h
   Actor.cpp
   Basic2dCollider.cpp
-  BasicRenderer.cpp
-  Component.cpp
   ActorFactory.cpp
   ComponentRegistrar.cpp
   EnemyComponents.cpp
@@ -14,7 +12,6 @@
   TileComponents.cpp
   World.cpp
   Main.cpp
-  ConsoleManip.cpp
-  Prompting.cpp
   Generating Code...
-  ComponentsBombGame.vcxproj -> C:\Users\gavin\Documents\GitHub\GavinB-2024-Spring\Module_10_255_Components\ComponentsBombGame\x64\Debug\ComponentsBombGame.exe
+EnemyComponents.obj : error LNK2019: unresolved external symbol "class Vector2d<int> __cdecl operator+(class Vector2d<int> const &,class Vector2d<int> const &)" (??H@YA?AV?$Vector2d@H@@AEBV0@0@Z) referenced in function "void __cdecl MoveActorPosition(class Actor *,class Vector2d<int>)" (?MoveActorPosition@@YAXPEAVActor@@V?$Vector2d@H@@@Z)
+D:\GavinB_REPO\GavinB-2024-Spring\Module_10_255_Components\ComponentsBombGame\x64\Debug\ComponentsBombGame.exe : fatal error LNK1120: 1 unresolved externals

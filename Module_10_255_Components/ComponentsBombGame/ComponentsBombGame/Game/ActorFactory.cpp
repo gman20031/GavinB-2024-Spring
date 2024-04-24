@@ -4,6 +4,7 @@
 
 #include "World.h"
 #include "Appearances.h"
+#include "GameTags.h"
 
 #include "EnemyComponents.h"
 #include "PlayerComponents.h"
@@ -26,7 +27,7 @@ static Actor* CreateAndSetActorAppearance(TileAppearance newSprite, World* pWorl
 Actor* ActorFactory::CreateEmptyTile(World* pWorld, Actor::Position_t Pos)
 {
 	Actor* newActor = CreateAndSetActorAppearance(kEmpty, pWorld, Pos);
-	
+	newActor->GiveTag(GameTag::kEmpty);
 	return newActor;
 }
 
@@ -102,7 +103,7 @@ Actor* ActorFactory::Createplayer(World* pWorld, Actor::Position_t Pos, int star
 	newActor->AddComponent<HealthTracker>()->SetHealth(startingHealth);
 	newActor->AddComponent<PlayerScore>(); // this requires information from the others so must be here
 	newActor->AddComponent<PlayerUI>(); // this must be placed last bc its constuctor. I know its dumb
-
+	newActor->GiveTag(GameTag::kPlayer);
 	
 	return newActor;
 }

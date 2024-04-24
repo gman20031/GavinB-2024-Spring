@@ -5,14 +5,14 @@
         {
             "primary-output": "x64\\Debug\\Actor.h.obj",
             "outputs": [
-                "C:\\Users\\gavin\\Documents\\GitHub\\GavinB-2024-Spring\\Module_10_255_Components\\ComponentsBombGame\\ComponentsBombGame\\x64\\Debug\\vc143.pdb",
+                "D:\\GavinB_REPO\\GavinB-2024-Spring\\Module_10_255_Components\\ComponentsBombGame\\ComponentsBombGame\\x64\\Debug\\vc143.pdb",
                 "x64\\Debug\\",
-                "C:\\Users\\gavin\\Documents\\GitHub\\GavinB-2024-Spring\\Module_10_255_Components\\ComponentsBombGame\\ComponentsBombGame\\x64\\Debug\\Actor.h.ifc"
+                "D:\\GavinB_REPO\\GavinB-2024-Spring\\Module_10_255_Components\\ComponentsBombGame\\ComponentsBombGame\\x64\\Debug\\Actor.h.ifc"
             ],
             "provides": [
                 {
                     "logical-name": "Engine\\Actor.h",
-                    "source-path": "c:\\users\\gavin\\documents\\github\\gavinb-2024-spring\\module_10_255_components\\componentsbombgame\\componentsbombgame\\engine\\actor.h",
+                    "source-path": "d:\\gavinb_repo\\gavinb-2024-spring\\module_10_255_components\\componentsbombgame\\componentsbombgame\\engine\\actor.h",
                     "lookup-method": "absolute"
                 }
             ],

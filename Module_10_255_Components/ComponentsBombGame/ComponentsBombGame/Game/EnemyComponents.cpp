@@ -4,23 +4,25 @@
 #include "GameTags.h"
 #include "HealthTracker.h"
 #include "../Engine/Actor.h"
+#include "../System/Vector2d.h"
 #include "world.h"
 
-static bool PlayerInRange(Actor::Position_t playerPos, Actor* enemy, size_t sightRangeSquared);
+static bool PlayerInRange(Actor::Position_t playerPos, Actor* enemy, int sightRange);
 static void SafeMove(Actor* enemy, int deltaX, int deltaY);
 static void MoveRandom(Actor* enemy);
-static Actor::Position_t MoveRelatedToPlayer(Actor* enemy, Actor::Position_t playerPos);
+static Actor::Position_t MoveRelatedToPlayer(Actor::Position_t enemyPos, Actor::Position_t playerPos);
 static Actor::Position_t GetPlayerLocation(Actor* enemy);
-
+static void MoveActorPosition(Actor* enemy, Actor::Position_t moveDistances);
 
 void DirectEnemyLogic::Update()
 {
+	Actor::Position_t ownerPos = m_pOwner->GetPosition();
 	Actor::Position_t playerPos = GetPlayerLocation(m_pOwner);
-	m_oldPosition = playerPos;
-	if (PlayerInRange(playerPos, m_pOwner, kSightRange))
+	m_oldPosition = ownerPos;
+	if (PlayerInRange(playerPos, m_pOwner, (int)kSightRange))
 	{
-		Actor::Position_t newPos = MoveRelatedToPlayer(m_pOwner, playerPos);
-		m_pOwner->SetPosition(newPos);
+		Actor::Position_t moveDistances = MoveRelatedToPlayer(ownerPos, playerPos);
+		MoveActorPosition(m_pOwner, ownerPos);
 	}
 	else
 		MoveRandom(m_pOwner);
@@ -31,12 +33,13 @@ void DirectEnemyLogic::Update()
 
 void ScaredEnemyLogic::Update()
 {
+	Actor::Position_t ownerPos = m_pOwner->GetPosition();
 	Actor::Position_t playerPos = GetPlayerLocation(m_pOwner);
-	m_oldPosition = playerPos;
-	if (PlayerInRange(playerPos, m_pOwner, kSightRange))
+	m_oldPosition = ownerPos;
+	if (PlayerInRange(playerPos, m_pOwner, (int)kSightRange))
 	{
-		Actor::Position_t newPos = MoveRelatedToPlayer(m_pOwner, playerPos);
-		m_pOwner->SetPosition(-newPos);
+		Actor::Position_t moveDistances = MoveRelatedToPlayer(ownerPos, playerPos);
+		MoveActorPosition(m_pOwner, ownerPos);
 	}
 	else
 		MoveRandom(m_pOwner);
@@ -75,12 +78,18 @@ static Actor::Position_t GetPlayerLocation(Actor* enemy)
 	return enemy->GetWorldPtr()->GetPlayerPointer()->GetPosition();
 }
 
-[[nodiscard]] static Actor::Position_t MoveRelatedToPlayer(Actor* enemy, Actor::Position_t playerPos)
+void MoveActorPosition(Actor* enemy, Actor::Position_t moveDistances)
+{
+	Actor::Position_t newPos = enemy->GetPosition() + moveDistances;
+	enemy->SetPosition(newPos);
+}
+
+[[nodiscard]] static Actor::Position_t MoveRelatedToPlayer(Actor::Position_t enemyPos, Actor::Position_t playerPos)
 {
 	// https://imgur.com/a/ckZGmPe
 
-	int xDistance = playerPos.x - enemy->GetPosition().x;
-	int yDistance = playerPos.y - enemy->GetPosition().y;
+	int xDistance = playerPos.x - enemyPos.x;
+	int yDistance = playerPos.y - enemyPos.y;
 	int absX = std::abs(xDistance);
 	int absY = std::abs(yDistance);
 
@@ -108,8 +117,9 @@ static Actor::Position_t GetPlayerLocation(Actor* enemy)
 	return { deltaX, deltaY };
 }
 
-static bool PlayerInRange(Actor::Position_t playerPos, Actor* enemy, size_t sightRangeSquared)
+static bool PlayerInRange(Actor::Position_t playerPos, Actor* enemy, int sightRange)
 {
+	int sightRangeSquared = sightRange * sightRange;
 	int dX = Square(playerPos.x - enemy->GetPosition().x);
 	int dY = Square(playerPos.y - enemy->GetPosition().y);
 	int distanceSquared = dX + dY;

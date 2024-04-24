@@ -247,7 +247,7 @@ void World::Update()
 	m_pPlayer->Update();
 	KillOutOfBounds(m_pPlayer);
 	Actor* actor = nullptr;
-	for (auto it = m_allActors.begin(); it != m_allActors.end(); /*EMPTY*/ )
+	for (auto it = m_allEnemies.begin(); it != m_allEnemies.end(); /*EMPTY*/ )
 	{
 		actor = *it;
 		actor->Update();

@@ -55,7 +55,7 @@ concept SubComponent = std::derived_from<T, Component>;
 ////////////////////////////////////////////////////////////
 class ComponentStaticIdCounter
 {
-#define NEW_STATIC_ID public: const static inline Component::IdType s_id = ComponentStaticIdCounter::Get()
+#define NEW_STATIC_ID public: static inline const Component::IdType s_id = ComponentStaticIdCounter::Get()
 #define SHARED_STATIC_ID(Baseclass) public: const static inline Component::IdType s_id = Baseclass::s_id
 private:
 	static inline size_t m_next = 0;
