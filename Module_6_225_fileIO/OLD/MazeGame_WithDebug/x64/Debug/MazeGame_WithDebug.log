@@ -1,4 +1,0 @@
-﻿  MazeGame.cpp
-MazeGame.obj : error LNK2019: unresolved external symbol "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __cdecl ChooseFromFileDirectory(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &)" (?ChooseFromFileDirectory@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEBV12@@Z) referenced in function "private: void __cdecl MazeGame::PickMapToPlay(void)" (?PickMapToPlay@MazeGame@@AEAAXXZ)
-MSVCRTD.lib(exe_main.obj) : error LNK2019: unresolved external symbol main referenced in function "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ)
-C:\Users\gangs\Desktop\School Works\Homework\Freshman Year\Game Programming\GavinB-2024-Spring\Module_6_225_fileIO\Level Editor\x64\Debug\MazeGame.exe : fatal error LNK1120: 2 unresolved externals
