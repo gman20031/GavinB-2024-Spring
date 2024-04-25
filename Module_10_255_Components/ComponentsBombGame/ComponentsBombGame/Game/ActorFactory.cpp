@@ -6,6 +6,7 @@
 #include "Appearances.h"
 #include "GameTags.h"
 
+#include "../Engine/ActorTags.h"
 #include "EnemyComponents.h"
 #include "PlayerComponents.h"
 #include "TileComponents.h"
@@ -27,7 +28,7 @@ static Actor* CreateAndSetActorAppearance(TileAppearance newSprite, World* pWorl
 Actor* ActorFactory::CreateEmptyTile(World* pWorld, Actor::Position_t Pos)
 {
 	Actor* newActor = CreateAndSetActorAppearance(kEmpty, pWorld, Pos);
-	newActor->GiveTag(GameTag::kEmpty);
+	newActor->AddComponent<ActorTags>()->GiveTag(GameTag::kEmpty);
 	return newActor;
 }
 
@@ -60,8 +61,7 @@ Actor* ActorFactory::CreateTreasureTile(World* pWorld, Actor::Position_t Pos)
 {
 	Actor* newActor = CreateAndSetActorAppearance(kTreasure, pWorld, Pos);
 	newActor->AddComponent<GiveTreasureCollide>();
-	newActor->GiveTag("treasure");
-	
+	newActor->AddComponent<ActorTags>()->GiveTag("treasure");
 	return newActor;
 }
 
@@ -81,7 +81,7 @@ Actor* ActorFactory::CreateDirectEnemy(World* pWorld, Actor::Position_t Pos)
 	Actor* newActor = CreateAndSetActorAppearance(kDirectEnemy, pWorld, Pos);
 	newActor->AddComponent<HealthTracker>()->SetHealth(1);
 	newActor->AddComponent<DirectEnemyLogic>();
-	
+	newActor->GetComponent<BasicRenderer>()->SetFormatting(TEXT_RGB(255, 0, 0));
 	return newActor;
 }
 
@@ -90,7 +90,8 @@ Actor* ActorFactory::CreateScaredEnemy(World* pWorld, Actor::Position_t Pos)
 	Actor* newActor = CreateAndSetActorAppearance(kRandomEnemy, pWorld, Pos);
 	newActor->AddComponent<HealthTracker>()->SetHealth(1);
 	newActor->AddComponent<ScaredEnemyLogic>();
-	
+	newActor->GetComponent<BasicRenderer>()->SetFormatting(TEXT_RGB(255, 0, 0));
+
 	return newActor;
 }
 
@@ -103,7 +104,7 @@ Actor* ActorFactory::Createplayer(World* pWorld, Actor::Position_t Pos, int star
 	newActor->AddComponent<HealthTracker>()->SetHealth(startingHealth);
 	newActor->AddComponent<PlayerScore>(); // this requires information from the others so must be here
 	newActor->AddComponent<PlayerUI>(); // this must be placed last bc its constuctor. I know its dumb
-	newActor->GiveTag(GameTag::kPlayer);
+	newActor->AddComponent<ActorTags>()->GiveTag(GameTag::kPlayer);
 	
 	return newActor;
 }

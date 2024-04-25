@@ -1,17 +1,21 @@
 #include <utility>
 #include "../Engine/ComponentFactory.h"
 
+
 #include "EnemyComponents.h"
 #include "HealthTracker.h"
 #include "TileComponents.h"
 #include "PlayerComponents.h"
 #include "../Engine/Basic2dCollider.h"
 #include "../Engine/BasicRenderer.h"
+#include "../Engine/ActorTags.h"
 
 /*
 	Current Registered Components
 
-
+	Basic2dCollider
+	BasicRenderer
+	ActorTags
 
 	Direct Enemy Logic
 	Scared Enemy Logic
@@ -34,6 +38,7 @@
 static std::tuple<
 	ComponentFactory::Registrar<Basic2dCollider>,
 	ComponentFactory::Registrar<BasicRenderer>,
+	ComponentFactory::Registrar<ActorTags>,
 
 	ComponentFactory::Registrar<DirectEnemyLogic>,
 	ComponentFactory::Registrar<ScaredEnemyLogic>,

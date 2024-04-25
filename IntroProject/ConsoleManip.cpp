@@ -32,7 +32,7 @@ void ConsoleManip::ChangeConsoleTitle(const char* newTitle)
 /////////////////////////////////////////////////////////////////////
 void ConsoleManip::ChangeConsoleFormat(const char* newFormat)
 {
-	std::memcpy(CurrentFormat(), newFormat, ArraySize(newFormat));
+	//std::memcpy(CurrentFormat(), newFormat, ArraySize(newFormat));
 	std::cout << VT_ESC << newFormat;
 }
 
@@ -66,17 +66,18 @@ void ConsoleManip::Pause()
 /////////////////////////////////////////////////////////////////////
 bool ConsoleManip::EnableVTMode()
 {
-	if (VTEnabled())
-		return true;
-
-	// Set output mode to handle virtual terminal sequences
-	s_outputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-	DWORD consoleMode = ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-	if (!SetConsoleMode(s_outputHandle, consoleMode))
-	{
-		return false;
-	}
-
-	VTEnabled() = true;
+	//if (VTEnabled())
+	//	return true;
+	//
+	//// Set output mode to handle virtual terminal sequences
+	//s_outputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+	//DWORD consoleMode = ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+	//if (!SetConsoleMode(s_outputHandle, consoleMode))
+	//{
+	//	return false;
+	//}
+	//
+	//VTEnabled() = true;
+	//return true;
 	return true;
 }

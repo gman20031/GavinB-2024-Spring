@@ -63,6 +63,9 @@
     <ClInclude Include="Game\Appearances.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\ActorTags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -104,10 +107,10 @@
     <ClCompile Include="Game\PlayerComponents.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Component.cpp">
+    <ClCompile Include="Game\ActorFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\ActorFactory.cpp">
+    <ClCompile Include="Engine\ActorTags.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

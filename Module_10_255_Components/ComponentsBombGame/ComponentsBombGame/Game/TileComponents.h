@@ -19,6 +19,7 @@ class ExplodeOnCollide : public Component
 	NEW_STATIC_ID;
 private:
 	inline static constexpr std::pair<int, int> s_damageRange{ 3,6 };
+	bool m_exploded = false;
 	BasicRenderer* m_pOwnerRenderer;
 public:
 	ExplodeOnCollide(Actor* pOwner);
@@ -32,6 +33,7 @@ class GiveTreasureCollide : public Component
 	NEW_STATIC_ID;
 	static constexpr std::pair<int, int> s_treasureRange{ 50,150 };
 	BasicRenderer* m_pOwnerRenderer;
+	bool m_used = false;
 public:
 	GiveTreasureCollide(Actor* pOwner);
 	virtual void OnCollide() override;
@@ -45,7 +47,6 @@ public:
 class TeleportCollide : public Component
 {
 	NEW_STATIC_ID;
-
 	Vector2d<int> m_linkedPosition;
 public:
 	TeleportCollide(Actor* pOwner) : Component(pOwner, s_id) , m_linkedPosition(0,0) {}

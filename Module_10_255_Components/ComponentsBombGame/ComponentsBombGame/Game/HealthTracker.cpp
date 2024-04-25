@@ -16,13 +16,13 @@ void HealthTracker::Update()
 		m_dead = true;
 }
 
-void HealthTracker::SetHealth(size_t newHealth)
+void HealthTracker::SetHealth(int newHealth)
 {
 	m_health = newHealth;
 	Update();
 }
 
-void HealthTracker::ModifyHealth(size_t healthChange)
+void HealthTracker::ModifyHealth(int healthChange)
 {
 	m_health += healthChange;
 	Update();

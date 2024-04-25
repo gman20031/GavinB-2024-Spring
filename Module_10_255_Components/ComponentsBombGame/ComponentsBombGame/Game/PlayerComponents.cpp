@@ -111,26 +111,29 @@ void MimicFinder::CheckForBombs()
 	if (m_detectorCharges > 0)
 	{
 		m_pOwner->GetComponent<PlayerMover>()->ChangeMoveCount(1);
-		--m_detectorCharges;
+		//--m_detectorCharges;
+
+		int playerX = m_pOwner->GetPosition().x;
+		int playery = m_pOwner->GetPosition().y;
+		Actor* pTile = nullptr;
 
 		constexpr int detectionWidth = (kDetectorRange * 2) + 1;
 		constexpr int detectedSquares = detectionWidth * detectionWidth;
 		int relativeX = -kDetectorRange;
 		int relativeY = -kDetectorRange;
 
-		int targetX = m_pOwner->GetPosition().x + relativeX;
-		int targetY = m_pOwner->GetPosition().y + relativeY;
-
 		for (size_t i = 0; i < detectedSquares; ++i)
 		{
-			Actor* pTile = m_pWorld->GetTileAt(targetX, targetY);
+			pTile = m_pWorld->GetTileAt(playerX + relativeX, playery + relativeY);
+
 			if (pTile->GetComponent<ExplodeOnCollide>())
-				pTile->GetComponent<BasicRenderer>()->ChangeSprite((char)TileAppearance::kEmpty);
-			++targetX;
-			if (targetX > kDetectorRange)
+				pTile->GetComponent<BasicRenderer>()->ChangeSprite((char)TileAppearance::kBomb);
+
+			++relativeX;
+			if (relativeX > kDetectorRange)
 			{
-				targetX = -kDetectorRange;
-				++targetY;
+				relativeX = -kDetectorRange;
+				++relativeY;
 			}
 		}
 	}

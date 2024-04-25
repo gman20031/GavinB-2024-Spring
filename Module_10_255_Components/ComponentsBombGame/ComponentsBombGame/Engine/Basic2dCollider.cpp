@@ -6,6 +6,7 @@
 Basic2dCollider::Basic2dCollider(Actor* pOwner)
 	: Component(pOwner, s_id)
 {
+	// empty
 }
 
 Basic2dCollider::Basic2dCollider(const Basic2dCollider& other)
@@ -14,14 +15,8 @@ Basic2dCollider::Basic2dCollider(const Basic2dCollider& other)
 	// empty
 }
 
-Component* Basic2dCollider::Clone(Actor* pOwner)
-{
-	return new Basic2dCollider(pOwner);
-}
-
 void Basic2dCollider::Update()
 {
-	std::vector<Actor*>* CollidedActors = &m_pOwner->m_pCollidedActors;
 	World* pWorld = m_pOwner->GetWorldPtr();
 	Actor::Position_t ownerPos = m_pOwner->GetPosition();
 
@@ -32,6 +27,24 @@ void Basic2dCollider::Update()
 
 		Actor::Position_t otherPos = actor->GetPosition();
 		if (otherPos.x == ownerPos.x and otherPos.y == ownerPos.y)
-			CollidedActors->emplace_back(actor);
+			m_pCollidedActors.emplace_back(actor);
 	}
+	if (!m_pCollidedActors.empty())
+		m_pOwner->Collide();
+
 }
+
+
+/*
+	// check if they then collided
+	GetComponent->Update();
+
+	// then do collision stuff
+	if( !m_pCollidedActors.empty() )
+	{
+		for (auto& component : m_ComponentMap)
+			component->OnCollide();
+	}
+
+	m_pCollidedActors.clear();
+*/

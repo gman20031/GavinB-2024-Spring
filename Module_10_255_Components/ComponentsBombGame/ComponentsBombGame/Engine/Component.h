@@ -16,15 +16,14 @@ class Actor;
 ////////////////////////////////////////////////////////////
 class Component
 {
-public: using IdType = size_t;
-//public: using IdClass = CounterId;
+public: using IdType = uint32_t;
 protected:
 	Actor* m_pOwner;
 public:
 	const size_t m_id;
 	Component(Actor* pOwner, const size_t id) : m_pOwner(pOwner), m_id(id) { /*EMPTY*/ }
 	virtual ~Component() = default;
-	virtual Component* Clone(Actor* pOwner);
+	//virtual Component* Clone(Actor* pOwner);
 
 	constexpr virtual void Start()	{ /*EMPTY*/ }
 	virtual void Render()	{ /*EMPTY*/ }
@@ -32,16 +31,21 @@ public:
 	virtual void OnCollide(){ /*EMPTY*/ }
 };
 
-/*	Example subclass Requirements
-	
-class EnemyMover : Component
+/* -- Subclass template -- 
+class ActorTags : public Component
 {
+private:
 	NEW_STATIC_ID;
 public:
-	EnemyMover(Actor* pOwner) : Component(pOwner, s_id) {}
+	ActorTags(Actor* pOwner) : Component(pOwner, s_id) { /*EMPTY }
+	virtual ~ActorTags() = default;
+
+	constexpr virtual void Start() { /*EMPTY }
+	virtual void Render()	{ /*EMPTY }
+	virtual void Update()	{ /*EMPTY }
+	virtual void OnCollide(){ /*EMPTY }
 };
 */
-
 
 ////////////////////////////////////////////////////////////
 // Concept equivilant to - std::derived_from<T, Component>
@@ -56,26 +60,11 @@ concept SubComponent = std::derived_from<T, Component>;
 class ComponentStaticIdCounter
 {
 #define NEW_STATIC_ID public: static inline const Component::IdType s_id = ComponentStaticIdCounter::Get()
-#define SHARED_STATIC_ID(Baseclass) public: const static inline Component::IdType s_id = Baseclass::s_id
+//#define SHARED_STATIC_ID(Baseclass) public: const static inline Component::IdType s_id = Baseclass::s_id
 private:
-	static inline size_t m_next = 0;
+	static inline Component::IdType m_next = 0;
 public:
-	static constexpr size_t Get() {
+	static constexpr Component::IdType Get() {
 		return m_next++;
 	}
 };
-
-//class CounterId
-//{
-//	using id_t = Component::IdType;
-//public:
-//	inline static const id_t internal_ID = ComponentStaticIdCounter::Get();
-//	constexpr CounterId() = default;
-//	static id_t Get() { return internal_ID; }
-//
-//	constexpr bool operator==(const CounterId& other) const { return (internal_ID == other.internal_ID); }
-//	constexpr bool operator==(const id_t& other) const { return (internal_ID == other); }
-//	constexpr auto operator<=>(const CounterId& other) const = default;
-//	constexpr id_t operator*() { return internal_ID; }
-//
-//};

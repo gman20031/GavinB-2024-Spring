@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "../Engine/ActorTags.h"
 
 
 struct GameTag

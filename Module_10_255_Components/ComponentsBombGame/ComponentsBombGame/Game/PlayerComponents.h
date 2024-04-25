@@ -10,7 +10,7 @@ class PlayerUI : public Component
 {
 	NEW_STATIC_ID;
 private:
-	size_t* m_pHitPoints;
+	int* m_pHitPoints;
 	int* m_pMoneyCount;
 	int* m_pDetectCharges;
 	int* m_pMoveCount;
@@ -66,7 +66,7 @@ private:
 	static constexpr int kGoldWeight = 10;
 	static constexpr int kMoveCountWeight = 10;
 
-	size_t* m_pHitPoints;
+	int* m_pHitPoints;
 	int* m_pMoveCount;
 	int* m_pGoldCount;
 	int m_score;

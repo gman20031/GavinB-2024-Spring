@@ -1,5 +1,5 @@
 #pragma once
-#include <Windows.h>
+//#include <Windows.h>
 #include <iostream>
 
 //// https://learn.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences  ////
@@ -77,7 +77,7 @@
 class ConsoleManip
 {
 	static bool& VTEnabled();
-	inline static HANDLE s_outputHandle;
+	//inline static HANDLE s_outputHandle;
 
 	static char* CurrentFormat() { static char* format; return format; }
 public:

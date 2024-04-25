@@ -82,18 +82,26 @@ void World::GenerateEnemies(size_t amount)
 {
 	for (size_t i = 0; i < amount; ++i)
 	{
-		int y = rand() % m_height - 1; // -1 bc of off by one
-		int x = rand() % m_width - 2;  // -2 to ensure we're not Generating enemy ontop of exit 
-		m_EntityStartPositions.emplace_back( x,y );
+		int x = 0;
+		int y = 0;
+		// generate X and Y again if first or last element
+		do 
+		{
+			y = rand() % m_height;
+			x = rand() % m_width;
+		} while ( (x == 0 && y == 0) || (x == (m_height - 1) && y == (m_width - 1)) );
+
+		m_EntityStartPositions.emplace_back(x, y);
 
 		Actor* newEnemy = nullptr;
-		switch (rand() % 2) {
+		switch (rand() % 2)
+		{
 		case 0: newEnemy = ActorFactory::CreateScaredEnemy(this, { x,y }); break;
 		case 1: newEnemy = ActorFactory::CreateDirectEnemy(this, { x,y }); break;
 		}
 		m_allEnemies.emplace_back(newEnemy);
-		m_allActors.emplace_back(newEnemy);
 		m_allEnemies.back()->Init(this , {x,y} );
+		m_allActors.emplace_back(newEnemy);
 
 	}
 }
@@ -251,6 +259,7 @@ void World::Update()
 	{
 		actor = *it;
 		actor->Update();
+		KillOutOfBounds(actor);
 		if (actor->GetComponent<HealthTracker>()->IsDead())
 		{
 			delete actor;

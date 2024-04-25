@@ -22,7 +22,7 @@ void DirectEnemyLogic::Update()
 	if (PlayerInRange(playerPos, m_pOwner, (int)kSightRange))
 	{
 		Actor::Position_t moveDistances = GetNormalMoveTowardsPlayer(ownerPos, playerPos);
-		MoveActorPosition(m_pOwner, ownerPos);
+		MoveActorPosition(m_pOwner, moveDistances);
 	}
 	else
 		MoveRandom(m_pOwner);
@@ -40,33 +40,42 @@ void ScaredEnemyLogic::Update()
 	if (PlayerInRange(playerPos, m_pOwner, (int)kSightRange))
 	{
 		Actor::Position_t moveDistances = GetNormalMoveTowardsPlayer(ownerPos, playerPos);
-		MoveActorPosition(m_pOwner, ownerPos);
+		MoveActorPosition(m_pOwner, -moveDistances);
 	}
 	else
 		MoveRandom(m_pOwner);
 
 	//update the tile I am now standing on.
 	Actor* tile = m_pOwner->GetWorldPtr()->GetTileAt(m_pOwner->GetPosition());
-	if(tile) tile->Update();
+	if(tile)
+		tile->Update();
 }
 
 void DirectEnemyLogic::OnCollide()
 {
 	m_pOwner->SetPosition(m_oldPosition);
-	for (Actor* actor : m_pOwner->GetCollidedActors())
+	for (Actor* actor : m_pOwner->GetComponent<Basic2dCollider>()->CollidedActors())
 	{
-		if (actor->HasTag(GameTag::kPlayer))
-			actor->GetComponent<HealthTracker>()->Kill();
+		ActorTags* pTags = actor->GetComponent<ActorTags>();
+		if (pTags)
+		{
+			if (pTags->HasTag(GameTag::kPlayer))
+				actor->GetComponent<HealthTracker>()->Kill();
+		}
 	}
 }
 
 void ScaredEnemyLogic::OnCollide()
 {
 	m_pOwner->SetPosition(m_oldPosition);
-	for (Actor* actor : m_pOwner->GetCollidedActors())
+	for (Actor* actor : m_pOwner->GetComponent<Basic2dCollider>()->CollidedActors())
 	{
-		if (actor->HasTag(GameTag::kPlayer))
-			actor->GetComponent<HealthTracker>()->Kill();
+		ActorTags* pTags = actor->GetComponent<ActorTags>();
+		if (pTags)
+		{
+			if (pTags->HasTag(GameTag::kPlayer))
+				actor->GetComponent<HealthTracker>()->Kill();
+		}
 	}
 }
 
@@ -143,8 +152,15 @@ static void SafeMove(Actor* enemy, int deltaX, int deltaY)
 	int newY = pos.y + deltaY;
 
 	Actor* pTile = pWorld->GetTileAt(newX, newY);
-	if (pTile != nullptr and pTile->HasTag("empty"))
-		enemy->SetPosition({ newX,newY });
+	if(pTile)
+	{
+		auto pTags = pTile->GetComponent<ActorTags>();
+		if(pTags)
+		{
+			if (pTags->HasTag(GameTag::kEmpty))
+				enemy->SetPosition({ newX,newY });
+		}
+	}
 }
 
 static void MoveRandom(Actor* enemy)

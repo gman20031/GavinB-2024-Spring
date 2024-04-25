@@ -1,5 +1,5 @@
 #pragma once
-#include <Windows.h>
+//#include <Windows.h>
 #include <iostream>
 
 //// https://learn.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences  ////
@@ -48,7 +48,8 @@
 #define TEXT_ERASE_LINE_FROM	  TEXT_ERASE_LINE(1)
 #define TEXT_ERASE_LINE_ALL		  TEXT_ERASE_LINE(2)
 
-#define TEXT_FORMAT(n) #n##"m" //Set the format of the screen and text as specified by <n>
+#define TO_STRING(str) #str
+#define TEXT_FORMAT(n) TO_STRING(n##m) //Set the format of the screen and text as specified by <n>
 #define TEXT_RGB(r,g,b) TEXT_FORMAT(38;2;r;g;b)
 #define TEXT_RED   TEXT_RGB(255,0,0)
 #define TEXT_GREEN TEXT_RGB(0,255,0)
@@ -77,7 +78,7 @@
 class ConsoleManip
 {
 	static bool& VTEnabled();
-	inline static HANDLE s_outputHandle;
+	//inline static HANDLE s_outputHandle;
 
 public:
 	// dont do this

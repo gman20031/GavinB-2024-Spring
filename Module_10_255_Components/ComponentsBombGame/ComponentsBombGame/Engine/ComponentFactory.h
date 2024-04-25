@@ -2,6 +2,7 @@
 
 #include <assert.h>
 #include <unordered_map>
+
 #include "Component.h"
 
 template <class ComponentType, typename ... ArgTypes>
@@ -19,29 +20,32 @@ class ComponentFactory
 	using ComponentMap = std::unordered_map<KeyType, Contents>;
 
 private:
-	static ComponentMap& GetMap() {
+	static ComponentMap& GetMap()
+	{
 		static ComponentMap s_componentMap;
 		return s_componentMap;
 	}
 public:
-	static const ComponentPtr Create (KeyType key, Actor* pOwner) {
+	static const ComponentPtr Create (KeyType key, Actor* pOwner)
+	{
 		auto entry = GetMap().find(key);
-		if (entry == GetMap().end()) return nullptr;
+		if (entry == GetMap().end())
+			return nullptr;
 		return entry->second(pOwner);
 	}
 
 	template<SubComponent ComponentSubClass>
-	class Registrar {
+	class Registrar
+	{
 	public:
-		Registrar() {
+		Registrar()
+		{
 			auto test = GetMap().try_emplace( (ComponentSubClass::s_id) , &ComponentMaker);
-			assert(("Cannot have duplicate Id Values" , test.second));
+			assert(("Cannot have duplicate Id Values" && test.second));
 		}
 	private:
 		static ComponentPtr ComponentMaker(Actor* pOwner) { return new ComponentSubClass(pOwner); }
 	};
-
-
-};
+}; 
 
 

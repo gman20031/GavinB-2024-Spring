@@ -76,6 +76,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -105,6 +107,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\ActorTags.h" />
     <ClInclude Include="Engine\Basic2dCollider.h" />
     <ClInclude Include="Engine\BasicRenderer.h" />
     <ClInclude Include="Engine\ComponentFactory.h" />
@@ -148,9 +152,9 @@
   <ItemGroup>
     <ClCompile Include="Engine\Actor.cpp" />
     <ClCompile Include="Engine\Actor.h" />
+    <ClCompile Include="Engine\ActorTags.cpp" />
     <ClCompile Include="Engine\Basic2dCollider.cpp" />
     <ClCompile Include="Engine\BasicRenderer.cpp" />
-    <ClCompile Include="Engine\Component.cpp" />
     <ClCompile Include="Game\ActorFactory.cpp" />
     <ClCompile Include="Game\ComponentRegistrar.cpp" />
     <ClCompile Include="Game\EnemyComponents.cpp" />

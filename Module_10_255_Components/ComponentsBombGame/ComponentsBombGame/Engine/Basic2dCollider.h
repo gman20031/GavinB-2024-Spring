@@ -12,11 +12,11 @@ public:
 	NEW_STATIC_ID;
 	Basic2dCollider(Actor* pOwner);
 	Basic2dCollider(const Basic2dCollider& other);
-	//Basic2dCollider(const Basic2dCollider& other, Actor* pOwner);
+	std::vector<Actor*> m_pCollidedActors;
 private:
 	
 public:
-	virtual Component* Clone(Actor* pOwner) override;
 
+	std::vector<Actor*>& CollidedActors() { return m_pCollidedActors; }
 	virtual void Update() override;
 };
