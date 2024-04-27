@@ -4,6 +4,7 @@
 
 #include "HealthTracker.h"
 #include "PlayerComponents.h"
+#include "TileComponents.h"
 #include "../System/ConsoleManip.h"
 
 World::World()
@@ -29,7 +30,9 @@ World::~World()
 	delete m_pPlayer;
 	m_pPlayer = nullptr;
 }
-
+///////////////////////////////////////////////////////////////
+// Retruns the Actor* contained at x,y
+///////////////////////////////////////////////////////////////
 Actor* World::GetTileAt(int x, int y)
 {
 	int index = (m_width * y) + x;
@@ -39,11 +42,17 @@ Actor* World::GetTileAt(int x, int y)
 	return m_ppGrid[index];
 }
 
+///////////////////////////////////////////////////////////////
+// Retruns the Actor* contained at x,y
+///////////////////////////////////////////////////////////////
 Actor* World::GetTileAt(Vector2d<int> position)
 {
 	return GetTileAt(position.x, position.y);
 }
 
+///////////////////////////////////////////////////////////////
+// Creates an empty world the size of width * height
+///////////////////////////////////////////////////////////////
 void World::Init(int width, int height)
 {
 	// if we have a grid, destroy it
@@ -69,6 +78,9 @@ void World::Init(int width, int height)
 	m_length = width*height;
 }
 
+///////////////////////////////////////////////////////////////
+// Creates the player character and sets its location to x,y
+///////////////////////////////////////////////////////////////
 void World::CreatePlayer(int x, int y)
 {
 	assert(x >= 0 && x < m_width);
@@ -78,6 +90,9 @@ void World::CreatePlayer(int x, int y)
 	m_allActors.emplace_back(m_pPlayer);
 }
 
+///////////////////////////////////////////////////////////////
+// Creates a number of randomized enemies specified by amount
+///////////////////////////////////////////////////////////////
 void World::GenerateEnemies(size_t amount)
 {
 	for (size_t i = 0; i < amount; ++i)
@@ -106,11 +121,39 @@ void World::GenerateEnemies(size_t amount)
 	}
 }
 
+///////////////////////////////////////////////////////////////
+// returns the index value of m_ppGrid of a position
+///////////////////////////////////////////////////////////////
 size_t World::Position_tToIndex(Actor::Position_t pos) const
 {
 	return (size_t)((pos.y * m_width) + pos.x);
 }
 
+///////////////////////////////////////////////////////////////
+// Randomizes a location and places a teleporter, then places
+// a teleporter at x,y. And giving eachother the positions.
+///////////////////////////////////////////////////////////////
+Actor* World::CreateTwoTeleporters(int x, int y)
+{
+	// required to make in pair
+	int randomX = rand() % m_width;
+	int randomY = rand() % m_height;
+	int randomIndex = (randomY * m_height) + randomX;
+
+	auto randomizedTeleporter = ActorFactory::CreateTeleporterTile(this, { randomX,randomY });
+	auto returnedTeleporter = ActorFactory::CreateTeleporterTile(this, { x,y });
+
+	randomizedTeleporter->GetComponent<TeleportCollide>()->Init(returnedTeleporter->GetPosition());
+	returnedTeleporter->GetComponent<TeleportCollide>()->Init(randomizedTeleporter->GetPosition());
+
+	m_ppGrid[randomIndex] = randomizedTeleporter;
+	return returnedTeleporter;
+}
+
+///////////////////////////////////////////////////////////////
+// Generates an empty tile at the starting location of every
+// entity currenlty contained in m_EntityStartPositions
+///////////////////////////////////////////////////////////////
 void World::ClearEntityStartLocations()
 {
 	for (auto& position : m_EntityStartPositions)
@@ -120,13 +163,20 @@ void World::ClearEntityStartLocations()
 	}
 }
 
+///////////////////////////////////////////////////////////////
+// Generates an empty tile at the first and last positions
+///////////////////////////////////////////////////////////////
 void World::CreateStartAndEndTiles()
 {
 	m_ppGrid[0] = ActorFactory::CreateEmptyTile(this, { 0,0 });
 	m_ppGrid[m_length - 1] = ActorFactory::CreateExitTile(this, { m_width - 1,m_height - 1 });
 }
 
-static int GetProbabilityIndex(const std::pair<int, ActorFactory::FactoryPrototype>* tileProbabilities, int maxProbability)
+///////////////////////////////////////////////////////////////
+// Randomizes a tile type through a weighted random table.
+// then returns that type
+///////////////////////////////////////////////////////////////
+World::TileType World::GetRandomTileType(int maxProbability)
 {
 	int roll = rand() % maxProbability;
 	int probabilityIndex = 0;
@@ -134,14 +184,18 @@ static int GetProbabilityIndex(const std::pair<int, ActorFactory::FactoryPrototy
 	{
 		// I roll 870, reduce by 800. roll is > 0. go again with element 2,
 		// roll is now 70, reduce by 75, roll is < 0. I rolled whatever is at element 2
-		roll -= tileProbabilities[probabilityIndex].first;
+		roll -= s_tileProbabilities[probabilityIndex].first;
 		if (roll < 0)
 			break;
 		++probabilityIndex;
 	}
-	return probabilityIndex;
+
+	return s_tileProbabilities[probabilityIndex].second;
 }
 
+///////////////////////////////////////////////////////////////
+// Generates a tile of type and places it at x,y
+///////////////////////////////////////////////////////////////
 Actor* World::CreateActorFromType(ActorFactory::FactoryPrototype type, int x, int y)
 {
 	using enum TileType;
@@ -152,20 +206,16 @@ Actor* World::CreateActorFromType(ActorFactory::FactoryPrototype type, int x, in
 	case kBombTile:			return ActorFactory::CreateBombTile(this, { x,y });
 	case kTreasureTile:		return ActorFactory::CreateTreasureTile(this, { x,y });
 	case kMimicTile:		return ActorFactory::CreateMimicTile(this, { x,y });
-	case kTeleporterTile:
-		{
-			// required to make in pair
-			int randomX = rand() % m_width;
-			int randomY = rand() % m_height;
-			int randomIndex = (randomY * m_height) + randomX;
-			m_ppGrid[randomIndex] = ActorFactory::CreateTeleporterTile(this, { randomX,randomY });
-			return ActorFactory::CreateTeleporterTile(this, { x, y });
-		}
-	default: assert((false or "incorrect type passed into function")); 
+	case kTeleporterTile:	return CreateTwoTeleporters(x, y);
+	default: assert((false && "incorrect type passed into function")); 
 	}
 	return nullptr;
 }
 
+///////////////////////////////////////////////////////////////
+// Randomly generates tiles for the entire world, any tile 
+// already generated will be skipped.
+///////////////////////////////////////////////////////////////
 void World::PopulateWorld(int maxProbability)
 {
 	using enum ActorFactory::FactoryPrototype;
@@ -179,13 +229,17 @@ void World::PopulateWorld(int maxProbability)
 		int tileX = tileIndex % m_width;
 		int tileY = tileIndex / m_width;
 
+		auto tileType = GetRandomTileType(maxProbability);
 
-		int probabilityIndex = GetProbabilityIndex( s_tileProbabilities, maxProbability);
-
-		m_ppGrid[tileIndex] = CreateActorFromType(s_tileProbabilities[probabilityIndex].second, tileX, tileY);
+		m_ppGrid[tileIndex] = CreateActorFromType(tileType, tileX, tileY);
 	}
 }
 
+///////////////////////////////////////////////////////////////
+// Generates tiles for the entire world , first and last tiles
+// will always be empty, and entities will always stat on empty
+// tiles
+///////////////////////////////////////////////////////////////
 void World::GenerateWorld()
 {
 	using enum TileType;
@@ -202,7 +256,15 @@ void World::GenerateWorld()
 	PopulateWorld(maxProbability);
 }
 
-void World::Draw()
+
+
+
+///////////////////////////////////////////////////////////////
+// Calls the render component of every actor in the world.
+// if a entity actor is at a position, it is rendered and the
+// tile is not
+///////////////////////////////////////////////////////////////
+void World::Draw() const
 {
 	ConsoleManip::ClearConsole();
 	m_pPlayer->GetComponent<PlayerUI>()->DrawUI();
@@ -248,6 +310,13 @@ void World::KillOutOfBounds(Actor* entity) const
 		entity->GetComponent<HealthTracker>()->Kill();
 		return;
 	}
+}
+
+void World::UpdateTile(Vector2d<int> tilePosition)
+{
+	Actor* pTile = GetTileAt(tilePosition);
+	if (pTile)
+		pTile->Update();
 }
 
 void World::Update()

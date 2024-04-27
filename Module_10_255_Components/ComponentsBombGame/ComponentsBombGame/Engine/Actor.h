@@ -14,6 +14,10 @@ public:
 	friend bool operator==(const Actor& lhs, const Actor& rhs);
 	using Position_t = Vector2d<int>;
 	using id_t = Component::IdType;
+
+protected:
+	// 
+
 private:
 	inline static uint32_t s_actorCount = 0; // to obtain unique Id.
 	uint32_t m_uniqueId = 0;  // to check if two actors are the same.

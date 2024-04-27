@@ -30,11 +30,16 @@ class World
 
 	static constexpr size_t kPlayerStartingHealth = 10;
 
-	void ClearEntityStartLocations();
+private:
 	void CreateStartAndEndTiles();
-	Actor* CreateActorFromType(TileType type, int x, int y);
+	void ClearEntityStartLocations();
 	void PopulateWorld(int maxProbability);
+
 	size_t Position_tToIndex(Actor::Position_t pos) const;
+	Actor* CreateActorFromType(TileType type, int x, int y);
+	Actor* CreateTwoTeleporters(int x, int y);
+	TileType GetRandomTileType(int maxProbability);
+	void DrawActor();
 public:
 	World();
 	~World();
@@ -49,10 +54,13 @@ public:
 	void CreatePlayer(int x = 0, int y = 0);
 	void GenerateEnemies(size_t amount);
 	void GenerateWorld();
+	
+	// play
 	void KillOutOfBounds(Actor* entity) const;
+	void UpdateTile(Vector2d<int> tilePosition);
 
 	// update
-	void Draw();
+	void Draw() const;
 	void Update();
 
 	// end

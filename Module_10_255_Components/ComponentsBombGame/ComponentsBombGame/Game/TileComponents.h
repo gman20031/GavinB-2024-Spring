@@ -22,6 +22,7 @@ private:
 	bool m_exploded = false;
 	BasicRenderer* m_pOwnerRenderer;
 public:
+	bool Exploded() const { return m_exploded; }
 	ExplodeOnCollide(Actor* pOwner);
 	virtual void OnCollide() override;
 };

@@ -145,6 +145,7 @@
     <ClInclude Include="Game\TileComponents.h" />
     <ClInclude Include="Game\World.h" />
     <ClInclude Include="System\ConsoleManip.h" />
+    <ClInclude Include="System\G_Rand.h" />
     <ClInclude Include="System\Prompting.h" />
     <ClInclude Include="System\Timing.h" />
     <ClInclude Include="System\Vector2d.h" />
@@ -164,6 +165,7 @@
     <ClCompile Include="Game\World.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="System\ConsoleManip.cpp" />
+    <ClCompile Include="System\G_Rand.cpp" />
     <ClCompile Include="System\Prompting.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

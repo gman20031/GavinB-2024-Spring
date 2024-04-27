@@ -71,6 +71,7 @@ Actor* ActorFactory::CreateTreasureTile(World* pWorld, Actor::Position_t Pos)
 Actor* ActorFactory::CreateTeleporterTile(World* pWorld, Actor::Position_t Pos)
 {
 	Actor* newActor = CreateAndSetActorAppearance(kTeleporter, pWorld, Pos);
+	newActor->GetComponent<BasicRenderer>()->SetFormatting(TEXT_YEL);
 	newActor->AddComponent<TeleportCollide>();
 	
 	return newActor;
@@ -80,8 +81,9 @@ Actor* ActorFactory::CreateDirectEnemy(World* pWorld, Actor::Position_t Pos)
 {
 	Actor* newActor = CreateAndSetActorAppearance(kDirectEnemy, pWorld, Pos);
 	newActor->AddComponent<HealthTracker>()->SetHealth(1);
-	newActor->AddComponent<DirectEnemyLogic>();
-	newActor->GetComponent<BasicRenderer>()->SetFormatting(TEXT_RGB(255, 0, 0));
+	newActor->AddComponent<EnemyLogic>()->Init(EnemyLogic::EnemyType::kDirect);
+	newActor->GetComponent<BasicRenderer>()->SetFormatting(TEXT_RED);
+
 	return newActor;
 }
 
@@ -89,7 +91,7 @@ Actor* ActorFactory::CreateScaredEnemy(World* pWorld, Actor::Position_t Pos)
 {
 	Actor* newActor = CreateAndSetActorAppearance(kRandomEnemy, pWorld, Pos);
 	newActor->AddComponent<HealthTracker>()->SetHealth(1);
-	newActor->AddComponent<ScaredEnemyLogic>();
+	newActor->AddComponent<EnemyLogic>()->Init(EnemyLogic::EnemyType::kScared);
 	newActor->GetComponent<BasicRenderer>()->SetFormatting(TEXT_RGB(255, 0, 0));
 
 	return newActor;
@@ -105,6 +107,7 @@ Actor* ActorFactory::Createplayer(World* pWorld, Actor::Position_t Pos, int star
 	newActor->AddComponent<PlayerScore>(); // this requires information from the others so must be here
 	newActor->AddComponent<PlayerUI>(); // this must be placed last bc its constuctor. I know its dumb
 	newActor->AddComponent<ActorTags>()->GiveTag(GameTag::kPlayer);
-	
+	newActor->GetComponent<BasicRenderer>()->SetFormatting(TEXT_RGB(0,255,255));
+
 	return newActor;
 }

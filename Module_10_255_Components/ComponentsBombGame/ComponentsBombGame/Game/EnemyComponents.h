@@ -1,35 +1,45 @@
 #pragma once
 
 #include "../System/Vector2d.h"
+
 #include "../Engine/ComponentFactory.h"
 
-
-class DirectEnemyLogic : public Component
+class EnemyLogic : public Component
 {
-	NEW_STATIC_ID;
-private:
-	Vector2d<int> m_oldPosition;
-	static constexpr size_t kSightRange = 5;
 public:
-	DirectEnemyLogic(Actor* pOwner) : Component(pOwner, s_id) , m_oldPosition(0,0){}
+	NEW_STATIC_ID;
+	enum class Direction
+	{
+		kUp, 
+		kDown,
+		kLeft, 
+		kRight,
+		kCount,
+	} static ;
+	enum class EnemyType
+	{ 
+		kDirect,
+		kScared,
+		kCount,
+	} static ;
+private:
+	static constexpr size_t kSightRange = 5;
+	Vector2d<int> m_oldPosition;
+	EnemyType m_type = EnemyType::kCount;
+private:
+	bool PlayerInSight(Vector2d<int> playerPos);
+	Vector2d<int> GetRandomMove();
+	void SafeMove(Vector2d<int> newDirections);
+	[[nodiscard]] Vector2d<int> NormalVectorTowardsPlayer(Vector2d<int> playerPos);
+	Vector2d<int> GetPlayerLocation();
+	void MovePosition(Vector2d<int> moveDistances);
+	void MovePosition(Direction dir);
 
-		//virtual void Render() override;
+public:
+	EnemyLogic(Actor* pOwner) : Component(pOwner, s_id), m_oldPosition(0, 0) {}
+
+	void Init(EnemyType type);
 	virtual void Update() override;
 	virtual void OnCollide() override;
+
 };
-
-class ScaredEnemyLogic : public Component
-{
-	NEW_STATIC_ID;
-private:
-	Vector2d<int> m_oldPosition;
-	static constexpr size_t kSightRange = 5;
-public:
-	ScaredEnemyLogic(Actor* pOwner) : Component(pOwner, s_id), m_oldPosition(0,0){}
-
-	//virtual void Render() override;
-	virtual void Update() override;
-	virtual void OnCollide() override;
-};
-
-

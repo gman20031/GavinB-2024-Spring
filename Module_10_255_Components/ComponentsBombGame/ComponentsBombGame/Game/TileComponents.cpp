@@ -64,8 +64,12 @@ void GiveTreasureCollide::OnCollide()
 	int goldAmount = (rand() % (s_treasureRange.second - s_treasureRange.first)) + s_treasureRange.first;
 	for (Actor* actor : collidedActors)
 	{
-		if (actor->GetComponent<ActorTags>()->HasTag(GameTag::kPlayer))
-			actor->GetComponent<MoneyCounter>()->ChangeMoney(goldAmount);
+		auto pTags = actor->GetComponent<ActorTags>();
+		if(pTags)
+		{
+			if (pTags->HasTag(GameTag::kPlayer))
+				actor->GetComponent<MoneyCounter>()->ChangeMoney(goldAmount);
+		}
 	}
 	m_pOwnerRenderer->ChangeSprite((char)TileAppearance::kEmpty);
 	m_used = true;

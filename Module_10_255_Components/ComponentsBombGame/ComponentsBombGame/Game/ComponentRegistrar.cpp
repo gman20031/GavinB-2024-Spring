@@ -40,8 +40,7 @@ static std::tuple<
 	ComponentFactory::Registrar<BasicRenderer>,
 	ComponentFactory::Registrar<ActorTags>,
 
-	ComponentFactory::Registrar<DirectEnemyLogic>,
-	ComponentFactory::Registrar<ScaredEnemyLogic>,
+	ComponentFactory::Registrar<EnemyLogic>,
 
 	ComponentFactory::Registrar<HealthTracker>,
 

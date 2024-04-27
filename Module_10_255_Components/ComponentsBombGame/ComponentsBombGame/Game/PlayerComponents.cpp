@@ -60,7 +60,7 @@ void PlayerMover::Update()
 	}
 
 	//update the tile I am now standing on.
-	m_pOwner->GetWorldPtr()->GetTileAt(m_pOwner->GetPosition())->Update();
+	m_pOwner->GetWorldPtr()->UpdateTile(m_pOwner->GetPosition());
 }
 
 // Money Counter
@@ -106,12 +106,25 @@ MimicFinder::MimicFinder(Actor* pOwner)
 
 }
 
+static void CheckTile(Actor* pTile)
+{
+	if (!pTile)
+		return;
+
+	ExplodeOnCollide* pExplodeCollider = pTile->GetComponent<ExplodeOnCollide>();
+	if (pExplodeCollider)
+	{
+		if (!pExplodeCollider->Exploded())
+			pTile->GetComponent<BasicRenderer>()->ChangeSprite((char)TileAppearance::kBomb);
+	}
+}
+
 void MimicFinder::CheckForBombs()
 {
 	if (m_detectorCharges > 0)
 	{
 		m_pOwner->GetComponent<PlayerMover>()->ChangeMoveCount(1);
-		//--m_detectorCharges;
+		--m_detectorCharges;
 
 		int playerX = m_pOwner->GetPosition().x;
 		int playery = m_pOwner->GetPosition().y;
@@ -126,8 +139,7 @@ void MimicFinder::CheckForBombs()
 		{
 			pTile = m_pWorld->GetTileAt(playerX + relativeX, playery + relativeY);
 
-			if (pTile->GetComponent<ExplodeOnCollide>())
-				pTile->GetComponent<BasicRenderer>()->ChangeSprite((char)TileAppearance::kBomb);
+			CheckTile(pTile);
 
 			++relativeX;
 			if (relativeX > kDetectorRange)

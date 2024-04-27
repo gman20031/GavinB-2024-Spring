@@ -43,10 +43,16 @@ public:
 	constexpr Vector2d(dataType _x, dataType _y) : x(_x), y(_y) {}
 	constexpr static const Vector2d& GetUnitVector();
 
+	constexpr Vector2d& Normalize();
 	constexpr dataType GetLength() const;
 	constexpr dataType GetSquareLength() const;
 	constexpr dataType GetDotProduct(const Vector2d& right) const;
 	//Vector2d GetCrossProduct(const Vector3& right) const;
+
+	constexpr Vector2d GetDirection(const Vector2d& other) const;
+	constexpr Vector2d GetNormalDirection(const Vector2d& other) const;
+
+	constexpr dataType GetDistance(const Vector2d& other) const;
 };
 
 
@@ -223,6 +229,13 @@ constexpr const Vector2d<dataType>& Vector2d<dataType>::GetUnitVector()
 }
 
 template<Number dataType>
+inline constexpr Vector2d<dataType>& Vector2d<dataType>::Normalize()
+{
+	*this = *this / this->GetLength();
+	return *this;
+}
+
+template<Number dataType>
 constexpr dataType Vector2d<dataType>::GetLength() const
 {
 	return std::sqrt(GetSquareLength());
@@ -241,6 +254,28 @@ constexpr dataType Vector2d<dataType>::GetDotProduct(const Vector2d& right) cons
 		x * right.x ,
 		y * right.y
 	);
+}
+
+template<Number dataType>
+inline constexpr Vector2d<dataType> Vector2d<dataType>::GetDirection(const Vector2d& other) const
+{
+	dataType newX = std::abs(this->x - other.x);
+	dataType newY = std::abs(this->y - other.y);
+	return { newX, newY };
+}
+
+template<Number dataType>
+inline constexpr Vector2d<dataType> Vector2d<dataType>::GetNormalDirection(const Vector2d& other) const
+{
+	Vector2d<dataType> vect = GetDirection(other) / GetLength();
+	return vect;
+}
+
+
+template<Number dataType>
+inline constexpr dataType Vector2d<dataType>::GetDistance(const Vector2d& other) const
+{
+	return dataType();
 }
 
 //template<Number dataType>

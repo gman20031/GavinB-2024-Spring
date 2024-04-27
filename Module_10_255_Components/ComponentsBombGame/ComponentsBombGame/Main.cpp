@@ -5,7 +5,8 @@
 int main()
 {
 	constexpr int kWorldWidth = 20;
-	constexpr int kWorldHeight = 20;
+	constexpr int kWorldHeight = 20
+;
 	
 	srand((unsigned int)time(nullptr));
 	

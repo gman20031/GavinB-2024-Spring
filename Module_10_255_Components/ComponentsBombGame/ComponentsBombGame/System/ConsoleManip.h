@@ -54,6 +54,7 @@
 #define TEXT_RED   TEXT_RGB(255,0,0)
 #define TEXT_GREEN TEXT_RGB(0,255,0)
 #define TEXT_BLUE  TEXT_RGB(0,0,255)
+#define TEXT_YEL   TEXT_RGB(255,255,0)
 #define TEXT_DEF "0m"
 #define TEXT_FOR_DEF "39"
 #define BACK_RGB(r,g,b) TEXT_FORMAT(48;2;r;g;b)

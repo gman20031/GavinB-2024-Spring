@@ -31,7 +31,7 @@ void Basic2dCollider::Update()
 	}
 	if (!m_pCollidedActors.empty())
 		m_pOwner->Collide();
-
+	m_pCollidedActors.clear();
 }
 
 

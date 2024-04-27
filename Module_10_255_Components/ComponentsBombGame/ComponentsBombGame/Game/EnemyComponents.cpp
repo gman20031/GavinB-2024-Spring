@@ -1,57 +1,54 @@
 #include "EnemyComponents.h"
 
 #include <concepts>
+#include <random>
+
+#include "../System/Vector2d.h"
+#include "../System/G_Rand.h"
+
+#include "../Engine/Actor.h"
+
 #include "GameTags.h"
 #include "HealthTracker.h"
-#include "../Engine/Actor.h"
-#include "../System/Vector2d.h"
 #include "world.h"
 
-static bool PlayerInRange(Actor::Position_t playerPos, Actor* enemy, int sightRange);
-static void SafeMove(Actor* enemy, int deltaX, int deltaY);
-static void MoveRandom(Actor* enemy);
-static Actor::Position_t GetNormalMoveTowardsPlayer(Actor::Position_t enemyPos, Actor::Position_t playerPos);
-static Actor::Position_t GetPlayerLocation(Actor* enemy);
-static void MoveActorPosition(Actor* enemy, Actor::Position_t moveDistances);
-
-void DirectEnemyLogic::Update()
+////////////////////////////////////////////////////////////
+// If the enemy is within range of player, it will do a 
+// specialized move based on type.
+// otherwise will move randomly and never step on any non
+// empty tile and will not leave arena to their doom.
+////////////////////////////////////////////////////////////
+void EnemyLogic::Update()
 {
-	Actor::Position_t ownerPos = m_pOwner->GetPosition();
-	Actor::Position_t playerPos = GetPlayerLocation(m_pOwner);
+	Actor::Position_t ownerPos  = m_pOwner->GetPosition();
+	Actor::Position_t playerPos = GetPlayerLocation();
 	m_oldPosition = ownerPos;
-	if (PlayerInRange(playerPos, m_pOwner, (int)kSightRange))
+	if (PlayerInSight(playerPos) )
 	{
-		Actor::Position_t moveDistances = GetNormalMoveTowardsPlayer(ownerPos, playerPos);
-		MoveActorPosition(m_pOwner, moveDistances);
+		if (playerPos == ownerPos)
+			return;
+		Actor::Position_t moveDistances = NormalVectorTowardsPlayer(playerPos);
+		switch (m_type)
+		{
+		case EnemyType::kDirect: MovePosition(moveDistances); break;
+		case EnemyType::kScared: MovePosition(-moveDistances); break;
+		}
 	}
 	else
-		MoveRandom(m_pOwner);
-
-	//update the tile I am now standing on.
-	Actor* tile = m_pOwner->GetWorldPtr()->GetTileAt(m_pOwner->GetPosition());
-	if (tile) tile->Update();
-}	
-
-void ScaredEnemyLogic::Update()
-{
-	Actor::Position_t ownerPos = m_pOwner->GetPosition();
-	Actor::Position_t playerPos = GetPlayerLocation(m_pOwner);
-	m_oldPosition = ownerPos;
-	if (PlayerInRange(playerPos, m_pOwner, (int)kSightRange))
 	{
-		Actor::Position_t moveDistances = GetNormalMoveTowardsPlayer(ownerPos, playerPos);
-		MoveActorPosition(m_pOwner, -moveDistances);
+		SafeMove(GetRandomMove());
 	}
-	else
-		MoveRandom(m_pOwner);
 
-	//update the tile I am now standing on.
-	Actor* tile = m_pOwner->GetWorldPtr()->GetTileAt(m_pOwner->GetPosition());
-	if(tile)
-		tile->Update();
+	//update the tile I am now standing on now.
+	m_pOwner->GetWorldPtr()->UpdateTile(m_pOwner->GetPosition());
 }
 
-void DirectEnemyLogic::OnCollide()
+////////////////////////////////////////////////////////////
+// Sets the position of the actor back to before it steped
+// For every actor collided with, if it was the player
+// Kills it. 
+////////////////////////////////////////////////////////////
+void EnemyLogic::OnCollide()
 {
 	m_pOwner->SetPosition(m_oldPosition);
 	for (Actor* actor : m_pOwner->GetComponent<Basic2dCollider>()->CollidedActors())
@@ -65,43 +62,86 @@ void DirectEnemyLogic::OnCollide()
 	}
 }
 
-void ScaredEnemyLogic::OnCollide()
+////////////////////////////////////////////////////////////
+// Sets the enemy type to to type givem
+////////////////////////////////////////////////////////////
+void EnemyLogic::Init(EnemyType type)
 {
-	m_pOwner->SetPosition(m_oldPosition);
-	for (Actor* actor : m_pOwner->GetComponent<Basic2dCollider>()->CollidedActors())
-	{
-		ActorTags* pTags = actor->GetComponent<ActorTags>();
-		if (pTags)
-		{
-			if (pTags->HasTag(GameTag::kPlayer))
-				actor->GetComponent<HealthTracker>()->Kill();
-		}
-	}
+	m_type = type;
 }
 
-template<Number T>
-static T Square(T number) {
+////////////////////////////////////////////////////////////////////////
+//								 Helper functions
+////////////////////////////////////////////////////////////////////////
+
+static int Square(int number) {
 	return (number * number);
 }
 
-static Actor::Position_t GetPlayerLocation(Actor* enemy)
+////////////////////////////////////////////////////////////
+// Moves the position of the enemy based on the distances
+// given.
+////////////////////////////////////////////////////////////
+void EnemyLogic::MovePosition(Actor::Position_t moveDistances)
 {
-	return enemy->GetWorldPtr()->GetPlayerPointer()->GetPosition();
+	Actor::Position_t newPos = m_pOwner->GetPosition() + moveDistances;
+	m_pOwner->SetPosition(newPos);
 }
 
-void MoveActorPosition(Actor* enemy, Actor::Position_t moveDistances)
+////////////////////////////////////////////////////////////
+// Moves the position of the enemy based on the distances
+// given.
+////////////////////////////////////////////////////////////
+void EnemyLogic::MovePosition(Direction dir)
 {
-	Actor::Position_t newPos = enemy->GetPosition() + moveDistances;
-	enemy->SetPosition(newPos);
+	using enum Direction;
+	switch(dir)
+	{
+	case kUp:	 MovePosition({  0,-1 }); break;
+	case kDown:	 MovePosition({  0, 1 }); break;
+	case kRight: MovePosition({  1, 0 }); break;
+	case kLeft:	 MovePosition({ -1, 0 }); break;
+	default:	 MovePosition({  0, 0 }); break;
+	}
 }
 
+////////////////////////////////////////////////////////////
+// Returns the locatio of the player as a Vector2d<int>
+////////////////////////////////////////////////////////////
+Actor::Position_t EnemyLogic::GetPlayerLocation()
+{
+	return m_pOwner->GetWorldPtr()->GetPlayerPointer()->GetPosition();
+}
 
-[[nodiscard]] static Actor::Position_t GetNormalMoveTowardsPlayer(Actor::Position_t enemyPos, Actor::Position_t playerPos)
-{												
-	// https://imgur.com/a/ckZGmPe				// . -1 . 	 
-												// -1 E +1 	 
-	int xDistance = playerPos.x - enemyPos.x;	// . +1 . 	 
-	int yDistance = playerPos.y - enemyPos.y;		
+////////////////////////////////////////////////////////////
+// Returns a normalized vector2d<int> that is pointing
+// in the direction of the player.
+////////////////////////////////////////////////////////////
+[[nodiscard]] Actor::Position_t EnemyLogic::NormalVectorTowardsPlayer(Actor::Position_t playerPos)
+{										
+/*
+ Running Away:										|Chasing:												   | Chasing:											  | Chasing:
+   Old:												|	Old:												   | 	Old:											  | 	Old:
+   . . . 											|	. ! . 												   | 	. . !											  | 	. ! .
+   ? . .											|	. . .												   | 	. . .											  | 	. . .
+   . . @											|	@ . .												   | 	@ . .											  | 	. @ .
+													|														   | 													  |
+   xDistance = (2) - (0) = 2						|	xDistance = (0) - (1) = -1							   | 	xDistance = (0) - (1) = -2						  | 	xDistance = (1) - (1) = 0
+   yDistance = (2) - (1) = 1						|	yDistance = (2) - (0) = 2							   | 	yDistance = (2) - (0) = 2						  | 	yDistance = (2) - (0) = 2
+   absX = 2											|	absX = 1											   | 	absX = 2										  | 	absX = 0
+   absY = 1											|	absY = 2											   | 	absY = 2										  | 	absY = 2
+													|														   | 													  |
+   absY < absX										|	absX < absY											   | 	absX = absY										  | 	absY = 0
+	dY = -(yDistance / absY) = -( 1 / 1 )  = - 1	|		dX = (xDistance / absX) = ( -1 / 1 )  = -1		   | 		dX = (xDistance / absX) = ( -2 / 2 )  = -1	  | 		dY = (yDistance / absY) = ( 2 / 2 )  = 1
+	ChangePostion(enemy, 0 , dY)					|		ChangePostion(enemy, dX , 0)					   | 		ChangePostion(enemy, dX , 0)				  | 		ChangePostion(enemy, 0 , dY)
+													|														   | 													  |
+   new:												|	new:												   | 	new:											  | 	new:
+   ? . . 											|	! . .  // cannot move diagonally so this is equally as | 	. ! . 											  | 	. . .
+   . . .											|	. . .  // effective as moving downwards				   | 	. . . 											  | 	. ? .
+   . . @											|	@ . .												   | 	@ . .											  | 	. @ .
+*/														 	 
+	int xDistance = playerPos.x - m_pOwner->GetPosition().x;		 
+	int yDistance = playerPos.y - m_pOwner->GetPosition().y;		
 	int absX = std::abs(xDistance);					
 	int absY = std::abs(yDistance);					
 													
@@ -130,26 +170,38 @@ void MoveActorPosition(Actor* enemy, Actor::Position_t moveDistances)
 	if (absY < absX)
 		deltaY = (yDistance / absY);
 
+	// if the player is exactly 1 square diagonally
+	if (absY == absX)
+		deltaX = (xDistance / absX);
+
 	return { deltaX, deltaY };
 }
 
-static bool PlayerInRange(Actor::Position_t playerPos, Actor* enemy, int sightRange)
+////////////////////////////////////////////////////////////
+// Returns true if the player is within a number of squares 
+// specified by the sight range of the enemy
+////////////////////////////////////////////////////////////
+bool EnemyLogic::PlayerInSight(Actor::Position_t playerPos)
 {
-	int sightRangeSquared = sightRange * sightRange;
-	int dX = Square(playerPos.x - enemy->GetPosition().x);
-	int dY = Square(playerPos.y - enemy->GetPosition().y);
+	int sightRangeSquared = kSightRange * kSightRange;
+	int dX = Square(playerPos.x - m_pOwner->GetPosition().x);
+	int dY = Square(playerPos.y - m_pOwner->GetPosition().y);
 	int distanceSquared = dX + dY;
 
 	return(distanceSquared < sightRangeSquared);
 }
 
-static void SafeMove(Actor* enemy, int deltaX, int deltaY)
+////////////////////////////////////////////////////////////
+// Attempts to move in the direction given, if the tile
+// the enemy is attempting to move to does not have the tag
+// "empty" the enemy will not move.
+////////////////////////////////////////////////////////////
+void EnemyLogic::SafeMove(Vector2d<int> newDirections)
 {
-	World* pWorld = enemy->GetWorldPtr();
-
-	auto pos = enemy->GetPosition();
-	int newX = pos.x + deltaX;
-	int newY = pos.y + deltaY;
+	World* pWorld = m_pOwner->GetWorldPtr();
+	auto pos = m_pOwner->GetPosition();
+	int newX = pos.x + newDirections.x;
+	int newY = pos.y + newDirections.y;
 
 	Actor* pTile = pWorld->GetTileAt(newX, newY);
 	if(pTile)
@@ -158,21 +210,29 @@ static void SafeMove(Actor* enemy, int deltaX, int deltaY)
 		if(pTags)
 		{
 			if (pTags->HasTag(GameTag::kEmpty))
-				enemy->SetPosition({ newX,newY });
+			{
+				Actor::Position_t newPosition(newX, newY);
+				m_pOwner->SetPosition(newPosition);
+			}
 		}
 	}
 }
 
-static void MoveRandom(Actor* enemy)
+////////////////////////////////////////////////////////////
+// Returns a random vector2d<int> that will result in the 
+// enemy moving 1 tile up,down,left, or right.
+////////////////////////////////////////////////////////////
+Vector2d<int> EnemyLogic::GetRandomMove()
 {
-	int direction = rand() % 4;
-
-	switch (direction)
+	using enum Direction;
+	uint64_t dir = G_Rand::SC_Rand(0, 3);
+	switch ((Direction)dir)
 	{
-	case 0: SafeMove(enemy, -1, 0); break;
-	case 1: SafeMove(enemy, 1, 0); break;
-	case 2: SafeMove(enemy, 0, 1); break;
-	case 3: SafeMove(enemy, 0, -1); break;
+	case kUp:	 return { 0,-1 };
+	case kDown:	 return { 0, 1 };
+	case kRight: return { 1, 0 };
+	case kLeft:	 return { -1,0 };
 	}
+	return { 0,0 };
 }
 
