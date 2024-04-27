@@ -40,8 +40,6 @@ Entity::Entity(SDL_Vertex* model, size_t vertexCount, int* drawOrder, int orderC
 {
 #if TEST_MODEL_ONE
 	Entity::Entity();
-#elif // TEST_MODEL_ONE
-
 #endif
 }
 
