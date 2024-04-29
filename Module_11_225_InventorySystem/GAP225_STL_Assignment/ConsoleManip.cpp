@@ -1,5 +1,8 @@
 #include "ConsoleManip.h"
+
 #include "conio.h"
+
+#include <Windows.h>
 
 /////////////////////////////////////////////////////////////////////
 // Changes console formatting to values given
@@ -25,7 +28,20 @@ void ConsoleManip::ResetConsoleFormatting()
 /////////////////////////////////////////////////////////////////////
 void ConsoleManip::ClearConsole()
 {
-	std::cout << VT_ESC << "1J" << VT_ESC << "0;0H";
+	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_SCREEN_BUFFER_INFO screenInfo;
+	int err = GetConsoleScreenBufferInfo(
+		handle,
+		&screenInfo
+	);
+	if (err == 0)
+	{
+		std::cout << "ERROR NUMBER : " << GetLastError();
+		Pause();
+	}
+
+	SetCursorPosition(screenInfo.dwSize.X, screenInfo.dwSize.Y);
+	std::cout << VT_ESC << "1J" << VT_ESC << "1;1H";
 }
 
 
@@ -34,7 +50,7 @@ void ConsoleManip::ClearConsole()
 /////////////////////////////////////////////////////////////////////
 void ConsoleManip::SetCursorPosition(int x, int y)
 {
-	std::cout << VT_ESC << x << ";" << y << "H";
+	std::cout << VT_ESC << y << ";" << x << "H";
 }
 
 /////////////////////////////////////////////////////////////////////

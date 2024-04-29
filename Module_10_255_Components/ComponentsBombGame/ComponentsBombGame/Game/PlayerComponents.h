@@ -16,7 +16,12 @@ private:
 	int* m_pMoveCount;
 public:
 	PlayerUI(Actor* pOwner);
-	void DrawUI();
+
+	/////////////////////////////////////////////////////////////////////
+	// Prints the players information as a single line. then adds a buffer white space to console.
+	// Returns the total number of lines printed
+	/////////////////////////////////////////////////////////////////////
+	int DrawUI();
 };
 
 // --------
@@ -25,7 +30,6 @@ class PlayerMover : public Component
 {
 	NEW_STATIC_ID;
 private:
-	Vector2d<int> m_PlayerPostion;
 	int m_moveCount;
 
 	void Move(int deltaX, int deltaY);

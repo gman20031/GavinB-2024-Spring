@@ -20,7 +20,7 @@ void Basic2dCollider::Update()
 	World* pWorld = m_pOwner->GetWorldPtr();
 	Actor::Position_t ownerPos = m_pOwner->GetPosition();
 
-	for (Actor* actor : pWorld->m_allActors)
+	for (Actor* actor : pWorld->GetEntityVector() )
 	{
 		if (*actor == *m_pOwner) 
 			continue;
@@ -33,18 +33,3 @@ void Basic2dCollider::Update()
 		m_pOwner->Collide();
 	m_pCollidedActors.clear();
 }
-
-
-/*
-	// check if they then collided
-	GetComponent->Update();
-
-	// then do collision stuff
-	if( !m_pCollidedActors.empty() )
-	{
-		for (auto& component : m_ComponentMap)
-			component->OnCollide();
-	}
-
-	m_pCollidedActors.clear();
-*/

@@ -1,14 +1,15 @@
-#include "ConsoleManip.h"
+#include <conio.h>
+#include <iostream>
+#include <limits>
 
-static void AddTwo(int (&a))
-{
-	a += 2;
-}
-
-#define PRINTLN(str) std::cout << str << '\n';
 int main()
 {
-	ConsoleManip::Printf("hello\n", TEXT_RGB(255, 0, 0));
-	
+
+	std::cout << char(105);
+	for (;;)
+	{
+		std::cout << (char)_getch() << '\n';
+	}
+
 	return 0;
-}
+} 

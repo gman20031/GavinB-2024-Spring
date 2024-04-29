@@ -87,7 +87,7 @@ void World::CreatePlayer(int x, int y)
 	assert(y >= 0 && y < m_height);
 	m_pPlayer = ActorFactory::Createplayer(this, { x,y }, kPlayerStartingHealth);
 	m_EntityStartPositions.emplace_back( x, y );
-	m_allActors.emplace_back(m_pPlayer);
+	m_pAllEntities.emplace_back(m_pPlayer);
 }
 
 ///////////////////////////////////////////////////////////////
@@ -114,9 +114,8 @@ void World::GenerateEnemies(size_t amount)
 		case 0: newEnemy = ActorFactory::CreateScaredEnemy(this, { x,y }); break;
 		case 1: newEnemy = ActorFactory::CreateDirectEnemy(this, { x,y }); break;
 		}
-		m_allEnemies.emplace_back(newEnemy);
-		m_allEnemies.back()->Init(this , {x,y} );
-		m_allActors.emplace_back(newEnemy);
+		m_pAllEntities.emplace_back(newEnemy);
+		m_pAllEntities.back()->Init(this , {x,y} );
 
 	}
 }
@@ -148,28 +147,6 @@ Actor* World::CreateTwoTeleporters(int x, int y)
 
 	m_ppGrid[randomIndex] = randomizedTeleporter;
 	return returnedTeleporter;
-}
-
-///////////////////////////////////////////////////////////////
-// Generates an empty tile at the starting location of every
-// entity currenlty contained in m_EntityStartPositions
-///////////////////////////////////////////////////////////////
-void World::ClearEntityStartLocations()
-{
-	for (auto& position : m_EntityStartPositions)
-	{
-		Actor* temp = ActorFactory::CreateEmptyTile(this, position);
-		m_ppGrid[Position_tToIndex(position)] = temp;
-	}
-}
-
-///////////////////////////////////////////////////////////////
-// Generates an empty tile at the first and last positions
-///////////////////////////////////////////////////////////////
-void World::CreateStartAndEndTiles()
-{
-	m_ppGrid[0] = ActorFactory::CreateEmptyTile(this, { 0,0 });
-	m_ppGrid[m_length - 1] = ActorFactory::CreateExitTile(this, { m_width - 1,m_height - 1 });
 }
 
 ///////////////////////////////////////////////////////////////
@@ -206,7 +183,7 @@ Actor* World::CreateActorFromType(ActorFactory::FactoryPrototype type, int x, in
 	case kBombTile:			return ActorFactory::CreateBombTile(this, { x,y });
 	case kTreasureTile:		return ActorFactory::CreateTreasureTile(this, { x,y });
 	case kMimicTile:		return ActorFactory::CreateMimicTile(this, { x,y });
-	case kTeleporterTile:	return CreateTwoTeleporters(x, y);
+	case kTeleporterTile:	return CreateTwoTeleporters(x, y); // teleporters require a linked position
 	default: assert((false && "incorrect type passed into function")); 
 	}
 	return nullptr;
@@ -251,8 +228,17 @@ void World::GenerateWorld()
 		maxProbability += s_tileProbabilities[i].first;
 	}
 
-	ClearEntityStartLocations();
-	CreateStartAndEndTiles();
+	// creates empty tile at each enemy start locations
+	for (auto& position : m_EntityStartPositions)
+	{
+		Actor* temp = ActorFactory::CreateEmptyTile(this, position);
+		m_ppGrid[Position_tToIndex(position)] = temp;
+	}
+
+	// creates a tile at start and end
+	m_ppGrid[0] = ActorFactory::CreateEmptyTile(this, { 0,0 });
+	m_ppGrid[m_length - 1] = ActorFactory::CreateExitTile(this, { m_width - 1,m_height - 1 });
+
 	PopulateWorld(maxProbability);
 }
 
@@ -266,38 +252,33 @@ void World::GenerateWorld()
 ///////////////////////////////////////////////////////////////
 void World::Draw() const
 {
+	ConsoleManip::SetConsoleFormatting(CSR_SHOW_OFF VT_ESC TEXT_DEF);
 	ConsoleManip::ClearConsole();
-	m_pPlayer->GetComponent<PlayerUI>()->DrawUI();
 
-	for (int y = 0; y < m_height; ++y)
+	int topBuffer = m_pPlayer->GetComponent<PlayerUI>()->DrawUI();
+
+	// print entire grid of tiles
+	for (size_t i = 1; i <= m_length; ++i) // starts at 1 to avoid (0 % width) == 0
 	{
-		for (int x = 0; x < m_width; ++x)
-		{
-			bool stop = false;
-			for (auto& enemy : m_allEnemies)
-			{
-				//enemy->GetPosition().x
-				if (enemy->GetPosition().x == x and enemy->GetPosition().y == y)
-				{
-					enemy->GetComponent<BasicRenderer>()->Render();
-					stop = true;
-				}
-			}
-			if (stop)
-				continue;
-			if (m_pPlayer and m_pPlayer->GetPosition().x == x and m_pPlayer->GetPosition().y == y)
-				m_pPlayer->GetComponent<BasicRenderer>()->Render();
-			else
-			{
-				int index = (y * m_width) + x;
-				m_ppGrid[index]->GetComponent<BasicRenderer>()->Render();
-			}
-		}
-		std::cout << std::endl;
+		m_ppGrid[i-1]->Render(); // started at 1
+
+		if (i % m_width == 0)
+			std::cout << '\n';
+	}
+	for (Actor* entity : m_pAllEntities)
+	{
+		auto pos = entity->GetPosition();
+		ConsoleManip::SetCursorPosition(pos.x + 1 , pos.y + topBuffer + 1); // Cursor positioning is 1 indexed
+		entity->Render();
 	}
 
+	ConsoleManip::SetCursorPosition( 1 , m_height + topBuffer + 1); // Cursor positioning is 1 indexed
 }
 
+///////////////////////////////////////////////////////////////
+// Checks the location of the actor, if it is out of bounds,
+// kills the actor
+///////////////////////////////////////////////////////////////
 void World::KillOutOfBounds(Actor* entity) const
 {
 	auto pos = entity->GetPosition();
@@ -312,6 +293,10 @@ void World::KillOutOfBounds(Actor* entity) const
 	}
 }
 
+///////////////////////////////////////////////////////////////
+// Checks if there is a tile at tilePosition, if there is,
+// updates that tile
+///////////////////////////////////////////////////////////////
 void World::UpdateTile(Vector2d<int> tilePosition)
 {
 	Actor* pTile = GetTileAt(tilePosition);
@@ -319,20 +304,31 @@ void World::UpdateTile(Vector2d<int> tilePosition)
 		pTile->Update();
 }
 
+///////////////////////////////////////////////////////////////
+// Updates all entities in the scene, updating the tiles
+// that the entities now stand on.
+///////////////////////////////////////////////////////////////
 void World::Update()
 {
 	m_pPlayer->Update();
 	KillOutOfBounds(m_pPlayer);
-	Actor* actor = nullptr;
-	for (auto it = m_allEnemies.begin(); it != m_allEnemies.end(); /*EMPTY*/ )
+	Actor* pActor = nullptr;
+	for (auto it = m_pAllEntities.begin(); it != m_pAllEntities.end(); /*EMPTY*/)
 	{
-		actor = *it;
-		actor->Update();
-		KillOutOfBounds(actor);
-		if (actor->GetComponent<HealthTracker>()->IsDead())
+		pActor = *it;
+
+		if (*pActor == *m_pPlayer)
 		{
-			delete actor;
-			it = m_allEnemies.erase(it);
+			++it;
+			continue;
+		}
+
+		pActor->Update();
+		KillOutOfBounds(pActor);
+		if (pActor->GetComponent<HealthTracker>()->IsDead())
+		{
+			delete pActor;
+			it = m_pAllEntities.erase(it);
 			continue;
 		}
 		++it;
@@ -345,6 +341,11 @@ void World::Update()
 	}
 }
 
+///////////////////////////////////////////////////////////////
+// Sets the m_gameOver flag.
+// if the player is dead, prints a loss
+// if the plaer is alive, prints a win
+///////////////////////////////////////////////////////////////
 void World::EndGame()
 {
 	if (!m_pPlayer->GetComponent<HealthTracker>()->IsDead())

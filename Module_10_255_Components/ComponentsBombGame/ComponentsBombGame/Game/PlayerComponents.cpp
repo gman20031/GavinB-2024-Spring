@@ -19,27 +19,34 @@ PlayerUI::PlayerUI(Actor* pOwner)
 {
 }
 
-void PlayerUI::DrawUI()
+
+/////////////////////////////////////////////////////////////////////
+// Prints the players information as a single line. then adds a buffer white space to console.
+// Returns the total number of lines printed
+/////////////////////////////////////////////////////////////////////
+int PlayerUI::DrawUI()
 {
+	static constexpr int kBuffer = 2;
 	int score = m_pOwner->GetComponent<PlayerScore>()->CalculateScore();
 	std::cout << "HP: " << *m_pHitPoints << "  Gold: " << *m_pMoneyCount <<
 		"  Move Count: " << *m_pMoveCount << "  Score: " << score <<
 		"  Detector Charges: " << *m_pDetectCharges << "\n\n";
+	return kBuffer;
 }
 
 // player Mover
 PlayerMover::PlayerMover(Actor* pOwner)
 	: Component(pOwner, s_id)
-	, m_PlayerPostion(pOwner->GetPosition())
 	, m_moveCount(0)
 {
 }
 
 void PlayerMover::Move(int deltaX, int deltaY)
 {
-	m_PlayerPostion.x += deltaX;
-	m_PlayerPostion.y += deltaY;
-	m_pOwner->SetPosition(m_PlayerPostion);
+	auto playerPos = m_pOwner->GetPosition();
+	playerPos.x += deltaX;
+	playerPos.y += deltaY;
+	m_pOwner->SetPosition(playerPos);
 }
 
 void PlayerMover::Update()
@@ -106,11 +113,8 @@ MimicFinder::MimicFinder(Actor* pOwner)
 
 }
 
-static void CheckTile(Actor* pTile)
+static void CheckTileForBomb(Actor* pTile)
 {
-	if (!pTile)
-		return;
-
 	ExplodeOnCollide* pExplodeCollider = pTile->GetComponent<ExplodeOnCollide>();
 	if (pExplodeCollider)
 	{
@@ -121,34 +125,36 @@ static void CheckTile(Actor* pTile)
 
 void MimicFinder::CheckForBombs()
 {
-	if (m_detectorCharges > 0)
+	if (m_detectorCharges <= 0)
+		return
+
+	m_pOwner->GetComponent<PlayerMover>()->ChangeMoveCount(1);
+	--m_detectorCharges;
+
+	int playerX = m_pOwner->GetPosition().x;
+	int playery = m_pOwner->GetPosition().y;
+	Actor* pTile = nullptr;
+
+	constexpr int detectionWidth = (kDetectorRange * 2) + 1;
+	constexpr int detectedSquares = detectionWidth * detectionWidth;
+	int relativeX = -kDetectorRange;
+	int relativeY = -kDetectorRange;
+
+	for (size_t i = 0; i < detectedSquares; ++i)
 	{
-		m_pOwner->GetComponent<PlayerMover>()->ChangeMoveCount(1);
-		--m_detectorCharges;
+		pTile = m_pWorld->GetTileAt(playerX + relativeX, playery + relativeY);
 
-		int playerX = m_pOwner->GetPosition().x;
-		int playery = m_pOwner->GetPosition().y;
-		Actor* pTile = nullptr;
+		if(pTile)
+			CheckTileForBomb(pTile);
 
-		constexpr int detectionWidth = (kDetectorRange * 2) + 1;
-		constexpr int detectedSquares = detectionWidth * detectionWidth;
-		int relativeX = -kDetectorRange;
-		int relativeY = -kDetectorRange;
-
-		for (size_t i = 0; i < detectedSquares; ++i)
+		++relativeX;
+		if (relativeX > kDetectorRange)
 		{
-			pTile = m_pWorld->GetTileAt(playerX + relativeX, playery + relativeY);
-
-			CheckTile(pTile);
-
-			++relativeX;
-			if (relativeX > kDetectorRange)
-			{
-				relativeX = -kDetectorRange;
-				++relativeY;
-			}
+			relativeX = -kDetectorRange;
+			++relativeY;
 		}
 	}
+	
 }
 
 

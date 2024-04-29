@@ -9,7 +9,6 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ConsoleManip.cpp" />
-    <ClCompile Include="ArraySize.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleManip.h">

@@ -1,8 +1,13 @@
 #pragma once
 //#include <Windows.h>
 #include <iostream>
+#include <concepts>
 
 //// https://learn.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences  ////
+
+// Make constexpr instead of macros??
+
+#define TO_STRING(str) #str
 
 #define VT_ESC "\x1b["
 #define VT_CSI "\x1b]"
@@ -29,7 +34,7 @@
 #define CSR_MOVE_LINEUP(n)	#n "F" 	//Cursor up <n> lines from current position
 #define CSR_MOVE_COLLUMN(n)	#n "G" 	//Cursor moves to <n>th position horizontally in the current line
 #define CSR_MOVE_LINE(n)	#n "d" 	//Cursor moves to the <n>th position vertically in the current column
-#define CSR_MOVE_POSITION "%i;%iH" //Cursor moves to <x>; <y> coordinate within the viewport, where <x> is the column of the <y> line
+#define CSR_MOVE_POSITION(y,x)  TO_STRING(y##;##x##H) //Cursor moves to <x>; <y> coordinate within the viewport, where <x> is the column of the <y> line
 
 #define VIEW_SCROLL_UP(n)	#n "SU" //Scroll text up by <n>. Also known as pan down, new lines fill in from the bottom of the screen
 #define VIEW_SCROLL_DOWN(n) #n "SD" //Scroll down by <n>. Also known as pan up, new lines fill in from the top of the screen
@@ -48,7 +53,6 @@
 #define TEXT_ERASE_LINE_FROM	  TEXT_ERASE_LINE(1)
 #define TEXT_ERASE_LINE_ALL		  TEXT_ERASE_LINE(2)
 
-#define TO_STRING(str) #str
 #define TEXT_FORMAT(n) TO_STRING(n##m) //Set the format of the screen and text as specified by <n>
 #define TEXT_RGB(r,g,b) TEXT_FORMAT(38;2;r;g;b)
 #define TEXT_RED   TEXT_RGB(255,0,0)
@@ -76,24 +80,48 @@
 49 		Background Default 			Applies only the background portion of the defaults (see 0)
 */
 
+template<typename Type>
+concept streamOverloaded = requires(Type var)
+{
+	std::cout << var;
+};
+
 class ConsoleManip
 {
-	static bool& VTEnabled();
-	//inline static HANDLE s_outputHandle;
+	inline static const char* m_pDefaultFormat = TEXT_DEF;
 
 public:
-	// dont do this
-	static bool EnableVTMode();
-
 	// changes to console
 	static void ChangeConsoleTitle(const char* newTitle);
-	static void ChangeConsoleColour(const char* newColour);
+	static void SetConsoleFormatting(const char* newFormatting); //sets default color for printing
+	static void ResetConsoleFormatting();
 
 	// simple functionality
 	static void ClearConsole();
+	static void SetCursorPosition(int x, int y); // cursor positioning is 1 indexed
 	static void Pause();
 
 	// printing
-	static void Printf(const char* output, const char* formatting = TEXT_DEF);
-	static void Printf(const char output, const char* formatting = TEXT_DEF);
+	static void Printf(const char* output, const char* formatting = m_pDefaultFormat);
+	static void Printf(const char output, const char* formatting = m_pDefaultFormat);
+
+	template<streamOverloaded Type>
+	static void Printf(Type output, const char* formatting = m_pDefaultFormat);
+
+	template<streamOverloaded Type>
+	static void Printf(Type output, std::initializer_list<const char*> formatList);
 };
+
+template<streamOverloaded Type>
+inline void ConsoleManip::Printf(Type output, const char* formatting)
+{
+	std::cout << VT_ESC << formatting << output << VT_ESC << m_pDefaultFormat;
+}
+
+template<streamOverloaded Type>
+inline void ConsoleManip::Printf(Type output, std::initializer_list<const char*> formatList)
+{
+	for (auto& format : formatList)
+		std::cout << VT_ESC << format;
+	Printf(output);
+}

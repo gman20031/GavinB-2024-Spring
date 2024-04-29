@@ -1,19 +1,23 @@
 #include "ConsoleManip.h"
 #include "conio.h"
 
-bool& ConsoleManip::VTEnabled()
+/////////////////////////////////////////////////////////////////////
+// Changes console formatting to values given
+// TEXT_RGB macro to specify RGB values
+/////////////////////////////////////////////////////////////////////
+void ConsoleManip::SetConsoleFormatting(const char* newFormatting)
 {
-	static bool vtEnabled = false;
-	return vtEnabled;
+	m_pDefaultFormat = newFormatting;
+	std::cout << VT_ESC << newFormatting;
 }
 
 /////////////////////////////////////////////////////////////////////
-// Changes console color to the value specified
-// TEXT_RGB macro to specify RGB values
+// Changes console formatting to default values
 /////////////////////////////////////////////////////////////////////
-void ConsoleManip::ChangeConsoleColour(const char* newColour)
+void ConsoleManip::ResetConsoleFormatting()
 {
-	std::cout << VT_ESC << newColour;
+	m_pDefaultFormat = TEXT_DEF;
+	std::cout << VT_ESC << TEXT_DEF;
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -25,6 +29,15 @@ void ConsoleManip::ClearConsole()
 }
 
 /////////////////////////////////////////////////////////////////////
+// Calls  -- std::cout << VT_ESC << y << ";" << x << "H"; -- 
+// X and Y is 1 indexed
+/////////////////////////////////////////////////////////////////////
+void ConsoleManip::SetCursorPosition(int x, int y)
+{
+	std::cout << VT_ESC << y << ";" << x << "H";
+}
+
+/////////////////////////////////////////////////////////////////////
 // Changes the title of the console to the specified Title
 /////////////////////////////////////////////////////////////////////
 void ConsoleManip::ChangeConsoleTitle(const char* newTitle)
@@ -32,20 +45,20 @@ void ConsoleManip::ChangeConsoleTitle(const char* newTitle)
 	std::cout << VT_CSI << "2;" << newTitle << "\7";
 }
 
-
 /////////////////////////////////////////////////////////////////////
 // Draws the string to the console with specified formatting
 /////////////////////////////////////////////////////////////////////
 void ConsoleManip::Printf(const char* output, const char* formatting)
 {
-	std::cout << VT_ESC << formatting << output << VT_ESC << TEXT_DEF;
+	Printf<const char*>(output, formatting);
 }
+
 /////////////////////////////////////////////////////////////////////
 // Draws the char to the console with specified formatting
 /////////////////////////////////////////////////////////////////////
 void ConsoleManip::Printf(const char output, const char* formatting)
 {
-	std::cout << VT_ESC << formatting << output << VT_ESC << TEXT_DEF;
+	Printf<const char>(output, formatting);
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -56,12 +69,4 @@ void ConsoleManip::Pause()
 {
 	std::cout << "press any key to continue..\n";
 	[[maybe_unused]] int idk = _getwch();
-}
-
-/////////////////////////////////////////////////////////////////////
-// Sets console mode to ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-/////////////////////////////////////////////////////////////////////
-bool ConsoleManip::EnableVTMode()
-{
-	return true;
 }
