@@ -19,10 +19,52 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Actor.cpp" />
+    <ClCompile Include="Engine\ActorTags.cpp" />
+    <ClCompile Include="Engine\Basic2dCollider.cpp" />
+    <ClCompile Include="Engine\BasicRenderer.cpp" />
+    <ClCompile Include="Engine\EngineRegistrar.cpp" />
+    <ClCompile Include="Engine\SDL_integration\SpriteSDL.cpp" />
+    <ClCompile Include="Engine\SDL_integration\WindowRenderer2D.cpp" />
+    <ClCompile Include="Engine\SDL_integration\WindowRenderer2D.h" />
+    <ClCompile Include="GameMain.cpp" />
+    <ClCompile Include="Game\ActorFactory.cpp" />
+    <ClCompile Include="Game\ComponentRegistrar.cpp" />
+    <ClCompile Include="Game\EnemyComponents.cpp" />
+    <ClCompile Include="Game\HealthTracker.cpp" />
+    <ClCompile Include="Game\PlayerComponents.cpp" />
+    <ClCompile Include="Game\TileComponents.cpp" />
+    <ClCompile Include="Game\World.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="System\ConsoleManip.cpp" />
+    <ClCompile Include="System\G_Rand.cpp" />
+    <ClCompile Include="System\Prompting.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SDL2.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Engine\Actor.h" />
+    <ClInclude Include="Engine\ActorTags.h" />
+    <ClInclude Include="Engine\Basic2dCollider.h" />
+    <ClInclude Include="Engine\BasicRenderer.h" />
+    <ClInclude Include="Engine\Component.h" />
+    <ClInclude Include="Engine\ComponentFactory.h" />
+    <ClInclude Include="Engine\SDL_integration\SpriteSDL.h" />
+    <ClInclude Include="Game\ActorFactory.h" />
+    <ClInclude Include="Game\Appearances.h" />
+    <ClInclude Include="Game\EnemyComponents.h" />
+    <ClInclude Include="Game\GameTags.h" />
+    <ClInclude Include="Game\HealthTracker.h" />
+    <ClInclude Include="Game\PlayerComponents.h" />
+    <ClInclude Include="Game\TileComponents.h" />
+    <ClInclude Include="Game\World.h" />
+    <ClInclude Include="System\ConsoleManip.h" />
+    <ClInclude Include="System\G_Rand.h" />
+    <ClInclude Include="System\HighResTimer.h" />
+    <ClInclude Include="System\Prompting.h" />
+    <ClInclude Include="System\Timing.h" />
+    <ClInclude Include="System\Vector2d.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
