@@ -119,7 +119,7 @@ static void CheckTileForBomb(Actor* pTile)
 	if (pExplodeCollider)
 	{
 		if (!pExplodeCollider->Exploded())
-			pTile->GetComponent<BasicRenderer>()->ChangeSprite((char)TileAppearance::kBomb);
+			pTile->GetComponent<ConsoleRenderer>()->ChangeSprite((char)TileAppearance::kBomb);
 	}
 }
 

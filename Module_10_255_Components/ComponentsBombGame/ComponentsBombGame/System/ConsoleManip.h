@@ -1,5 +1,4 @@
 #pragma once
-//#include <Windows.h>
 #include <iostream>
 #include <concepts>
 
@@ -34,7 +33,7 @@
 #define CSR_MOVE_LINEUP(n)	#n "F" 	//Cursor up <n> lines from current position
 #define CSR_MOVE_COLLUMN(n)	#n "G" 	//Cursor moves to <n>th position horizontally in the current line
 #define CSR_MOVE_LINE(n)	#n "d" 	//Cursor moves to the <n>th position vertically in the current column
-#define CSR_MOVE_POSITION(y,x)  TO_STRING(y##;##x##H) //Cursor moves to <x>; <y> coordinate within the viewport, where <x> is the column of the <y> line
+#define CSR_MOVE_POSITION(y,x)  TO_STRING(y##;##x##H) //"%i;%iH" //Cursor moves to <x>; <y> coordinate within the viewport, where <x> is the column of the <y> line
 
 #define VIEW_SCROLL_UP(n)	#n "SU" //Scroll text up by <n>. Also known as pan down, new lines fill in from the bottom of the screen
 #define VIEW_SCROLL_DOWN(n) #n "SD" //Scroll down by <n>. Also known as pan up, new lines fill in from the top of the screen
@@ -91,14 +90,17 @@ class ConsoleManip
 	inline static const char* m_pDefaultFormat = TEXT_DEF;
 
 public:
+	// dont do this
+	static bool EnableVTMode();
+
 	// changes to console
 	static void ChangeConsoleTitle(const char* newTitle);
-	static void SetConsoleFormatting(const char* newFormatting); //sets default color for printing
+	static void ChangeConsoleFormatting(const char* newFormatting); //sets default color for printing
 	static void ResetConsoleFormatting();
 
 	// simple functionality
 	static void ClearConsole();
-	static void SetCursorPosition(int x, int y); // cursor positioning is 1 indexed
+	static void SetCursorPosition(int x, int y);
 	static void Pause();
 
 	// printing

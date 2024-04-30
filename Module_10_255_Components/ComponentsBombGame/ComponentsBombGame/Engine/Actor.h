@@ -28,7 +28,7 @@ private:
 	World* m_pWorld;
 
 public:
-	Actor(id_t RendererID = BasicRenderer::s_id , id_t ColliderID = Basic2dCollider::s_id);
+	Actor(id_t RendererID = ConsoleRenderer::s_id , id_t ColliderID = Basic2dCollider::s_id);
 	~Actor();
 	
 	template<SubComponent ComponentType> ComponentType* AddComponent();

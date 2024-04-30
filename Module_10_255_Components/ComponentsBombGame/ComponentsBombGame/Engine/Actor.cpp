@@ -95,7 +95,10 @@ void Actor::Collide()
 
 void Actor::Render()
 {
-	GetComponent<BasicRenderer>()->Render();
+	for (auto& entry : m_ComponentMap)
+	{
+		entry.second->Render();
+	}
 }
 
 bool operator==(const Actor& lhs, const Actor& rhs)

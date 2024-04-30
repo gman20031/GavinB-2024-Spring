@@ -5,8 +5,8 @@
 int main()
 {
 	constexpr int kWorldWidth = 20;
-	constexpr int kWorldHeight = 20
-;
+	constexpr int kWorldHeight = 20;
+	constexpr int kEnemyCount = 0;
 	
 	srand((unsigned int)time(nullptr));
 	
@@ -16,7 +16,7 @@ int main()
 	
 	// create the player
 	world.CreatePlayer();
-	world.GenerateEnemies(4);
+	world.GenerateEnemies(kEnemyCount);
 	
 	// now that the player has been placed, generate the world
 	world.GenerateWorld();

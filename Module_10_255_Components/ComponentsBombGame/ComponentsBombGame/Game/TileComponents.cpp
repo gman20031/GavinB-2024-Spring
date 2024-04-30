@@ -24,7 +24,7 @@ void EndGameOnCollide::OnCollide()
 
 ExplodeOnCollide::ExplodeOnCollide(Actor* pOwner)
 	: Component(pOwner, s_id)
-	, m_pOwnerRenderer(static_cast<BasicRenderer*>(pOwner->GetComponent(BasicRenderer::s_id)))
+	, m_pOwnerRenderer(pOwner->GetComponent<ConsoleRenderer>())
 {
 	//empty
 }
@@ -51,7 +51,7 @@ void ExplodeOnCollide::OnCollide()
 
 GiveTreasureCollide::GiveTreasureCollide(Actor* pOwner)
 	: Component(pOwner, s_id)
-	, m_pOwnerRenderer(static_cast<BasicRenderer*>(pOwner->GetComponent(BasicRenderer::s_id)))
+	, m_pOwnerRenderer(pOwner->GetComponent<ConsoleRenderer>())
 {
 	//empty
 }

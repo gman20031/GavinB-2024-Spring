@@ -20,7 +20,7 @@ class ExplodeOnCollide : public Component
 private:
 	inline static constexpr std::pair<int, int> s_damageRange{ 3,6 };
 	bool m_exploded = false;
-	BasicRenderer* m_pOwnerRenderer;
+	ConsoleRenderer* m_pOwnerRenderer;
 public:
 	bool Exploded() const { return m_exploded; }
 	ExplodeOnCollide(Actor* pOwner);
@@ -33,7 +33,7 @@ class GiveTreasureCollide : public Component
 {
 	NEW_STATIC_ID;
 	static constexpr std::pair<int, int> s_treasureRange{ 50,150 };
-	BasicRenderer* m_pOwnerRenderer;
+	ConsoleRenderer* m_pOwnerRenderer;
 	bool m_used = false;
 public:
 	GiveTreasureCollide(Actor* pOwner);

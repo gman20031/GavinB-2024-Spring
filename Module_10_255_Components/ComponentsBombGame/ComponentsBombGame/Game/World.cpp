@@ -243,8 +243,7 @@ void World::GenerateWorld()
 }
 
 
-
-
+#include "../System/HighResTimer.h"
 ///////////////////////////////////////////////////////////////
 // Calls the render component of every actor in the world.
 // if a entity actor is at a position, it is rendered and the
@@ -252,7 +251,8 @@ void World::GenerateWorld()
 ///////////////////////////////////////////////////////////////
 void World::Draw() const
 {
-	ConsoleManip::SetConsoleFormatting(CSR_SHOW_OFF VT_ESC TEXT_DEF);
+
+	ConsoleManip::ChangeConsoleFormatting(CSR_SHOW_OFF VT_ESC TEXT_DEF);
 	ConsoleManip::ClearConsole();
 
 	int topBuffer = m_pPlayer->GetComponent<PlayerUI>()->DrawUI();
@@ -260,15 +260,16 @@ void World::Draw() const
 	// print entire grid of tiles
 	for (size_t i = 1; i <= m_length; ++i) // starts at 1 to avoid (0 % width) == 0
 	{
-		m_ppGrid[i-1]->Render(); // started at 1
+		m_ppGrid[i - 1]->Render(); // started at 1
 
 		if (i % m_width == 0)
 			std::cout << '\n';
 	}
+
 	for (Actor* entity : m_pAllEntities)
 	{
 		auto pos = entity->GetPosition();
-		ConsoleManip::SetCursorPosition(pos.x + 1 , pos.y + topBuffer + 1); // Cursor positioning is 1 indexed
+		ConsoleManip::SetCursorPosition(pos.x + 1, pos.y + topBuffer + 1); // Cursor positioning is 1 indexed
 		entity->Render();
 	}
 

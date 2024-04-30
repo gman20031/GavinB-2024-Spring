@@ -37,7 +37,10 @@
 
 static std::tuple<
 	ComponentFactory::Registrar<Basic2dCollider>,
-	ComponentFactory::Registrar<BasicRenderer>,
+	
+	//ComponentFactory::Registrar<BasicRenderer>,
+	ComponentFactory::Registrar<ConsoleRenderer>,
+
 	ComponentFactory::Registrar<ActorTags>,
 
 	ComponentFactory::Registrar<EnemyLogic>,
