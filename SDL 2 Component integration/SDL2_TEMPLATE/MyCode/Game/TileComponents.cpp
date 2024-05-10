@@ -42,7 +42,7 @@ void ExplodeOnCollide::OnCollide()
 		int damage = (rand() % (s_damageRange.second - s_damageRange.first)) + s_damageRange.first;
 		pHealth->ModifyHealth(-damage);
 	}
-	m_pOwnerRenderer->SetSprite("Game/Sprites/Bomb.bmp");
+	m_pOwnerRenderer->SetSprite("Game/Sprites/UsedBomb.bmp");
 	m_exploded = true;
 }
 

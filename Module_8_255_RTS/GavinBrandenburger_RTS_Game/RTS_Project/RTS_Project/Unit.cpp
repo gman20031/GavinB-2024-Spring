@@ -65,7 +65,7 @@ void Unit::Attack() const
 
 void Unit::Use()
 {
-	if (!m_healthPotion and !m_attackBuff)
+	if (!m_healthPotion && !m_attackBuff)
 	{
 		std::cout << "no consumables\n";
 		system("pause");

@@ -15,14 +15,12 @@ private:
 	static constexpr int kQuit = 0;
 
 	OperationList m_supportedOperations;
-
 public:
 	ModdableCalculator();
 	~ModdableCalculator();
 
 	void AddOperation(FloatOperation operation, const std::string& description);
 	void Run();
-
 private:
 	int GetMenuChoice();
 	void GetOperands(float& left, float& right);

@@ -1,0 +1,64 @@
+EmptyTile:
+	Appearance = .
+	BasicRenderer
+	Basic2dCollider
+	ActorTags
+
+BombTile:
+	Appearance = *
+	BasicRenderer
+	Basic2dCollider
+	ExplodeOnCollide
+
+MimicTile:
+	Appearance = *
+	BasicRenderer
+	Basic2dCollider
+	ExplodeOnCollide
+
+ExitTile:
+	Appearance = H
+	BasicRenderer
+	Basic2dCollider
+	EndGameOnCollide
+
+TreasureTile:
+	Appearance = $
+	BasicRenderer
+	Basic2dCollider
+	ActorTags
+	GiveTreasureCollide
+
+TeleporterTile:
+	Appearance = &
+	BasicRenderer
+	Basic2dCollider
+	TeleportCollide
+
+DirectEnemy:
+	Appearance = !
+	BasicRenderer
+	Basic2dCollider
+	HealthTracker
+	EnemyLogic
+
+ScaredEnemy:
+	Appearance = ?
+	BasicRenderer
+	Basic2dCollider
+	HealthTracker
+	EnemyLogic
+
+Player:
+	Appearance = @
+	BasicRenderer
+	Basic2dCollider
+	PlayerMover
+	MoneyCounter
+	PlayerUI
+	HealthTracker
+	ActorTags
+	PlayerScore
+	MimicFinder
+
+

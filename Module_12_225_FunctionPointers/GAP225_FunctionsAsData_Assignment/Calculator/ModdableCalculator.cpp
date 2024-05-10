@@ -69,8 +69,8 @@ int ModdableCalculator::GetMenuChoice()
 void ModdableCalculator::GetOperands(float& left, float& right)
 {
 	std::cout << "Enter operand values." << std::endl;
-	left = GetFloatInput();
-	right = GetFloatInput();
+	left = GetInput<float>();
+	right = GetInput<float>();
 }
 
 /////////////////////////////////////////////////////////////////

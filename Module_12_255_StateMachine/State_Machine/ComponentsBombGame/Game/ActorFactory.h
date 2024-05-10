@@ -1,0 +1,90 @@
+#pragma once
+
+#include "../System/Vector2d.h"
+#include "../Engine/Actor.h"
+
+namespace ActorFactory {
+	enum class ActorTypes
+	{
+		kEmptyTile,
+		kBombTile,
+		kMimicTile,
+		kExitTile,
+		kTreasureTile,
+		kTeleporterTile,
+		kDirectEnemy,
+		kScaredEnemy,
+		kPlayer,
+		kCount,
+	};
+	struct ActorInfo
+	{
+		BasicRenderer::sprite_t m_appearance  = '\0';
+		std::vector<uint32_t> m_componentIds;
+	};
+	using ActorMap = std::unordered_map<ActorTypes, ActorInfo >;
+	
+
+	Actor* CreateActor(ActorTypes actorType, World* pWorld, Actor::Position_t Pos);
+
+	//////////////////////////////////////////////////////////////////
+	// Renderer Set to display '.'
+	// no extra components
+	//////////////////////////////////////////////////////////////////
+	Actor* CreateEmptyTile(World* pWorld, Actor::Position_t Pos);
+	
+	//////////////////////////////////////////////////////////////////
+	// Renderer Set to display '*'
+	// + explodeOnCollide
+	//////////////////////////////////////////////////////////////////
+	Actor* CreateBombTile(World* pWorld, Actor::Position_t Pos);
+	
+	//////////////////////////////////////////////////////////////////
+	// Renderer Set to display '$'
+	// + explodeOnCollide
+	//////////////////////////////////////////////////////////////////
+	Actor* CreateMimicTile(World* pWorld, Actor::Position_t Pos);
+
+	//////////////////////////////////////////////////////////////////
+	// Renderer Set to display 'H'
+	// + EndOnCollide component
+	//////////////////////////////////////////////////////////////////
+	Actor* CreateExitTile(World* pWorld, Actor::Position_t Pos);
+
+	//////////////////////////////////////////////////////////////////
+	// Renderer Set to display '$'
+	// + MoneyOnCollide 
+	//////////////////////////////////////////////////////////////////
+	Actor* CreateTreasureTile(World* pWorld, Actor::Position_t Pos);
+
+	//////////////////////////////////////////////////////////////////
+	// Renderer Set to display '&'
+	// + TeleportOnCollide - requires Init
+	//////////////////////////////////////////////////////////////////
+	Actor* CreateTeleporterTile(World* pWorld, Actor::Position_t Pos);
+	
+	//////////////////////////////////////////////////////////////////
+	// Renderer Set to display '!'
+	// + DirectEnemyLogic
+	// + healthTracker
+	//////////////////////////////////////////////////////////////////
+	Actor* CreateDirectEnemy(World* pWorld, Actor::Position_t Pos);
+
+	//////////////////////////////////////////////////////////////////
+	// Renderer Set to display '?'
+	// + RandomEnemyLogic
+	// + healthTracker
+	//////////////////////////////////////////////////////////////////
+	Actor* CreateScaredEnemy(World* pWorld, Actor::Position_t Pos);
+	
+	//////////////////////////////////////////////////////////////////
+	// Renderer Set to display '@'
+	// + PlayerUi
+	// + PlayerMover
+	// + MoneyCounter
+	// + PlayerScore
+	// + MimicFinder
+	// + healthTracker
+	//////////////////////////////////////////////////////////////////
+	Actor* Createplayer(World* pWorld, Actor::Position_t Pos, int StartingHealth);
+}

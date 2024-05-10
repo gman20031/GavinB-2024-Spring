@@ -119,22 +119,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CalculatorTesting.cpp" />
     <ClCompile Include="Calculator\AdditionOperation.cpp" />
     <ClCompile Include="Calculator\ModdableCalculator.cpp" />
-    <ClCompile Include="Calculator\SubtractionOperation.cpp" />
     <ClCompile Include="ConsoleManip.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Prompting.cpp" />
+    <ClCompile Include="RunLoopTesting.cpp" />
     <ClCompile Include="SimpleIO.cpp" />
-    <ClCompile Include="Vector2d.cpp" />
+    <ClCompile Include="Unit.cpp" />
+    <ClCompile Include="Vector3.cpp" />
+    <ClCompile Include="VectorSortTesting.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Calculator\AdditionOperation.h" />
     <ClInclude Include="Calculator\ModdableCalculator.h" />
     <ClInclude Include="Calculator\Operation.h" />
     <ClInclude Include="ConsoleManip.h" />
-    <ClInclude Include="Prompting.h" />
     <ClInclude Include="SimpleIO.h" />
+    <ClInclude Include="Tasks.h" />
+    <ClInclude Include="Unit.h" />
+    <ClInclude Include="Vector3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

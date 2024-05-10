@@ -1,6 +1,7 @@
 #include "ConsoleManip.h"
 
-#include <conio.h>
+#include "conio.h"
+
 #include <Windows.h>
 
 /////////////////////////////////////////////////////////////////////

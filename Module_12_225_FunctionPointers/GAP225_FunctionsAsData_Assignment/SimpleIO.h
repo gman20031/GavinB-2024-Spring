@@ -5,12 +5,7 @@
 #include <limits>
 #include <functional>
 
-//// unsure how to keep this inline with the function
-//template<class T>
-//concept Number = std::is_arithmetic_v<T>;
-
 int CinIntegerInRange(int min, int max);
-[[nodiscard]] float GetFloatInput();
 
 template <class Type, class Checker> requires std::predicate<Checker, Type>
 Type GetInput(Checker&& checker)
@@ -30,11 +25,8 @@ Type GetInput(Checker&& checker)
 	return input;
 }
 
-template <class T>
-static bool DefaultChecker([[maybe_unused]] T val) { return true; }
-
 template <class Type>
 Type GetInput()
 {
-	return GetInput<Type>(&DefaultChecker<Type>);
+	return GetInput<Type>( []( [[maybe_unused]] Type t ){return true;});
 }

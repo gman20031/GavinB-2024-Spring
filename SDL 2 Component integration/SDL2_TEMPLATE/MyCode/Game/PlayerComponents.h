@@ -2,6 +2,7 @@
 
 #include "../Engine/ComponentFactory.h"
 #include "../System/Vector2d.h"
+#include <SDL.h>
 
 class Actor;
 class World;
@@ -36,10 +37,12 @@ private:
 public:
 	PlayerMover(Actor* pOwner);
 
+
 	int GetMoveCount() const { return m_moveCount;}
 	void ChangeMoveCount(int amount) { m_moveCount += amount; }
 	int* operator&() { return &m_moveCount; }
 
+	void HandleKeyInput(SDL_Event event);
 	virtual void Update() override;
 };
 

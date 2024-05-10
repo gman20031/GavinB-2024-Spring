@@ -10,8 +10,3 @@ int CinIntegerInRange(int min, int max)
 	return GetInput<int>(checker);
 }
 
-[[nodiscard]] float GetFloatInput()
-{
-	return GetInput<float>();
-}
-

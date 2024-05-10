@@ -1,27 +1,30 @@
-#include "Calculator/ModdableCalculator.h"
-#include "Calculator/AdditionOperation.h"
+#include "Tasks.h"
+#include "SimpleIO.h"
 
 int main()
 {
-	ModdableCalculator calculator;
+	bool quit = false;
 
-	// Create addition functor.
-	AdditionOperation addition;
+	while (!quit)
+	{
+		system("cls");
+		std::cout << "0 quit\n"
+			<< "1 calculator\n"
+			<< "2 Loop Test\n"
+			<< "3 Vector Sort\n";
+
+		int input = CinIntegerInRange(0, 3);
+
+		switch (input)
+		{
+		case 0: quit = true;		break;
+		case 1: CalculatorTesting(); break;
+		case 2: RunLoopTesting();	break;
+		case 3: VectorSortTesting(); break;
+		}
+	}
+
 	
-	// Pass the lambda along with the description of what it is.
-	calculator.AddOperation(addition, addition.GetDescription());
-
-	// NOTE: You don't have to use functors like I did!
-	// Try different methods and see which one you like.
-
-	//TODO: // Add:
-	// subtraction
-	// multiplication
-	// division
-	// exponentation
-	// Modulus
-
-	calculator.Run();
 
 	return 0;
 }

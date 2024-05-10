@@ -25,6 +25,9 @@ void WindowRenderer2D::Render()
 	Vector2d<int> drawnPosition = m_pOwner->GetPosition();
 	auto dimensions = m_pSprite->GetDimensions();
 
+	drawnPosition.x *= 32;
+	drawnPosition.y *= 32;
+
 	drawnPosition.x += (dimensions.x / 2);
 	drawnPosition.y += (dimensions.y / 2);
 

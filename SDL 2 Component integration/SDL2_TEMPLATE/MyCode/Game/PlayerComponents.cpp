@@ -49,22 +49,28 @@ void PlayerMover::Move(int deltaX, int deltaY)
 	m_pOwner->SetPosition(playerPos);
 }
 
+
+void PlayerMover::HandleKeyInput(SDL_Event event)
+{
+	auto keyInput = event.key.keysym.scancode;
+
+	switch (keyInput)
+	{
+	case SDL_SCANCODE_W: Move(0, -1); break;
+	case SDL_SCANCODE_A: Move(-1, 0); break;
+	case SDL_SCANCODE_S: Move(0, 1); break;
+	case SDL_SCANCODE_D: Move(1, 0); break;
+	case SDL_SCANCODE_E: m_pOwner->GetComponent<MimicFinder>()->CheckForBombs(); break;
+	case SDL_SCANCODE_Q: m_pOwner->GetComponent<HealthTracker>()->Kill();  break;  // quitting
+	default: std::cout << "Invalid input"; break;
+	}
+
+}
+
 void PlayerMover::Update()
 {
 	if (m_pOwner->GetComponent<HealthTracker>()->IsDead())
 		return;
-
-	char input = (char)_getch();
-	switch (input)
-	{
-	case 'w': Move(0, -1); break;
-	case 'a': Move(-1, 0); break;
-	case 's': Move(0, 1); break;
-	case 'd': Move(1, 0); break;
-	case 'e': m_pOwner->GetComponent<MimicFinder>()->CheckForBombs(); break;
-	case 'q': m_pOwner->GetComponent<HealthTracker>()->Kill();  break;  // quitting
-	default: std::cout << "Invalid input"; break;
-	}
 
 	//update the tile I am now standing on.
 	m_pOwner->GetWorldPtr()->UpdateTile(m_pOwner->GetPosition());
@@ -103,7 +109,6 @@ int PlayerScore::CalculateScore()
 	return score;
 }
 
-
 // Mimic Finder
 MimicFinder::MimicFinder(Actor* pOwner)
 	: Component(pOwner, s_id)
@@ -119,7 +124,7 @@ static void CheckTileForBomb(Actor* pTile)
 	if (pExplodeCollider)
 	{
 		if (!pExplodeCollider->Exploded())
-			pTile->GetComponent<ConsoleRenderer>()->ChangeSprite((char)TileAppearance::kBomb);
+			pTile->GetComponent<WindowRenderer2D>()->SetSprite("Game/Sprites/Bomb.bmp");
 	}
 }
 

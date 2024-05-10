@@ -57,11 +57,12 @@ void SpriteSDL::SetAlpha(Uint8 alpha)
 	SDL_SetTextureAlphaMod(m_pTexture, alpha);
 }
 
-void SpriteSDL::Render(int x, int y,
+void SpriteSDL::Render(
+	int x, int y,
 	SDL_Rect* clip,
 	double angle,
 	SDL_Point* center,
-	SDL_RendererFlip flip)
+	SDL_RendererFlip flip	)
 {
 	SDL_Rect renderQuad{ x, y, m_width, m_height };
 
