@@ -5,6 +5,7 @@
 
 #include "Component.h"
 #include "StateMachine.h"
+#include "System/Vector2d.h"
 
 // state machine that takes in a sprite - which acts as a state.
 // each sprite has a 
@@ -13,21 +14,21 @@ class Renderer;
 
 class Sprite
 {
-	Renderer* m_pRenderer;
 public:
 	virtual ~Sprite() = default;
-	virtual void Render() = 0;
+	virtual void Render( Vector2d<int> actorPosition ) = 0;
 	virtual void OnEnter() = 0;
 	virtual void OnExit() = 0;
 };
 
 class Renderer : public Component
 {
+	using Sprite_ptr = std::unique_ptr<Sprite>;
 public:
 	ID_FROM_NAME("Renderer");
 
 private:
-	std::unique_ptr<Sprite> m_pSprite;
+	Sprite_ptr m_pSprite;
 	
 public:
 	Renderer(Actor* pOwner) : Component(pOwner) {}
@@ -35,6 +36,7 @@ public:
 	template<std::derived_from<Sprite> Sprite_t, typename... ArgTypes>
 	void CreateSprite(ArgTypes ... args);
 	void ChangeSprite(std::unique_ptr<Sprite> pSprite);
+	Sprite_ptr& GetSprite() { return m_pSprite; }
 
 	virtual void Render() override;
 };

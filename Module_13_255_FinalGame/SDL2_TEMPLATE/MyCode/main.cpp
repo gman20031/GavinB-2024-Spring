@@ -1,5 +1,11 @@
 #include "SDL.h"
 
+#define NO_DEBUG 1
+#define DEBUG_MODE 2
+
+#define RUN_MODE DEBUG_MODE
+#include "Engine/Debug.h"
+
 int main( [[maybe_unused]]int argc, [[maybe_unused]]char** argv)
 {
 	const char* title = "Hello, world";

@@ -38,6 +38,7 @@
     <ClInclude Include="Engine\ActorManager.h" />
     <ClInclude Include="Engine\ActorTags.h" />
     <ClInclude Include="Engine\Basic2dCollider.h" />
+    <ClInclude Include="Engine\Debug.h" />
     <ClInclude Include="Engine\Renderer.h" />
     <ClInclude Include="Engine\Component.h" />
     <ClInclude Include="Engine\ComponentFactory.h" />

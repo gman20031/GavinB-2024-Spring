@@ -58,13 +58,14 @@ void SpriteSDL::SetAlpha(Uint8 alpha)
 }
 
 void SpriteSDL::Render(
-	int x, int y,
-	SDL_Rect* clip,
-	double angle,
-	SDL_Point* center,
-	SDL_RendererFlip flip	)
+	int x, int y, // X and Y pos of screen to be rendered to
+	SDL_Rect* clip, // The part of the texture that will be rendered to the screen, for things like spritesheeting
+	double angle, // Angle to tilte the texture
+	SDL_Point* center, // Center to rotate around
+	SDL_RendererFlip flip // Flip direction / Lef right / up down / none
+		)
 {
-	SDL_Rect renderQuad{ x, y, m_width, m_height };
+	SDL_Rect renderQuad{ x, y, m_width, m_height }; // Create a quad of the location to be printed to.
 
 	//Render to screen
 	if (SDL_RenderCopyEx(m_pRenderer, m_pTexture, clip, &renderQuad, angle, center, flip) != 0)

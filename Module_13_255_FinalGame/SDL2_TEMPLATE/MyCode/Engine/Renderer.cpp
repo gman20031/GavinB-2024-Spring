@@ -1,5 +1,7 @@
 #include "Renderer.h"
 
+#include "Actor.h"
+
 void Renderer::ChangeSprite(std::unique_ptr<Sprite> pSprite)
 {
 	m_pSprite->OnExit();
@@ -9,5 +11,5 @@ void Renderer::ChangeSprite(std::unique_ptr<Sprite> pSprite)
 
 void Renderer::Render()
 {
-	m_pSprite->Render();
+	m_pSprite->Render( m_pOwner->GetPosition() );
 }
