@@ -2,21 +2,21 @@
 
 #include "Debug.h"
 
-void Sprite_2D::SetSpriteClip(int newSpriteSheetCount)
+void Sprite_2D::SetSpriteClip(int frameNumber)
 {
-	int spriteCount = newSpriteSheetCount;
+	int spriteCount = frameNumber;
 
 
 }
 
 Sprite_2D::Sprite_2D(const char* filePath, Vector2d<int> spriteDimensions, SDL_Renderer* pRenderer)
-	: m_pTexture(nullptr)
-	, m_pRenderer(pRenderer)
-	, m_spriteWidth(spriteDimensions.x)
-	, m_spriteHeight(spriteDimensions.y)
-	, m_textureWidth(0)
-	, m_textureHeight(0)
-	, m_spriteSheetCount(0)
+	: m_pTexture(nullptr)				 // Texture Wrap
+	, m_pRenderer(pRenderer) 
+	, m_spriteWidth(spriteDimensions.x)  // Texture Wrap
+	, m_spriteHeight(spriteDimensions.y) // Texture Wrap
+	, m_textureWidth(0)					 // Texture Wrap
+	, m_textureHeight(0)				 // Texture Wrap
+	, m_frameNumber(0)					 // Texture Wrap
 	, m_flip(SDL_FLIP_NONE)
 	, m_rotationPoint{0,0}
 	, m_rotationAngle(0)
@@ -71,11 +71,25 @@ void Sprite_2D::SetRotation(int degrees)
 	m_rotationAngle = degrees;
 }
 
+void Sprite_2D::SetFrameCount(unsigned int frameNumber)
+{
+	int maxFrames = 0;
+	// Sprite width  / sprite width   = number of sprites per x
+	// Sprite Height / texture Height = number of sprites per y
+	// sprites per x * sprites per y = total sprite count.
+}
+
+void Sprite_2D::ChangeFrameCount(int changeAmount)
+{
+	//
+}
+
 void Sprite_2D::Render(Vector2d<int> actorPosition)
 {
 	SDL_Rect renderQuad{ actorPosition.x , actorPosition.y , m_spriteWidth, m_spriteHeight };
 
-	SDL_RenderCopyEx(m_pRenderer, m_pTexture, &m_spriteSheetClip, &renderQuad, m_rotationAngle, &m_rotationPoint, m_flip);
+	SDL_RenderCopyEx(m_pRenderer, m_pTexture, &m_frameClipping, &renderQuad, m_rotationAngle, &m_rotationPoint, m_flip);
+	ChangeFrameCount(1);
 }
 
 void Sprite_2D::OnEnter()

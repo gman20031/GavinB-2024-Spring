@@ -1,10 +1,13 @@
-#include "SDL.h"
+#include <SDL.h>
+#include <SDL_image.h>
+#include <assert.h>
 
 #define NO_DEBUG 1
 #define DEBUG_MODE 2
 
 #define RUN_MODE DEBUG_MODE
 #include "Engine/Debug.h"
+
 
 int main( [[maybe_unused]]int argc, [[maybe_unused]]char** argv)
 {
@@ -13,6 +16,8 @@ int main( [[maybe_unused]]int argc, [[maybe_unused]]char** argv)
 	constexpr int yPosition = 200;
 	constexpr int width = 500;
 	constexpr int height = 500;
+
+	assert ( SDL_Init(SDL_INIT_VIDEO) == 0);
 
 	SDL_Window* pWindow = SDL_CreateWindow(title, xPosition, yPosition, width, height, SDL_WINDOW_RESIZABLE);
 	SDL_Renderer* pRenderer = SDL_CreateRenderer(pWindow, NULL , NULL);

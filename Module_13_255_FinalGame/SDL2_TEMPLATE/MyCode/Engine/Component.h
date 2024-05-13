@@ -12,7 +12,7 @@ class Actor;
 //   void Update() {}
 //   void OnCollide() {}
 //	To inherit:
-//   add NEW_STATIC_ID 
+//   add ID_FROM_NAME 
 //   and Esnure constructor calls component constructor
 ////////////////////////////////////////////////////////////
 class Component
@@ -37,7 +37,7 @@ public:
 class ActorTags : public Component
 {
 private:
-	NEW_STATIC_ID;
+	ID_FROM_NAME( "identifier" );
 public:
 	ActorTags(Actor* pOwner) : Component(pOwner, s_id) { /*EMPTY }
 	virtual ~ActorTags() = default;

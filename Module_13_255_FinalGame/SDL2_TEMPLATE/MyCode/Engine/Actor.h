@@ -8,8 +8,6 @@
 #include "System/Vector2d.h"
 
 
-class World;
-
 class Actor
 {
 public:
@@ -43,7 +41,6 @@ public:
 
 	Position_t GetPosition() const { return m_position; }
 	void SetPosition(Position_t newPos) { m_position = newPos; }
-	World* GetWorldPtr() const { return m_pWorld; }
 
 	void Init(World* pWorld, Position_t startPosition);
 	void Update(); 
