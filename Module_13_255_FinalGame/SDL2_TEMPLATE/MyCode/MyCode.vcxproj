@@ -28,6 +28,7 @@
     <ClCompile Include="Engine\System\ConsoleManip.cpp" />
     <ClCompile Include="Engine\System\G_Rand.cpp" />
     <ClCompile Include="Engine\System\Prompting.cpp" />
+    <ClCompile Include="Engine\Texture.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -48,6 +49,7 @@
     <ClInclude Include="Engine\System\Prompting.h" />
     <ClInclude Include="Engine\System\Timing.h" />
     <ClInclude Include="Engine\System\Vector2d.h" />
+    <ClInclude Include="Engine\Texture.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -130,7 +132,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\SDL2-2.30.2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>..\SDL2-2.30.2\lib\x64\SDL2.lib;..\SDL2-2.30.2\lib\x64\SDL2main.lib;..\SDL2-2.30.2\lib\x64\SDL2test.lib;..\SDL2-2.30.2\lib\x64\SDL2_ttf.lib;..\SDL2-2.30.2\lib\x64\SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\SDL2-2.30.2\lib\x86\SDL2.lib;..\SDL2-2.30.2\lib\x86\SDL2main.lib;..\SDL2-2.30.2\lib\x86\SDL2test.lib;..\SDL2-2.30.2\lib\x86\SDL2_ttf.lib;..\SDL2-2.30.2\lib\x86\SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -154,7 +156,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\SDL2-2.30.2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>..\SDL2-2.30.2\lib\x64\SDL2.lib;..\SDL2-2.30.2\lib\x64\SDL2main.lib;..\SDL2-2.30.2\lib\x64\SDL2test.lib;..\SDL2-2.30.2\lib\x64\SDL2_ttf.lib;..\SDL2-2.30.2\lib\x64\SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\SDL2-2.30.2\lib\x86\SDL2.lib;..\SDL2-2.30.2\lib\x86\SDL2main.lib;..\SDL2-2.30.2\lib\x86\SDL2test.lib;..\SDL2-2.30.2\lib\x86\SDL2_ttf.lib;..\SDL2-2.30.2\lib\x86\SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -173,7 +175,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\SDL2-2.30.2\lib\x64\SDL2_image.lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\SDL2-2.30.2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>..\SDL2-2.30.2\lib\x64\SDL2.lib;..\SDL2-2.30.2\lib\x64\SDL2main.lib;..\SDL2-2.30.2\lib\x64\SDL2test.lib;..\SDL2-2.30.2\lib\x64\SDL2_ttf.lib;..\SDL2-2.30.2\lib\x64\SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -196,7 +199,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\SDL2-2.30.2\lib\x64\SDL2_image.lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\SDL2-2.30.2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>..\SDL2-2.30.2\lib\x64\SDL2.lib;..\SDL2-2.30.2\lib\x64\SDL2main.lib;..\SDL2-2.30.2\lib\x64\SDL2test.lib;..\SDL2-2.30.2\lib\x64\SDL2_ttf.lib;..\SDL2-2.30.2\lib\x64\SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>

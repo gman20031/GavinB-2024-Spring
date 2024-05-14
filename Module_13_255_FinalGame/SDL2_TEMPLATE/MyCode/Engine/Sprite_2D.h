@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "system\Vector2d.h"
 
+
 class Sprite_2D : public Sprite
 {
 private:

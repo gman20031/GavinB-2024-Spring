@@ -37,6 +37,11 @@ Sprite_2D::Sprite_2D(const char* filePath, Vector2d<int> spriteDimensions, SDL_R
 	m_pTexture = SDL_CreateTextureFromSurface(pRenderer, pSurface);
 	m_textureWidth = pSurface->w;
 	m_textureHeight = pSurface->h;
+	m_frameClipping = SDL_Rect(0, 0, m_spriteWidth, m_spriteHeight);
+
+	int framesPerX = m_spriteWidth / m_textureWidth;
+	int framesPerY = m_spriteHeight / m_textureHeight;
+	int frameCount = framesPerX * framesPerY;
 
 	SDL_FreeSurface(pSurface);
 }
@@ -77,6 +82,7 @@ void Sprite_2D::SetFrameCount(unsigned int frameNumber)
 	// Sprite width  / sprite width   = number of sprites per x
 	// Sprite Height / texture Height = number of sprites per y
 	// sprites per x * sprites per y = total sprite count.
+
 }
 
 void Sprite_2D::ChangeFrameCount(int changeAmount)
