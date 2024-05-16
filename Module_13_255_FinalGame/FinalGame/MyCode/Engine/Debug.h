@@ -1,6 +1,6 @@
 #pragma once
 
-#include <iostream>
+#include "System/ConsoleManip.h"
 
 #if RUN_MODE == DEBUG_MODE
 #define DEBUG 1

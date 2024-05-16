@@ -1,10 +1,10 @@
 #pragma once
 #include <SDL.h>
-#include <utility>
+#include "System/Vector2d.h"
 
 class Texture
 {
-	SDL_Texture* m_pTexture;
+	SDL_Texture* m_pTexture  = nullptr;
 	int m_spriteWidth		 = 0;
 	int m_spriteHeight		 = 0;
 	int m_textureWidth		 = 0;
@@ -16,8 +16,10 @@ class Texture
 	SDL_Rect m_frameClipping { 0,0,0,0 };
 
 public:
-	Texture(const char* imageFilePath, int maxFrames, std::pair<int,int> spriteDimensions, SDL_Renderer* pRenderer);
+	Texture(const char* imageFilePath, int maxFrames, Vector2d<int> spriteDimensions, SDL_Renderer* pRenderer);
 	~Texture() { SDL_free(m_pTexture); }
+	Texture(const Texture&) = delete;
+	Texture& operator=(const Texture&) = delete;
 
 	void SetFrame(unsigned int frameNumber);
 	void ChangeFrame(int changeAmount);

@@ -17,16 +17,23 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 	SDL_Window*   pWindow	= SDL_CreateWindow(title, xPosition, yPosition, width, height, SDL_WINDOW_RESIZABLE);
 	SDL_Renderer* pRenderer = SDL_CreateRenderer(pWindow, NULL, NULL);
 
-	const char* imageFilePath = "TornadoSnowBro.bmp";
 	double rotationAngle = 0;
 	SDL_Point rotationPoint{ 0,0 };
 	SDL_RendererFlip flip = SDL_FLIP_NONE;
 
 	constexpr int maxFrames = 8;
 	constexpr std::pair<int,int> spriteDimensions( 32,32 );
+	
+	constexpr int ticksPerSecond = 1'000;
 	constexpr int framesPerSecond = 15;
 
-	Texture SnowBroTexture(imageFilePath, maxFrames , spriteDimensions, pRenderer);
+
+	const char* snowBroImagePath = "TornadoSnowBro.bmp";
+
+	Texture snowBroTexture2(snowBroImagePath, maxFrames, spriteDimensions, pRenderer);
+	Texture SnowBroTexture(snowBroImagePath, maxFrames , spriteDimensions, pRenderer);
+
+	SDL_SetTextureScaleMode( SnowBroTexture.GetSDLTexture() , SDL_ScaleModeNearest);
 
 	uint32_t timingStart = SDL_GetTicks();
 
@@ -37,6 +44,14 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 		SDL_RenderClear(pRenderer);		 //resets the window, setting to default color
 
 		SnowBroTexture.RenderCurrentFrame(0,0,pRenderer, rotationAngle, rotationPoint, flip);
+
+		uint32_t currentTime = SDL_GetTicks();
+		std::cout << currentTime << '\n';
+		if (currentTime - timingStart > (ticksPerSecond / framesPerSecond))
+		{
+			SnowBroTexture.ChangeFrame(1);
+			timingStart = currentTime;
+		}
 
 		SDL_RenderPresent(pRenderer);	 //displays all the stuff stored int renderer to linked windows
 		SDL_UpdateWindowSurface(pWindow);//honestly no idea
@@ -49,12 +64,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 			{
 				SnowBroTexture.ChangeFrame(1);
 			}
-			uint32_t currentTime = SDL_GetTicks();
-			if (currentTime - timingStart > (1'000 / framesPerSecond))
-			{
-				SnowBroTexture.ChangeFrame(1);
-				timingStart = currentTime;
-			}
+	
 		}
 	}
 	return 0;
