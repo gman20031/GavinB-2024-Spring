@@ -13,6 +13,7 @@ class Texture
 	uint16_t m_framesPerX	 = 0;
 	uint16_t m_framesPerY	 = 0; 
 	uint16_t m_currentFrame	 = 0;
+	uint16_t m_scaleModifier = 1;
 	SDL_Rect m_frameClipping { 0,0,0,0 };
 
 public:
@@ -25,12 +26,18 @@ public:
 	void ChangeFrame(int changeAmount);
 	SDL_Texture* GetSDLTexture() { return m_pTexture; }
 
+	void Save(const char* filePath);
+	void Load(const char* filePath);
+
 	void RenderCurrentFrame(int x, int y, SDL_Renderer* pRenderer, double rotationAngle, SDL_Point rotationPoint, SDL_RendererFlip flip);
 };
 
 
 /**
 * -- Texture Saving --
-*	FLIP ROtatePoint RotateVal
-* 
+* ImageFilePath
+* number of frames
+* width, height
+* currentFrame
+* Scale Mod
 */

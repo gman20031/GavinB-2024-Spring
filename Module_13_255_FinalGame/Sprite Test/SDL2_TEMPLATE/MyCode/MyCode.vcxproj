@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TextureFileIO.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SDL2.dll" />

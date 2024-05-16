@@ -71,7 +71,6 @@ void Texture::RenderCurrentFrame(
 	, SDL_Point rotationPoint
 	, SDL_RendererFlip flip)
 {
-	SDL_Rect renderPosition{ x,y,m_spriteWidth * 4,m_spriteHeight * 4 };
+	SDL_Rect renderPosition{ x , y , m_spriteWidth * m_scaleModifier, m_spriteHeight * m_scaleModifier };
 	SDL_RenderCopyEx(pRenderer, m_pTexture, &m_frameClipping, &renderPosition, rotationAngle, &rotationPoint, flip);
-	//ChangeFrame(1);
 }

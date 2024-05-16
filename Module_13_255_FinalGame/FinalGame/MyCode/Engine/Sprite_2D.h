@@ -1,20 +1,13 @@
 #pragma once
 #include "Renderer.h"
 #include "system\Vector2d.h"
-
+#include "Texture.h"
 
 class Sprite_2D : public Sprite
 {
 private:
-	SDL_Texture* m_pTexture;
+	Texture m_Texture;
 	SDL_Renderer* m_pRenderer;
-
-	int m_spriteWidth;
-	int m_spriteHeight;
-	int m_textureWidth;
-	int m_textureHeight;
-	uint16_t m_frameNumber;
-	SDL_Rect m_frameClipping;
 
 	double m_rotationAngle = 0;
 	SDL_Point m_rotationPoint;
@@ -24,8 +17,7 @@ private:
 	void SetSpriteClip(int newSpriteSheetCount);
 
 public:
-	Sprite_2D(const char* filePath, Vector2d<int> spriteDimensions , SDL_Renderer* pRenderer);
-	~Sprite_2D() { SDL_free(m_pTexture); }
+	Sprite_2D(const char* filePath, int maxFrames, Vector2d<int> spriteDimensions , SDL_Renderer* pRenderer);
 
 	void SetColor(Uint8 red, Uint8 green, Uint8 blue);
 	void SetBlend(SDL_BlendMode blending);
