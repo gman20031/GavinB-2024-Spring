@@ -8,8 +8,14 @@ struct Vector2d
 	T y;
 };
 
+struct TextureSaveInfo
+{
+
+};
+
 class Texture
 {
+	const char* imageFilePath
 	SDL_Texture* m_pTexture = nullptr;
 	int m_spriteWidth = 0;
 	int m_spriteHeight = 0;
@@ -31,6 +37,7 @@ public:
 	void SetFrame(unsigned int frameNumber);
 	void ChangeFrame(int changeAmount);
 	SDL_Texture* GetSDLTexture() { return m_pTexture; }
+	void Save(const std::string& textureIdentifier);
 
 	void RenderCurrentFrame(int x, int y, SDL_Renderer* pRenderer, double rotationAngle, SDL_Point rotationPoint, SDL_RendererFlip flip);
 };

@@ -1,53 +1,55 @@
-// Enemy.h
+#include <iostream>
+#include <chrono>
 
-#include <memory>
-#include "Vector2.h"
-
-class Enemy
+struct Timer
 {
-public:
-	using PositionVector = Vector2<int>;
-private:
-	PositionVector m_position;
-public:
-	Enemy(const PositionVector& position);
+	std::chrono::time_point<std::chrono::high_resolution_clock> startTime;
+	std::chrono::time_point<std::chrono::high_resolution_clock> endTime;
+
+	void start()
+	{
+		startTime = std::chrono::high_resolution_clock::now();
+	}
+	auto GetTime()
+	{
+		endTime = std::chrono::high_resolution_clock::now();
+		return endTime - startTime;
+	}
+
 };
 
-// Enemy.cpp
-#include "Enemy.h"
-Enemy::Enemy(const PositionVector& position)
-	: m_position{ position }
-{}
 
-// EnemySpawner.h
-#include <memory>
-class EnemySpawner
+class cString
 {
-private:
-	using EnemyPtr = std::shared_ptr<Enemy>;
 public:
-	EnemyPtr Spawn(Enemy::PositionVector position);
+	const char* memory;
+
+	cString(const char* in)
+		: memory(in)
+	{
+		//
+	}
 };
 
-// EnemySpawner.cpp
-#include "EnemySpawner.h"
-#include "Enemy.h"
-
-EnemySpawner::EnemyPtr EnemySpawner::Spawn(Enemy::PositionVector position)
+class stdString
 {
-	return std::make_shared<Enemy>(position);
-}
+public:
+	std::string memory;
 
-// main.cpp
-#include "EnemySpawner.h"
+	stdString(const std::string& in)
+		: memory(in)
+	{
+		//
+	}
+};
 
 int main()
 {
-	EnemySpawner spawner;
+	cString nullString("hello,World!");
+	stdString cppString("hello,Porld!");
 
-	std::shared_ptr<Enemy> enemy = spawner.Spawn(Vector2<int>{5, 10});
-
-	//Play game
+	std::cout << nullString.memory << '\n';
+	std::cout << cppString.memory << '\n';
 
 	return 0;
 }

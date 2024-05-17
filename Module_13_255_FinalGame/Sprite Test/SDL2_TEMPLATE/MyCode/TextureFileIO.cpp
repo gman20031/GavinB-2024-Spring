@@ -1,14 +1,32 @@
-#include <filesystem>
-#include <memory>
+#include "TextureFileIO.h"
 
-#include "Texture.h"
+#include <fstream>
+#include <assert.h>
 
-class TextureFileIO
+
+/**
+* Texture scheme
+* 
+* Identifier:
+*\t ImageFile
+*\t max frames
+*\t spriteWidth, spriteHieght
+*\t starting frame
+*\t scale modifier
+* end
+*/
+
+Texture& TextureFileIO::Save(const Texture& texture, const std::string& textureIdentifier)
 {
-	
-public:
-	Texture& Save(const Texture& texture);
-	Texture& Load(const Texture& texture);
-	Textur
+	std::filesystem::path texturePath = (kTextureFolder / (textureIdentifier + kFileExtension) );
+	std::fstream textureFile(texturePath);
+	assert(textureFile.is_open());
 
-};
+
+}
+
+
+std::unique_ptr<Texture> TextureFileIO::Create(const std::string& textureIdentifier)
+{
+    return Texture_ptr();
+}
