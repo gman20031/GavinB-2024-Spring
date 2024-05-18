@@ -28,6 +28,7 @@
     <ClCompile Include="Engine\System\ConsoleManip.cpp" />
     <ClCompile Include="Engine\System\G_Rand.cpp" />
     <ClCompile Include="Engine\System\Prompting.cpp" />
+    <ClCompile Include="Engine\System\StringHash.h" />
     <ClCompile Include="Engine\Texture.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

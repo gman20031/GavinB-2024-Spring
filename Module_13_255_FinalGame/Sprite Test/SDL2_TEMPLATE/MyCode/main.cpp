@@ -3,6 +3,7 @@
 #include <assert.h>
 
 #include "Texture.h"
+#include "TextureFileIO.h"
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 {
@@ -21,35 +22,34 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 	SDL_Point rotationPoint{ 0,0 };
 	SDL_RendererFlip flip = SDL_FLIP_NONE;
 
-	constexpr int maxFrames = 8;
-	constexpr std::pair<int,int> spriteDimensions( 32,32 );
-	
 	constexpr int ticksPerSecond = 1'000;
 	constexpr int framesPerSecond = 15;
 
 
-	const char* snowBroImagePath = "TornadoSnowBro.bmp";
+	const char* snowBroImagePath = "Textures/TornadoSnowBro.bmp";
+	constexpr int maxFrames = 8;
+	constexpr Vector2d spriteDimensions( 32,32 );
 
-	Texture snowBroTexture2(snowBroImagePath, maxFrames, spriteDimensions, pRenderer);
-	Texture SnowBroTexture(snowBroImagePath, maxFrames , spriteDimensions, pRenderer);
+	Texture snowBroTexture(snowBroImagePath, maxFrames, spriteDimensions, pRenderer);
 
-	SDL_SetTextureScaleMode( SnowBroTexture.GetSDLTexture() , SDL_ScaleModeNearest);
+	TextureFileIO::Save(snowBroTexture, "SnowBro");
+	auto pSnowBro = TextureFileIO::Create("SnowBro" , pRenderer);
+	SDL_SetTextureScaleMode( pSnowBro->GetSDLTexture(), SDL_ScaleModeNearest);
 
 	uint32_t timingStart = SDL_GetTicks();
 
-	// hack to stay open
 	bool keepRunning = true;
-	while (keepRunning)
+	while(keepRunning)
 	{
 		SDL_RenderClear(pRenderer);		 //resets the window, setting to default color
 
-		SnowBroTexture.RenderCurrentFrame(0,0,pRenderer, rotationAngle, rotationPoint, flip);
+		pSnowBro->RenderCurrentFrame( { 0,0,pRenderer, rotationAngle, rotationPoint, flip } );
 
 		uint32_t currentTime = SDL_GetTicks();
 		std::cout << currentTime << '\n';
 		if (currentTime - timingStart > (ticksPerSecond / framesPerSecond))
 		{
-			SnowBroTexture.ChangeFrame(1);
+			pSnowBro->ChangeFrame(1);
 			timingStart = currentTime;
 		}
 
@@ -60,11 +60,6 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 		{
 			if (SdlEvent.type == SDL_QUIT)
 				keepRunning = false;
-			if (SdlEvent.key.type == SDL_KEYDOWN)
-			{
-				SnowBroTexture.ChangeFrame(1);
-			}
-	
 		}
 	}
 	return 0;

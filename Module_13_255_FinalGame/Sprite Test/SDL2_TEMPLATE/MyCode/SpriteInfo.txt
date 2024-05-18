@@ -1,7 +1,0 @@
--- Identifier, ImagePath, SpriteWidth, SpriteHeight, SpriteCount
--- maybe? count per X, count for Y, starting Frame, Starting CLip, Frame buffer Pixels
-Tornado: 
-	TornadoSnowBro.bmp
-	32
-	32
-	8 

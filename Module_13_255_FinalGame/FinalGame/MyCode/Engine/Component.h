@@ -3,6 +3,8 @@
 #include <concepts>
 #include <string>
 
+#include "System/StringHash.h"
+
 class Actor;
 
 ////////////////////////////////////////////////////////////
@@ -54,19 +56,6 @@ public:
 ////////////////////////////////////////////////////////////
 template<class T>
 concept SubComponent = std::derived_from<T, Component>;
-
-// Using '!=' disables compiler warnings.
-//constexpr auto cString = string.c_str();
-// from eastl string.h - string hash template overload
-constexpr uint32_t StringHash(const char* cString)
-{
-	// kPrime = 16777619;
-	// kOffset = 2166136261U
-	unsigned int character , result = 2166136261U; // They implement an FNV-like string hash.
-	while ((character = *(cString++)) != '\0')
-		result = (result * 16777619) ^ character;
-	return (uint32_t)result;
-}
 
 #define ID_FROM_NAME(name_c_string) public: static inline constexpr Component::IdType s_id = StringHash(name_c_string);
 
