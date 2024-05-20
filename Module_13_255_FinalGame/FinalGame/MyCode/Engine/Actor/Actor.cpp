@@ -14,7 +14,6 @@
 Actor::Actor()
 	: m_position(0, 0)
 	, m_uniqueId(s_actorCount++)
-	, m_pWorld(nullptr)
 {
 
 }
@@ -59,9 +58,8 @@ Component* Actor::AddComponent(id_t componentId)
 	return entry->second;
 }
 
-void Actor::Init(World* pWorld, Position_t startPosition)
+void Actor::Init(Position_t startPosition)
 {
-	m_pWorld = pWorld;
 	m_position = startPosition;
 }
 
@@ -102,9 +100,10 @@ void Actor::Collide()
 	}	
 }
 
+
 void Actor::Render()
 {
-	GetComponent<Renderer>()->Render();
+	GetComponent<SDLRenderComponent>()->Render();
 }
 
 bool operator==(const Actor& lhs, const Actor& rhs)

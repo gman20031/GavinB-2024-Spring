@@ -1,0 +1,4 @@
+Player
+	Renderer
+	Basic2dCollider
+	ActorTags

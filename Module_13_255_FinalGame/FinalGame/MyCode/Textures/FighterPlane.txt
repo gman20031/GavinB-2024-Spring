@@ -1,0 +1,8 @@
+FighterPlane
+Textures/FighterPlane.bmp
+3
+32
+32
+1
+1
+end

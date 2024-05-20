@@ -2,8 +2,7 @@
 
 #include <fstream>
 #include <assert.h>
-#include <unordered_map>
-
+#include "../System/StringHash.h"
 
 /**
 * Texture scheme
@@ -34,6 +33,7 @@ const Texture& TextureFileIO::Save(const Texture& texture, const std::string& te
 	textureFile << info.m_height << '\n';
 	textureFile << info.m_currentFrame << '\n';
 	textureFile << info.m_scaleMod << '\n';
+	textureFile << info.m_scaleMode << '\n';
 	textureFile << "end\n";
 	
 	textureFile.close();
@@ -42,25 +42,17 @@ const Texture& TextureFileIO::Save(const Texture& texture, const std::string& te
 }
 
 
-constexpr uint32_t StringHash(const char* cString)
-{
-	// kPrime = 16777619;
-	// kOffset = 2166136261U
-	unsigned int character, result = 2166136261U; // They implement an FNV-like string hash.
-	while ((character = *(cString++)) != '\0')
-		result = (result * 16777619) ^ character;
-	return (uint32_t)result;
-}
-
 std::unique_ptr<Texture> TextureFileIO::Create(const std::string& textureIdentifier, SDL_Renderer* pRenderer)
 {
 	static std::unordered_map< uint32_t, std::unique_ptr<TextureSaveInfo> > textureCache;
-
+	
+	//check if cached
 	auto textureID = StringHash(textureIdentifier.c_str());
 	auto it = textureCache.find(textureID);
 	if (it != textureCache.end())
-		return make_unique<Texture>(it->second, pRenderer);
+		return std::make_unique<Texture>(it->second, pRenderer);
 
+	//find and read file
 	std::filesystem::path texturePath = kTextureFolder / (textureIdentifier + ".txt");
 	std::fstream textureFile;
 	textureFile.open(texturePath, std::ios_base::in);
@@ -74,15 +66,21 @@ std::unique_ptr<Texture> TextureFileIO::Create(const std::string& textureIdentif
 		return nullptr;
 
 	std::getline(textureFile, nextLine);
-	saveInfo->m_imageFilePath = nextLine.c_str();
+	saveInfo->m_imageFilePath = nextLine;
 	textureFile >> saveInfo->m_maxFrameCount;
 	textureFile >> saveInfo->m_width;
 	textureFile >> saveInfo->m_height;
 	textureFile >> saveInfo->m_currentFrame;
 	textureFile >> saveInfo->m_scaleMod;
+	int mode;
+	textureFile >> mode;
+	saveInfo->m_scaleMode = (SDL_ScaleMode)mode;
 
 	textureFile.close();
-	return std::make_unique<Texture>(saveInfo, pRenderer);
+
+	textureCache.emplace(textureID , std::move(saveInfo) );
+
+	return std::make_unique<Texture>( textureCache.at(textureID), pRenderer);
 }
 
 

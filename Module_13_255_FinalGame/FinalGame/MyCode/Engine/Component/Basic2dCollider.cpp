@@ -1,6 +1,6 @@
 #include "Basic2dCollider.h"
 
-#include "Actor.h"
+#include "../Actor/Actor.h"
 
 Basic2dCollider::Basic2dCollider(Actor* pOwner)
 	: Component(pOwner)

@@ -8,6 +8,11 @@
 #define RUN_MODE DEBUG_MODE
 #include "Engine/Debug.h"
 
+#include "Engine/SDL_Manager.h"
+
+#include "Engine/Actor/ActorManager.h"
+#include "Engine/Component/SDLRenderComponent.h"
+
 
 int main( [[maybe_unused]]int argc, [[maybe_unused]]char** argv)
 {
@@ -17,26 +22,33 @@ int main( [[maybe_unused]]int argc, [[maybe_unused]]char** argv)
 	constexpr int width = 500;
 	constexpr int height = 500;
 
-	assert ( SDL_Init(SDL_INIT_VIDEO) == 0);
+	SDL_Manager::Init(title, xPosition, yPosition, width, height);
 
-	SDL_Window* pWindow = SDL_CreateWindow(title, xPosition, yPosition, width, height, SDL_WINDOW_RESIZABLE);
-	SDL_Renderer* pRenderer = SDL_CreateRenderer(pWindow, NULL , NULL);
+	Actor snowBro;
+	snowBro.Init({50, 50});
+	auto pRenderer = snowBro.AddComponent<SDLRenderComponent>();
+	pRenderer->NewTexture("SnowBro");
+	pRenderer->StartAnimation(6, true);
+	pRenderer->ScaleTexture(2);
+	//ActorManager::Get().GetActors().emplace_back(snowBro);
 
-	// hack to stay open
-	bool keepRunning = true;
-	while (keepRunning)
-	{
-		SDL_RenderClear(pRenderer);		 //resets the window, setting to default color
-		SDL_RenderPresent(pRenderer);	 //displays all the stuff stored int renderer to linked windows
-		SDL_UpdateWindowSurface(pWindow);//honestly no idea
+	//auto& actorManager = ActorManager::Get();
+
+	auto loop = [pRenderer]() -> bool {
+
+		//ActorManager::Get().RenderAll();
+		pRenderer->Render();
+
 		SDL_Event SdlEvent;
 		while (SDL_PollEvent(&SdlEvent) > 0)
 		{
-			if( SdlEvent.type == SDL_QUIT )
-				keepRunning = false;
-			
+			if (SdlEvent.type == SDL_QUIT)
+				return false;
 		}
-	}
+		return true;
+	};
+	SDL_Manager::Start(loop);
+
 	return 0;
 }
 

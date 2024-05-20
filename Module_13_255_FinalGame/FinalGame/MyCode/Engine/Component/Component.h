@@ -2,8 +2,9 @@
 
 #include <concepts>
 #include <string>
+#include <vector>
 
-#include "System/StringHash.h"
+#include "../System/StringHash.h"
 
 class Actor;
 

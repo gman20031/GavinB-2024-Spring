@@ -4,7 +4,6 @@
 #include "Component.h"
 
 class Actor;
-class World;
 
 class Basic2dCollider : public Component
 {

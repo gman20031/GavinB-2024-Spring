@@ -1,12 +1,12 @@
 #include "Texture.h"
-//#include "Debug.h"
+#include "../Debug.h"
 
 void Texture::FillSDL_Texture(SDL_Renderer* pRenderer)
 {
-	SDL_Surface* pSurface = SDL_LoadBMP(m_imageFilePath);
+	SDL_Surface* pSurface = SDL_LoadBMP(m_imageFilePath.c_str());
 
 #if DEBUG
-	std::cout << "reading in :  " << imageFilePath << '\n';
+	std::cout << "reading in :  " << m_imageFilePath << '\n';
 	if (!pSurface)
 	{
 		std::cout << "surface not loaded!\n";
@@ -31,11 +31,11 @@ Texture::Texture(const char* imageFilePath, int maxFrames, Vector2d<int> spriteD
 {
 	FillSDL_Texture(pRenderer);
 	m_frameClipping = SDL_Rect(0, 0, m_spriteWidth, m_spriteHeight);
-	m_framesPerX = m_textureWidth  / m_spriteWidth;
+	m_framesPerX = m_textureWidth / m_spriteWidth;
 	m_framesPerY = m_textureHeight / m_spriteHeight;
 }
 
-Texture::Texture(std::unique_ptr<TextureSaveInfo>& info , SDL_Renderer* pRenderer)
+Texture::Texture(const std::unique_ptr<TextureSaveInfo>& info, SDL_Renderer* pRenderer)
 	: m_imageFilePath(info->m_imageFilePath)
 	, m_maxFrameCount(info->m_maxFrameCount)
 	, m_spriteWidth(info->m_width)
@@ -49,6 +49,11 @@ Texture::Texture(std::unique_ptr<TextureSaveInfo>& info , SDL_Renderer* pRendere
 	m_framesPerY = m_textureHeight / m_spriteHeight;
 }
 
+Texture::~Texture()
+{
+	SDL_free(m_pTexture);
+	DEBUG_PRINT("Deleting Texture" << m_imageFilePath);
+}
 
 void Texture::SetFrame(unsigned int frameNumber)
 {
@@ -84,7 +89,6 @@ void Texture::ChangeFrame(int changeAmount)
 	SetFrame(targetFrame);
 }
 
-
 TextureSaveInfo Texture::GetSaveInfo() const
 {
 	return {
@@ -98,14 +102,14 @@ TextureSaveInfo Texture::GetSaveInfo() const
 
 void Texture::RenderCurrentFrame(const TextureRenderInfo& info) const
 {
-	SDL_Rect renderPosition{ 
+	SDL_Rect renderPosition{
 		  info.x , info.y
-		, int(m_spriteWidth  * m_scaleModifier)
+		, int(m_spriteWidth * m_scaleModifier)
 		, int(m_spriteHeight * m_scaleModifier)
 	};
 
 	SDL_RenderCopyEx(
-		  info.pRenderer
+		info.pRenderer
 		, m_pTexture
 		, &m_frameClipping
 		, &renderPosition

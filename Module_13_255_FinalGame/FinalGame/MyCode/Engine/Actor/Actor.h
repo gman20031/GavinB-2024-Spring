@@ -1,12 +1,10 @@
 #pragma once
 #include <unordered_map>
 
-
-#include "ComponentFactory.h"
-#include "Basic2dCollider.h"
-#include "Renderer.h"
-#include "System/Vector2d.h"
-
+#include "../Component/ComponentFactory.h"
+#include "../Component/Basic2dCollider.h"
+#include "../Component/SDLRenderComponent.h"
+#include "../System/Vector2d.h"
 
 class Actor
 {
@@ -25,7 +23,6 @@ private:
 	std::unordered_map<id_t, Component*> m_ComponentMap;
 
 	Position_t m_position;
-	World* m_pWorld;
 
 public:
 	Actor();
@@ -42,7 +39,7 @@ public:
 	Position_t GetPosition() const { return m_position; }
 	void SetPosition(Position_t newPos) { m_position = newPos; }
 
-	void Init(World* pWorld, Position_t startPosition);
+	void Init(Position_t startPosition);
 	void Update(); 
 	void Collide();
 	void Render();

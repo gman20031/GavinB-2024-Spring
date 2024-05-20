@@ -20,21 +20,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="TextureFileIO.cpp" />
-    <ClCompile Include="TextureFileIO.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SDL2.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="SpriteInfo.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Texture.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="TornadoSnowBro.bmp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
