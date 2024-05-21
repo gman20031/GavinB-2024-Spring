@@ -23,6 +23,7 @@
     <ClCompile Include="Engine\Actor\ActorFactory.h" />
     <ClCompile Include="Engine\Actor\ActorManager.cpp" />
     <ClCompile Include="Engine\Component\SDLRenderComponent.cpp" />
+    <ClCompile Include="Engine\SDL_EventListener.cpp" />
     <ClCompile Include="Engine\SDL_Manager.cpp" />
     <ClCompile Include="Engine\Actor\Actor.cpp" />
     <ClCompile Include="Engine\Component\ActorTags.cpp" />
@@ -35,6 +36,7 @@
     <ClCompile Include="Engine\Component\TextureFileIO.cpp" />
     <ClCompile Include="Engine\Component\CoreComponentRegistrar.cpp" />
     <ClCompile Include="Game\Components\GameComponentRegistrar.cpp" />
+    <ClCompile Include="Game\Components\PlayerComponents.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -49,6 +51,7 @@
     <ClInclude Include="Engine\Component\SDLRenderComponent.h" />
     <ClInclude Include="Engine\Component\Component.h" />
     <ClInclude Include="Engine\Component\ComponentFactory.h" />
+    <ClInclude Include="Engine\SDL_EventListener.h" />
     <ClInclude Include="Engine\SDL_Manager.h" />
     <ClInclude Include="Engine\StateMachine.h" />
     <ClInclude Include="Engine\System\ConsoleManip.h" />

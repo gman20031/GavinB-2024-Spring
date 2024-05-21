@@ -81,7 +81,7 @@ public:
 	TextureSaveInfo GetSaveInfo() const;
 	unsigned int GetCurrentFrame() const { return m_currentFrame; }
 	void SetScale(unsigned int scaleMod) { m_scaleModifier = scaleMod; }
-	void SetScaleMode(SDL_ScaleMode mode);
+	void SetScaleMode(SDL_ScaleMode mode) { m_scaleMode = mode; }
 
 	/**
 	 * @brief int x

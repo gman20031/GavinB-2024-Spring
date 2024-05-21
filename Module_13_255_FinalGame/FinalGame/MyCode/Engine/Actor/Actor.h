@@ -10,7 +10,7 @@ class Actor
 {
 public:
 	friend bool operator==(const Actor& lhs, const Actor& rhs);
-	using Position_t = Vector2d<int>;
+	using Position_t = Vector2d<double>;
 	using id_t = Component::IdType;
 
 protected:

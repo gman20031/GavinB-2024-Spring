@@ -12,6 +12,7 @@
 
 #include "Engine/Actor/ActorManager.h"
 #include "Engine/Component/SDLRenderComponent.h"
+#include "Game/Components/PlayerComponents.h"
 
 
 int main( [[maybe_unused]]int argc, [[maybe_unused]]char** argv)
@@ -30,21 +31,19 @@ int main( [[maybe_unused]]int argc, [[maybe_unused]]char** argv)
 	pRenderer->NewTexture("SnowBro");
 	pRenderer->StartAnimation(6, true);
 	pRenderer->ScaleTexture(2);
+	auto pMover = snowBro.AddComponent<PlayerMover>();
+	pMover->m_speedMult = .5;
+	
 	//ActorManager::Get().GetActors().emplace_back(snowBro);
 
 	//auto& actorManager = ActorManager::Get();
 
-	auto loop = [pRenderer]() -> bool {
+	auto loop = [&snowBro]() -> bool {
 
 		//ActorManager::Get().RenderAll();
-		pRenderer->Render();
+		snowBro.Render();
+		snowBro.Update();
 
-		SDL_Event SdlEvent;
-		while (SDL_PollEvent(&SdlEvent) > 0)
-		{
-			if (SdlEvent.type == SDL_QUIT)
-				return false;
-		}
 		return true;
 	};
 	SDL_Manager::Start(loop);

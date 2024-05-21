@@ -80,6 +80,7 @@ void SDLRenderComponent::StartAnimation(uint32_t framesPerSecond, bool loop)
 
 void SDLRenderComponent::StopAnimation()
 {
+	SDL_RemoveTimer(m_callbackId);
 }
 
 void SDLRenderComponent::SetFrame(int frameNumber)
@@ -111,8 +112,8 @@ void SDLRenderComponent::SetScaleMode(SDL_ScaleMode mode)
 void SDLRenderComponent::Render()
 {
 	m_pTexture->RenderCurrentFrame({
-		m_pOwner->GetPosition().x,
-		m_pOwner->GetPosition().y,
+		(int)m_pOwner->GetPosition().x,
+		(int)m_pOwner->GetPosition().y,
 		SDL_Manager::GetSDLRenderer(),
 		m_rotationAngle,
 		m_rotationPoint,

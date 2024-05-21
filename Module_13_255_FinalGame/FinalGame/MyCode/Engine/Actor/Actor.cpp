@@ -84,7 +84,7 @@ void Actor::Update()
 		entry.second->Update();
 	}
 
-	GetComponent<Basic2dCollider>()->Update();
+	//GetComponent<Basic2dCollider>()->Update();
 }
 
 ////////////////////////////////////////////////////////////
