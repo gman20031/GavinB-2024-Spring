@@ -18,9 +18,10 @@ bool PlayerMover::HandleKeyDown(SDL_Event event)
 	case SDL_SCANCODE_W: m_direction.y += -1; break;
 	case SDL_SCANCODE_S: m_direction.y += 1;break;
 	case SDL_SCANCODE_A: m_direction.x += -1;break;
-	case SDL_SCANCODE_D: m_direction.x += 1;	break;
+	case SDL_SCANCODE_D: m_direction.x += 1; break;
+	case SDL_SCANCODE_Q: m_pOwner->GetComponent<SDLRenderComponent>()->SetFrame(0); break;
+	case SDL_SCANCODE_E: m_pOwner->GetComponent<SDLRenderComponent>()->SetFrame(2); break;
 	}
-	DEBUG_PRINT("KEY DOWN : " << (SDL_Scancode)keyScanCode);
 	return true;
 }
 
@@ -31,12 +32,10 @@ bool PlayerMover::HandleKeyUp(SDL_Event event)
 	switch (keyScanCode)
 	{
 	case SDL_SCANCODE_W: m_direction.y -= -1; break;
-	case SDL_SCANCODE_S: m_direction.y -= 1; break;
+	case SDL_SCANCODE_S: m_direction.y -= 1;  break;
 	case SDL_SCANCODE_A: m_direction.x -= -1; break;
-	case SDL_SCANCODE_D: m_direction.x -= 1; break;
+	case SDL_SCANCODE_D: m_direction.x -= 1;  break;
 	}
-	DEBUG_PRINT("KEY UP : " << (SDL_Scancode)keyScanCode);
-
 	return true;
 }
 
@@ -59,13 +58,29 @@ PlayerMover::PlayerMover(Actor* pOwner)
 
 void PlayerMover::Update()
 {
-#if 1
-	if (m_direction != Vector2d<double>{0, 0})
-		DEBUG_PRINT("Moving Now, Direciton at : " << m_direction * m_speedMult);
-#endif
-	auto pos = m_pOwner->GetPosition();
-	pos.x += (m_direction.x * m_speedMult);
-	pos.y += (m_direction.y * m_speedMult);
-	m_pOwner->SetPosition(pos);
+	uint32_t currentTick = SDL_GetTicks();
 
+	auto dir = m_direction;
+	if (dir.x > 0)
+		m_pOwner->GetComponent<SDLRenderComponent>()->SetFrame(2);
+	if (dir.x == 0)
+		m_pOwner->GetComponent<SDLRenderComponent>()->SetFrame(1);
+	if (dir.x < 0)
+		m_pOwner->GetComponent<SDLRenderComponent>()->SetFrame(0);
+
+	if (dir == Vector2d<double>{0, 0})
+	{
+		m_lastTick = currentTick;
+		return;
+	}
+	
+	double ticksPassed = currentTick - m_lastTick;
+	double secondsPassed = (ticksPassed / kTicksPerSecond);
+	double speedMultiplier = (secondsPassed * m_pixelsPerSecond) * m_speedMult;
+	dir.Normalize() *= speedMultiplier;
+	auto pos = m_pOwner->GetPosition();
+	pos += dir;
+	//DEBUG_PRINT(ticksPassed  << " , " << secondsPassed << " , " << speedMultiplier);
+	m_pOwner->SetPosition(pos);
+	m_lastTick = currentTick;
 }

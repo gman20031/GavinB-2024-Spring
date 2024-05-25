@@ -31,7 +31,7 @@ Actor::~Actor()
 ////////////////////////////////////////////////////////////
 Component* Actor::AddComponent(Component* pNewComponent , id_t componentId)
 {
-	assert(pNewComponent != nullptr);
+	assert(pNewComponent != nullptr || "pNewComponent is nullptr");
 	m_ComponentMap.emplace(componentId, pNewComponent);
 	return pNewComponent;
 }
@@ -43,6 +43,7 @@ Component* Actor::AddComponent(Component* pNewComponent , id_t componentId)
 Component* Actor::AddComponent(id_t componentId)
 {
 	Component* pComponent = ComponentFactory::Create(componentId, this);
+	assert(pComponent != nullptr || "ComponentFactory returned nullptr");
 	return AddComponent(pComponent, componentId);
 }
 
@@ -56,6 +57,11 @@ Component* Actor::AddComponent(id_t componentId)
 	if (entry == m_ComponentMap.end())
 		return nullptr;
 	return entry->second;
+}
+
+const std::unordered_map<Actor::id_t, Component*>& Actor::GetAllComponents() const
+{
+	return m_ComponentMap;
 }
 
 void Actor::Init(Position_t startPosition)
@@ -104,6 +110,13 @@ void Actor::Collide()
 void Actor::Render()
 {
 	GetComponent<SDLRenderComponent>()->Render();
+}
+
+void Actor::Start()
+{
+	for (auto& entry : m_ComponentMap)
+		entry.second->Start();
+	
 }
 
 bool operator==(const Actor& lhs, const Actor& rhs)

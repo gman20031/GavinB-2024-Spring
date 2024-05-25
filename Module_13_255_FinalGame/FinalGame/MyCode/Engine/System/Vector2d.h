@@ -41,6 +41,7 @@ public:
 	dataType x, y;
 
 	constexpr Vector2d(dataType _x, dataType _y) : x(_x), y(_y) {}
+
 	constexpr static const Vector2d& GetUnitVector();
 
 	constexpr Vector2d& Normalize();
@@ -164,14 +165,14 @@ inline Vector2d<dataType>& Vector2d<dataType>::operator-=(const Vector2d<dataTyp
 template<Number dataType>
 inline Vector2d<dataType>& Vector2d<dataType>::operator/=(const dataType rhs)
 {
-	*this = *this * rhs;
+	*this = *this / rhs;
 	return *this;
 }
 
 template<Number dataType>
 inline Vector2d<dataType>& Vector2d<dataType>::operator*=(const dataType rhs)
 {
-	*this = *this / rhs;
+	*this = *this * rhs;
 	return *this;
 }
 

@@ -48,10 +48,10 @@
     <ClCompile Include="Engine\Component\TextureFileIO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Actor\ActorFactory.h">
+    <ClCompile Include="Engine\Actor\ActorFileIO.h">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Actor\ActorFactory.cpp">
+    <ClCompile Include="Engine\Actor\ActorFileIO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Actor\ActorManager.cpp">

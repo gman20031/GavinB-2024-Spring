@@ -13,15 +13,20 @@ public:
 private:
 	Vector2d<double> m_direction = { 0,0 };
 	std::unordered_set<SDL_Scancode> m_pressedKeys;
+	uint32_t m_lastTick = 0;
 
 private: // method
 	bool HandleKeyDown(SDL_Event event);
 	bool HandleKeyUp(SDL_Event event);
 
+	double m_speedMult = 1;
+	int m_pixelsPerSecond = 1;
 public:
 	PlayerMover(Actor* pOwner);
 
-	double m_speedMult = 1;
+
+	void SetSpeedMult(double mult) { m_speedMult = mult; }
+	void SetSpeed(int speed) { m_pixelsPerSecond = speed; }
 
 	virtual void Update() override;
 };

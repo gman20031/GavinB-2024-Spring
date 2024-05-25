@@ -26,8 +26,8 @@ public:
 protected:
 	Actor* m_pOwner;
 public:
-	//const size_t m_id; , m_id(id)
-	Component(Actor* pOwner) : m_pOwner(pOwner) { /*EMPTY*/ }
+	//const size_t m_id;
+	Component(Actor* pOwner) : m_pOwner(pOwner){ /*EMPTY*/ }
 	virtual ~Component() = default;
 
 	constexpr virtual void Start()	{ /*EMPTY*/ }
@@ -35,7 +35,6 @@ public:
 	virtual void Update()	{ /*EMPTY*/ }
 	virtual void OnCollide(){ /*EMPTY*/ }
 };
-
 /* -- Subclass template -- 
 class ActorTags : public Component
 {
@@ -74,3 +73,14 @@ public:
 		return m_next++;
 	}
 };
+
+/*
+
+class Renderer : public Component
+{
+public:
+	ID_FROM_NAME("Renderer");
+
+};
+
+*/

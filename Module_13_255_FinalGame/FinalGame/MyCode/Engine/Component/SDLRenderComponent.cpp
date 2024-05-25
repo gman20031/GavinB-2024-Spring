@@ -43,6 +43,9 @@ void SDLRenderComponent::Flip(SDL_RendererFlip flip)
 
 void SDLRenderComponent::StartAnimation(uint32_t framesPerSecond, bool loop)
 {
+	if(m_animating)
+		StopAnimation();
+
 	if (framesPerSecond == 0)
 		return;
 	m_animating = true;
@@ -76,6 +79,14 @@ void SDLRenderComponent::StartAnimation(uint32_t framesPerSecond, bool loop)
 		std::cout << "Failed to Add animation to timer: " << m_pTexture->GetImageFileName()  << '\n';
 		std::cout << SDL_GetError() << '\n';
 	}
+
+	//auto callbackID = SDL_AddTimer(
+	//	(kTicksPerSecond / 60)
+	//	, [](uint32_t interval, void* param) -> uint32_t {
+	//		reinterpret_cast<Callable>(param)();
+	//		return interval;
+	//	}
+	//, &gameLoop);
 }
 
 void SDLRenderComponent::StopAnimation()
@@ -85,6 +96,7 @@ void SDLRenderComponent::StopAnimation()
 
 void SDLRenderComponent::SetFrame(int frameNumber)
 {
+	assert(m_pTexture);
 	m_pTexture->SetFrame(frameNumber);
 }
 
@@ -101,24 +113,26 @@ void SDLRenderComponent::NewTexture(const std::string& textureIdentifer)
 
 void SDLRenderComponent::ScaleTexture(unsigned int newScaleModifier)
 {
+	assert(m_pTexture);
 	m_pTexture->SetScale(newScaleModifier);
 }
 
 void SDLRenderComponent::SetScaleMode(SDL_ScaleMode mode)
 {
+	assert(m_pTexture);
 	m_pTexture->SetScaleMode(mode);
 }
 
 void SDLRenderComponent::Render()
 {
-	m_pTexture->RenderCurrentFrame({
+	m_pTexture->RenderCurrentFrame(
 		(int)m_pOwner->GetPosition().x,
 		(int)m_pOwner->GetPosition().y,
 		SDL_Manager::GetSDLRenderer(),
 		m_rotationAngle,
 		m_rotationPoint,
 		m_flip
-	}); 
+	); 
 }
 
 

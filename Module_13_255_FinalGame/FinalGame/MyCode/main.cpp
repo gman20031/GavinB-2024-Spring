@@ -11,8 +11,21 @@
 #include "Engine/SDL_Manager.h"
 
 #include "Engine/Actor/ActorManager.h"
+#include "Engine/Actor/ActorFileIO.h"
 #include "Engine/Component/SDLRenderComponent.h"
 #include "Game/Components/PlayerComponents.h"
+
+
+static void MakePlayer(const std::unique_ptr<Actor>& pActor)
+{
+	SDLRenderComponent* pActorRenderer = pActor->GetComponent<SDLRenderComponent>();
+	pActorRenderer->NewTexture("FighterPlane");
+	pActorRenderer->ScaleTexture(2);
+	pActorRenderer->SetFrame(1);
+	pActor->GetComponent<PlayerMover>()->SetSpeedMult(1);
+	pActor->GetComponent<PlayerMover>()->SetSpeed(500);
+
+}
 
 
 int main( [[maybe_unused]]int argc, [[maybe_unused]]char** argv)
@@ -20,33 +33,29 @@ int main( [[maybe_unused]]int argc, [[maybe_unused]]char** argv)
 	const char* title = "Hello, world";
 	constexpr int xPosition = 200;
 	constexpr int yPosition = 200;
-	constexpr int width = 500;
-	constexpr int height = 500;
+	constexpr int width = 1'000;
+	constexpr int height = 1'000;
 
 	SDL_Manager::Init(title, xPosition, yPosition, width, height);
 
-	Actor snowBro;
-	snowBro.Init({50, 50});
-	auto pRenderer = snowBro.AddComponent<SDLRenderComponent>();
-	pRenderer->NewTexture("SnowBro");
-	pRenderer->StartAnimation(6, true);
-	pRenderer->ScaleTexture(2);
-	auto pMover = snowBro.AddComponent<PlayerMover>();
-	pMover->m_speedMult = .5;
-	
-	//ActorManager::Get().GetActors().emplace_back(snowBro);
+	auto& pPlayer = ActorManager::Get().Create("Player");
+	MakePlayer( pPlayer );
+	pPlayer->SetPosition( 50, 50 );
 
-	//auto& actorManager = ActorManager::Get();
 
-	auto loop = [&snowBro]() -> bool {
+	auto startTick = SDL_GetTicks();
 
-		//ActorManager::Get().RenderAll();
-		snowBro.Render();
-		snowBro.Update();
-
+	auto gameLoop = [&startTick]() -> bool {
+		ActorManager::Get().RenderAll();
+		auto Tick = SDL_GetTicks();
+		if (Tick - startTick >= (kTicksPerSecond / kUpdatesPerSecond))
+		{
+			startTick = Tick;
+			ActorManager::Get().UpdateAll();
+		}
 		return true;
 	};
-	SDL_Manager::Start(loop);
+	SDL_Manager::Start(gameLoop);
 
 	return 0;
 }

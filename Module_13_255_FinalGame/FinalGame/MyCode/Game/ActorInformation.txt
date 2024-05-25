@@ -1,4 +1,5 @@
-Player
-	Renderer
+Player:
+	SDLRenderComponent
 	Basic2dCollider
 	ActorTags
+	PlayerMover

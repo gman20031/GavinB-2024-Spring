@@ -11,10 +11,9 @@ class SDLRenderComponent : public Component
 {
 public:
 	using Texture_ptr = std::unique_ptr<Texture>;
-	ID_FROM_NAME("Renderer");
+	ID_FROM_NAME("SDLRenderComponent");
 private:
 	Texture_ptr m_pTexture;
-	//SDL_Renderer* m_pRenderer;
 
 	double m_rotationAngle = 0;
 	SDL_Point m_rotationPoint = { 0,0 };

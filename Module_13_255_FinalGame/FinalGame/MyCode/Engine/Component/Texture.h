@@ -91,5 +91,10 @@ public:
 	 * @brief SDL_Point rotationPoint
 	 * @brief SDL_RendererFlip flip
 	*/
-	void RenderCurrentFrame(const TextureRenderInfo& info) const;
+	void RenderCurrentFrame(
+		int x, int y,
+		SDL_Renderer* pRenderer ,
+		double rotationAngle, SDL_Point rotatationPoint,
+		SDL_RendererFlip flip
+	) const;
 };

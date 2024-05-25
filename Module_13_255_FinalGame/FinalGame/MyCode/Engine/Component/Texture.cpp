@@ -100,21 +100,26 @@ TextureSaveInfo Texture::GetSaveInfo() const
 	};
 }
 
-void Texture::RenderCurrentFrame(const TextureRenderInfo& info) const
+void Texture::RenderCurrentFrame(
+	int x, int y,
+	SDL_Renderer* pRenderer,
+	double rotationAngle, SDL_Point rotationPoint,
+	SDL_RendererFlip flip
+) const
 {
 	SDL_Rect renderPosition{
-		  info.x , info.y
+		  x , y
 		, int(m_spriteWidth * m_scaleModifier)
 		, int(m_spriteHeight * m_scaleModifier)
 	};
 
 	SDL_RenderCopyEx(
-		info.pRenderer
+		pRenderer
 		, m_pTexture
 		, &m_frameClipping
 		, &renderPosition
-		, info.rotationAngle
-		, &(info.rotationPoint)
-		, info.flip
+		, rotationAngle
+		, &(rotationPoint)
+		, flip
 	);
 }
