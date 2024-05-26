@@ -17,6 +17,7 @@ private:
 
 	double m_rotationAngle = 0;
 	SDL_Point m_rotationPoint = { 0,0 };
+	double m_scaleModifier = 1;
 	SDL_RendererFlip m_flip = SDL_FLIP_NONE;
 	
 	struct callbackInfo
@@ -49,10 +50,10 @@ public:
 	void SetTexture(Texture_ptr pTexture);
 	void NewTexture(const std::string& textureIdentifer);
 
-	void ScaleTexture(unsigned int newScaleModifier);
+	void ScaleTexture(double newScaleModifier);
 	void SetScaleMode(SDL_ScaleMode mode);
 
-	//Texture_ptr& GetTexture() { return m_pTexture; }
+	const Texture_ptr& GetTexture() const { return m_pTexture; }
 
 	virtual void Render() override;
 };

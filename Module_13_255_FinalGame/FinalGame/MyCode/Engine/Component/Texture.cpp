@@ -21,6 +21,10 @@ void Texture::FillSDL_Texture(SDL_Renderer* pRenderer)
 	m_textureHeight = pSurface->h;
 
 	SDL_FreeSurface(pSurface);
+
+	m_frameClipping = SDL_Rect(0, 0, m_spriteWidth, m_spriteHeight);
+	m_framesPerX = m_textureWidth / m_spriteWidth;
+	m_framesPerY = m_textureHeight / m_spriteHeight;
 }
 
 Texture::Texture(const char* imageFilePath, int maxFrames, Vector2d<int> spriteDimensions, SDL_Renderer* pRenderer)
@@ -30,9 +34,6 @@ Texture::Texture(const char* imageFilePath, int maxFrames, Vector2d<int> spriteD
 	, m_spriteWidth(spriteDimensions.y)
 {
 	FillSDL_Texture(pRenderer);
-	m_frameClipping = SDL_Rect(0, 0, m_spriteWidth, m_spriteHeight);
-	m_framesPerX = m_textureWidth / m_spriteWidth;
-	m_framesPerY = m_textureHeight / m_spriteHeight;
 }
 
 Texture::Texture(const std::unique_ptr<TextureSaveInfo>& info, SDL_Renderer* pRenderer)
@@ -41,12 +42,8 @@ Texture::Texture(const std::unique_ptr<TextureSaveInfo>& info, SDL_Renderer* pRe
 	, m_spriteWidth(info->m_width)
 	, m_spriteHeight(info->m_height)
 	, m_currentFrame(info->m_currentFrame)
-	, m_scaleModifier(info->m_scaleMod)
 {
 	FillSDL_Texture(pRenderer);
-	m_frameClipping = SDL_Rect(0, 0, m_spriteWidth, m_spriteHeight);
-	m_framesPerX = m_textureWidth / m_spriteWidth;
-	m_framesPerY = m_textureHeight / m_spriteHeight;
 }
 
 Texture::~Texture()
@@ -94,23 +91,29 @@ TextureSaveInfo Texture::GetSaveInfo() const
 	return {
 		  m_imageFilePath
 		, m_maxFrameCount
-		, m_spriteWidth, m_spriteHeight
+		, m_spriteWidth
+		, m_spriteHeight
 		, m_currentFrame
-		, m_scaleModifier
 	};
+}
+
+Vector2d<int> Texture::GetDimensions()
+{
+	return Vector2d<int>(m_spriteWidth, m_spriteHeight);
 }
 
 void Texture::RenderCurrentFrame(
 	int x, int y,
 	SDL_Renderer* pRenderer,
 	double rotationAngle, SDL_Point rotationPoint,
-	SDL_RendererFlip flip
+	SDL_RendererFlip flip,
+	double scaleModifier
 ) const
 {
 	SDL_Rect renderPosition{
 		  x , y
-		, int(m_spriteWidth * m_scaleModifier)
-		, int(m_spriteHeight * m_scaleModifier)
+		, int(m_spriteWidth * scaleModifier)
+		, int(m_spriteHeight * scaleModifier)
 	};
 
 	SDL_RenderCopyEx(

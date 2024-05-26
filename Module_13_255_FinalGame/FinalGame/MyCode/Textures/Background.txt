@@ -1,0 +1,8 @@
+Background
+Textures/BackGroundPlate.bmp
+0
+1000
+700
+0
+1
+end

@@ -1,7 +1,6 @@
 #include "PlayerComponents.h"
 
 #include "../../Engine/SDL_Manager.h"
-#include "../../Engine/Actor/Actor.h"
 #include "../../Engine/Debug.h"
 
 
@@ -36,6 +35,25 @@ bool PlayerMover::HandleKeyUp(SDL_Event event)
 	case SDL_SCANCODE_A: m_direction.x -= -1; break;
 	case SDL_SCANCODE_D: m_direction.x -= 1;  break;
 	}
+	return true;
+}
+
+bool PlayerMover::InBounds(const Actor::Position_t& actorPosition) const
+{
+	auto windowInfo = SDL_Manager::GetWindowInfo();
+	auto spriteDimensions = m_pOwner->GetComponent<SDLRenderComponent>()->GetTexture()->GetDimensions();
+
+	int leftMostPoint   = (int)actorPosition.x;
+	int rightMostPoint  = (int)actorPosition.x + (spriteDimensions.x * 2);
+	int topMostPoint    = (int)actorPosition.y;
+	int bottomMostPoint = (int)actorPosition.y + (spriteDimensions.y * 2);
+
+	if (leftMostPoint < 0
+	|| rightMostPoint > windowInfo.width
+	|| topMostPoint < 0
+	|| bottomMostPoint > windowInfo.height)
+		return false;
+
 	return true;
 }
 
@@ -81,6 +99,7 @@ void PlayerMover::Update()
 	auto pos = m_pOwner->GetPosition();
 	pos += dir;
 	//DEBUG_PRINT(ticksPassed  << " , " << secondsPassed << " , " << speedMultiplier);
-	m_pOwner->SetPosition(pos);
+	if(InBounds(pos))
+		m_pOwner->SetPosition(pos);
 	m_lastTick = currentTick;
 }

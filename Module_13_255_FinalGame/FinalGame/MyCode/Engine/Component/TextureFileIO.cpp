@@ -33,7 +33,6 @@ const Texture& TextureFileIO::Save(const Texture& texture, const std::string& te
 	textureFile << info.m_height << '\n';
 	textureFile << info.m_currentFrame << '\n';
 	textureFile << info.m_scaleMod << '\n';
-	textureFile << info.m_scaleMode << '\n';
 	textureFile << "end\n";
 	
 	textureFile.close();
@@ -71,7 +70,6 @@ std::unique_ptr<Texture> TextureFileIO::Create(const std::string& textureIdentif
 	textureFile >> saveInfo->m_width;
 	textureFile >> saveInfo->m_height;
 	textureFile >> saveInfo->m_currentFrame;
-	textureFile >> saveInfo->m_scaleMod;
 	int mode;
 	textureFile >> mode;
 	saveInfo->m_scaleMode = (SDL_ScaleMode)mode;

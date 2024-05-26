@@ -35,10 +35,10 @@ public:
 	static SDL_Renderer* GetSDLRenderer() { return m_pRenderer; }
 	static SDL_Window* GetSDLWindow() { return m_pWindow; }
 	static void Init(
-		  const char* title
+		const char* title
 		, int xPos, int yPos
 		, int width, int height
-		, SDL_WindowFlags windowFlags = SDL_WINDOW_RESIZABLE
+		, SDL_WindowFlags windowFlags = SDL_WINDOW_SHOWN
 	);
 
 	static WindowInfo GetWindowInfo();

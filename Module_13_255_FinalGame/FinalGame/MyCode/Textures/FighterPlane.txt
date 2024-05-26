@@ -4,5 +4,4 @@ Textures/FighterPlane.bmp
 32
 32
 1
-1
 end

@@ -4,7 +4,7 @@
 
 #include "../../Engine/Component/Component.h"
 #include "../../Engine/System/Vector2d.h"
-
+#include "../../Engine/Actor/Actor.h"
 
 class PlayerMover : public Component
 {
@@ -14,13 +14,14 @@ private:
 	Vector2d<double> m_direction = { 0,0 };
 	std::unordered_set<SDL_Scancode> m_pressedKeys;
 	uint32_t m_lastTick = 0;
+	double m_speedMult = 1;
+	int m_pixelsPerSecond = 1;
 
 private: // method
 	bool HandleKeyDown(SDL_Event event);
 	bool HandleKeyUp(SDL_Event event);
+	bool InBounds(const Actor::Position_t& actorPosition) const;
 
-	double m_speedMult = 1;
-	int m_pixelsPerSecond = 1;
 public:
 	PlayerMover(Actor* pOwner);
 

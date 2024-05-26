@@ -16,6 +16,8 @@ void ActorFileIO::FillActorMap(ActorCacheMap& actorComponentCache)
 	while (!actorInfoFile.eof())
 	{
 		std::getline(actorInfoFile, actorIdentifier);
+		if (actorIdentifier.empty())
+			continue;
 		if (actorIdentifier.back() != ':')
 			continue;
 		actorIdentifier.pop_back();
@@ -65,22 +67,3 @@ std::unique_ptr<Actor> ActorFileIO::Create(const std::string& actorIdentifier)
 	
 	return pActor;
 }
-
-//bool ActorFileIO::Save(const std::string& actorIdentifier, const std::unique_ptr<Actor>& actor)
-//{
-//	ActorCacheMap& map = GetMap();
-//
-//	std::vector<Component::IdType> idVector;
-//	for (auto& entry : actor->GetAllComponents())
-//	{
-//		idVector.emplace_back(entry.second->s_id ) F
-//	}
-//
-//	auto it = map.find(actorIdentifier);
-//	if (it == map.end())
-//	{
-//
-//	}
-//
-//	return true;
-//}

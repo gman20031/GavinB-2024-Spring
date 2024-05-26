@@ -3,3 +3,7 @@ Player:
 	Basic2dCollider
 	ActorTags
 	PlayerMover
+
+Background:
+	SDLRenderComponent
+	ActorTags

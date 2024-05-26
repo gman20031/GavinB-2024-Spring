@@ -111,10 +111,9 @@ void SDLRenderComponent::NewTexture(const std::string& textureIdentifer)
 	m_pTexture.swap(newTexture);
 }
 
-void SDLRenderComponent::ScaleTexture(unsigned int newScaleModifier)
+void SDLRenderComponent::ScaleTexture(double newScaleModifier)
 {
-	assert(m_pTexture);
-	m_pTexture->SetScale(newScaleModifier);
+	m_scaleModifier = newScaleModifier;
 }
 
 void SDLRenderComponent::SetScaleMode(SDL_ScaleMode mode)
@@ -131,7 +130,8 @@ void SDLRenderComponent::Render()
 		SDL_Manager::GetSDLRenderer(),
 		m_rotationAngle,
 		m_rotationPoint,
-		m_flip
+		m_flip,
+		m_scaleModifier
 	); 
 }
 

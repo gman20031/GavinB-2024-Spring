@@ -58,7 +58,6 @@ class Texture
 	unsigned int m_framesPerX = 0;
 	unsigned int m_framesPerY = 0;
 	unsigned int m_currentFrame = 0;
-	unsigned int m_scaleModifier = 1;
 	SDL_ScaleMode m_scaleMode = SDL_ScaleModeLinear;
 	SDL_Rect m_frameClipping{ 0,0,0,0 };
 
@@ -79,22 +78,16 @@ public:
 
 	const std::string& GetImageFileName() const { return m_imageFilePath; }
 	TextureSaveInfo GetSaveInfo() const;
+	Vector2d<int> GetDimensions();
 	unsigned int GetCurrentFrame() const { return m_currentFrame; }
-	void SetScale(unsigned int scaleMod) { m_scaleModifier = scaleMod; }
+
 	void SetScaleMode(SDL_ScaleMode mode) { m_scaleMode = mode; }
 
-	/**
-	 * @brief int x
-	 * @brief int y
-	 * @brief SDL_Renderer* pRenderer
-	 * @brief double rotationAngle
-	 * @brief SDL_Point rotationPoint
-	 * @brief SDL_RendererFlip flip
-	*/
 	void RenderCurrentFrame(
 		int x, int y,
 		SDL_Renderer* pRenderer ,
 		double rotationAngle, SDL_Point rotatationPoint,
-		SDL_RendererFlip flip
+		SDL_RendererFlip flip,
+		double scaleModifier
 	) const;
 };

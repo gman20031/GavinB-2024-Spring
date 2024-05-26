@@ -4,5 +4,4 @@ Textures/TornadoSnowBro.bmp
 32
 32
 0
-1
 end
