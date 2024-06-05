@@ -38,7 +38,8 @@ bool PlayerMover::HandleKeyUp(SDL_Event event)
 	return true;
 }
 
-bool PlayerMover::InBounds(const Actor::Position_t& actorPosition) const
+
+Actor::Position_t PlayerMover::RestrictMovement(const Actor::Position_t& actorPosition) const
 {
 	auto windowInfo = SDL_Manager::GetWindowInfo();
 	auto spriteDimensions = m_pOwner->GetComponent<SDLRenderComponent>()->GetTexture()->GetDimensions();
@@ -48,13 +49,18 @@ bool PlayerMover::InBounds(const Actor::Position_t& actorPosition) const
 	int topMostPoint    = (int)actorPosition.y;
 	int bottomMostPoint = (int)actorPosition.y + (spriteDimensions.y * 2);
 
-	if (leftMostPoint < 0
-	|| rightMostPoint > windowInfo.width
-	|| topMostPoint < 0
-	|| bottomMostPoint > windowInfo.height)
-		return false;
+	Actor::Position_t pos = actorPosition;
 
-	return true;
+	if (leftMostPoint < 0)
+		pos.x = 0;
+	if (rightMostPoint > windowInfo.width)
+		pos.x = windowInfo.width - (spriteDimensions.y * 2);
+	if (topMostPoint < 0)
+		pos.y = 0;
+	if (bottomMostPoint > windowInfo.height)
+		pos.y = windowInfo.height - (spriteDimensions.y * 2);
+
+	return pos;
 }
 
 PlayerMover::PlayerMover(Actor* pOwner)
@@ -99,7 +105,6 @@ void PlayerMover::Update()
 	auto pos = m_pOwner->GetPosition();
 	pos += dir;
 	//DEBUG_PRINT(ticksPassed  << " , " << secondsPassed << " , " << speedMultiplier);
-	if(InBounds(pos))
-		m_pOwner->SetPosition(pos);
+	m_pOwner->SetPosition( RestrictMovement(pos) );
 	m_lastTick = currentTick;
 }

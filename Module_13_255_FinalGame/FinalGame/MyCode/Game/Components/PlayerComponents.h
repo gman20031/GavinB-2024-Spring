@@ -20,7 +20,7 @@ private:
 private: // method
 	bool HandleKeyDown(SDL_Event event);
 	bool HandleKeyUp(SDL_Event event);
-	bool InBounds(const Actor::Position_t& actorPosition) const;
+	Actor::Position_t RestrictMovement(const Actor::Position_t& actorPosition) const;
 
 public:
 	PlayerMover(Actor* pOwner);
