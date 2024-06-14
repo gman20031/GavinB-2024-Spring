@@ -29,6 +29,8 @@ TODOODLY DOO's		- Error | Solution first thought.
 
 	- Allow window to be fully resizeable while mainting all logic	| Add event listener to notice a window resize, learn the new size, and have a variable that tracks the scale diff from start.
 																   .. The run all logic and pixel info through the base size of the window scaling as late as possible.
+														
+	- Collison system to start working | ???
 
 non issue / reminders
 	- Ensure main game loop does not require any modification to let any logic happen
