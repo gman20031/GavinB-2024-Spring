@@ -11,20 +11,7 @@ SDLRenderComponent::SDLRenderComponent(Actor* pOwner)
 	//
 }
 
-void SDLRenderComponent::SetColor(Uint8 red, Uint8 green, Uint8 blue)
-{
-	SDL_SetTextureColorMod(m_pTexture->GetSDLTexture(), red, green, blue);
-}
 
-void SDLRenderComponent::SetBlend(SDL_BlendMode blending)
-{
-	SDL_SetTextureBlendMode(m_pTexture->GetSDLTexture(), blending);
-}
-
-void SDLRenderComponent::SetAlpha(Uint8 alpha)
-{
-	SDL_SetTextureAlphaMod(m_pTexture->GetSDLTexture(), alpha);
-}
 
 void SDLRenderComponent::Rotate(int degreeChange)
 {
@@ -62,7 +49,7 @@ void SDLRenderComponent::StartAnimation(uint32_t framesPerSecond, bool loop)
 	auto callback = [](uint32_t interval, void* param) -> uint32_t
 		{
 			auto pInfo = reinterpret_cast<callbackInfo*>(param); // static_Cast vs Reinterpret ??
-			Texture_ptr& pTexture = *(pInfo->m_ppTexture);
+			const Texture_ptr& pTexture = *(pInfo->m_ppTexture);
 			int currentFrame = pTexture->GetCurrentFrame();
 			pTexture->ChangeFrame(1);
 			if (pTexture->GetCurrentFrame() == 0 && (pInfo->m_looping == false))
@@ -96,7 +83,6 @@ void SDLRenderComponent::StopAnimation()
 
 void SDLRenderComponent::SetFrame(int frameNumber)
 {
-	assert(m_pTexture);
 	m_pTexture->SetFrame(frameNumber);
 }
 
@@ -116,11 +102,7 @@ void SDLRenderComponent::ScaleTexture(double newScaleModifier)
 	m_scaleModifier = newScaleModifier;
 }
 
-void SDLRenderComponent::SetScaleMode(SDL_ScaleMode mode)
-{
-	assert(m_pTexture);
-	m_pTexture->SetScaleMode(mode);
-}
+
 
 void SDLRenderComponent::Render()
 {
@@ -136,3 +118,23 @@ void SDLRenderComponent::Render()
 }
 
 
+//void SDLRenderComponent::SetScaleMode(SDL_ScaleMode mode)
+//{
+//	assert(m_pTexture);
+//	m_pTexture->SetScaleMode(mode);
+//}
+
+//void SDLRenderComponent::SetColor(Uint8 red, Uint8 green, Uint8 blue)
+//{
+//	SDL_SetTextureColorMod(m_pTexture->GetSDLTexture(), red, green, blue);
+//}
+//
+//void SDLRenderComponent::SetBlend(SDL_BlendMode blending)
+//{
+//	SDL_SetTextureBlendMode(m_pTexture->GetSDLTexture(), blending);
+//}
+//
+//void SDLRenderComponent::SetAlpha(Uint8 alpha)
+//{
+//	SDL_SetTextureAlphaMod(m_pTexture->GetSDLTexture(), alpha);
+//}

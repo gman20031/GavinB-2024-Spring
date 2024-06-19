@@ -41,6 +41,19 @@ const Texture& TextureFileIO::Save(const Texture& texture, const std::string& te
 }
 
 
+std::unique_ptr<Texture> TextureFileIO::NewCreate(const std::string& textureIdentifier, SDL_Renderer* pRenderer)
+{
+	static std::unordered_map< uint32_t, SDL_Texture*> sdlTextureCache;
+
+	//check if cached
+	auto textureID = StringHash(textureIdentifier.c_str());
+	auto it = sdlTextureCache.find(textureID);
+	if (it != sdlTextureCache.end())
+		return std::make_unique<Texture>(it->second, pRenderer);
+
+
+}
+
 std::unique_ptr<Texture> TextureFileIO::Create(const std::string& textureIdentifier, SDL_Renderer* pRenderer)
 {
 	static std::unordered_map< uint32_t, std::unique_ptr<TextureSaveInfo> > textureCache;

@@ -19,13 +19,13 @@ private:
 	SDL_Point m_rotationPoint = { 0,0 };
 	double m_scaleModifier = 1;
 	SDL_RendererFlip m_flip = SDL_FLIP_NONE;
-	
+
 	struct callbackInfo
 	{
 		bool m_looping;
-		Texture_ptr* m_ppTexture;
+		const Texture_ptr* m_ppTexture;
 	};
-	callbackInfo m_callInfo{false, nullptr};
+	callbackInfo m_callInfo { false, nullptr };
 	bool m_animating = false;
 	uint32_t m_callbackId = 0;
 	uint32_t m_framesPerSecond = 0;
@@ -35,9 +35,6 @@ private: // methods
 public:
 	SDLRenderComponent(Actor* pOwner);
 
-	void SetColor(Uint8 red, Uint8 green, Uint8 blue);
-	void SetBlend(SDL_BlendMode blending);
-	void SetAlpha(Uint8 alpha);
 	void Rotate(int degreeChange);
 	void SetRotation(int degrees);
 	void Flip(SDL_RendererFlip flip);
@@ -51,7 +48,12 @@ public:
 	void NewTexture(const std::string& textureIdentifer);
 
 	void ScaleTexture(double newScaleModifier);
-	void SetScaleMode(SDL_ScaleMode mode);
+
+	// Changes the underlying SDL texture
+	//void SetScaleMode(SDL_ScaleMode mode);
+	//void SetColor(Uint8 red, Uint8 green, Uint8 blue);
+	//void SetBlend(SDL_BlendMode blending);
+	//void SetAlpha(Uint8 alpha);
 
 	const Texture_ptr& GetTexture() const { return m_pTexture; }
 

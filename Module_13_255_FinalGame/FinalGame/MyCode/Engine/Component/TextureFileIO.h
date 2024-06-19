@@ -13,5 +13,7 @@ class TextureFileIO
 public:
 	static const Texture& Save(const Texture& texture, const std::string& textureIdentifier);
 	static std::unique_ptr<Texture> Create( const std::string& textureIdentifier, SDL_Renderer* pRenderer);
+	static std::unique_ptr<Texture> NewCreate(const std::string& textureIdentifier, SDL_Renderer* pRenderer);
+
 };
 

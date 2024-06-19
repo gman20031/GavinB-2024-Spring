@@ -48,8 +48,9 @@ struct TextureRenderInfo
 */
 class Texture
 {
+private:
 	std::string m_imageFilePath = nullptr;
-	SDL_Texture* m_pTexture = nullptr;
+	const SDL_Texture* const m_pTexture = nullptr;
 	unsigned int m_spriteWidth = 0;
 	unsigned int m_spriteHeight = 0;
 	unsigned int m_textureWidth = 0;
@@ -70,11 +71,10 @@ public:
 	Texture(const Texture&) = delete;
 	Texture& operator=(const Texture&) = delete;
 
-
 	void SetFrame(unsigned int frameNumber);
 	void ChangeFrame(int changeAmount);
 
-	SDL_Texture* GetSDLTexture() { return m_pTexture; }
+	const SDL_Texture* GetSDLTexture() const { return m_pTexture; }
 
 	const std::string& GetImageFileName() const { return m_imageFilePath; }
 	TextureSaveInfo GetSaveInfo() const;

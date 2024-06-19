@@ -27,14 +27,15 @@ void Texture::FillSDL_Texture(SDL_Renderer* pRenderer)
 	m_framesPerY = m_textureHeight / m_spriteHeight;
 }
 
-Texture::Texture(const char* imageFilePath, int maxFrames, Vector2d<int> spriteDimensions, SDL_Renderer* pRenderer)
-	: m_imageFilePath(imageFilePath)
-	, m_maxFrameCount(maxFrames - 1)
-	, m_spriteHeight(spriteDimensions.x)
-	, m_spriteWidth(spriteDimensions.y)
-{
-	FillSDL_Texture(pRenderer);
-}
+//Texture::Texture(const char* imageFilePath, int maxFrames, Vector2d<int> spriteDimensions, SDL_Renderer* pRenderer)
+//	: m_imageFilePath(imageFilePath)
+//	, m_maxFrameCount(maxFrames - 1)
+//	, m_spriteHeight(spriteDimensions.x)
+//	, m_spriteWidth(spriteDimensions.y)
+//	, m_pTexture{ SDL_CreateTextureFromSurface(pRenderer, pSurface) }
+//{
+//	FillSDL_Texture(pRenderer);
+//}
 
 Texture::Texture(const std::unique_ptr<TextureSaveInfo>& info, SDL_Renderer* pRenderer)
 	: m_imageFilePath(info->m_imageFilePath)
@@ -48,8 +49,8 @@ Texture::Texture(const std::unique_ptr<TextureSaveInfo>& info, SDL_Renderer* pRe
 
 Texture::~Texture()
 {
-	SDL_free(m_pTexture);
-	DEBUG_PRINT("Deleting Texture" << m_imageFilePath);
+	//SDL_free(m_pTexture);
+	//DEBUG_PRINT("Deleting Texture" << m_imageFilePath);
 }
 
 void Texture::SetFrame(unsigned int frameNumber)
